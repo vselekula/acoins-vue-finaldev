@@ -1,7 +1,7 @@
 <template>
     <div class="float-left">
-        <b-form-select v-model="selectedAmount" :options="amount" size="sm" class="amount mr-2" />
-        <!-- <pre> {{ selectedAmount }} </pre> -->
+        <b-form-select v-model="pickedAmount" :options="amount" size="sm" class="amount mr-2" @input="choosedAmount" />
+        <!-- <pre> {{ pickedAmount }} </pre> -->
     </div>
 </template>
 <script>
@@ -10,8 +10,13 @@ import Amounts from '../data/amounts.js'
 export default {
     data () {
         return {
-      selectedAmount: null,
+      pickedAmount: null,
       amount: Amounts,
+        }
+    },
+    methods: {
+        choosedAmount(){
+            this.$emit('pickedAmount', this.pickedAmount)
         }
     }
 }

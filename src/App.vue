@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <NavBar></NavBar>
+    <Tabs></Tabs>
   </div>
 </template>
 
@@ -8,13 +9,14 @@
 
 import Card from './components/Card.vue'
 import NavBar from './components/NavBar.vue'
+import Tabs from './components/tabs.vue'
 import 'v-autocomplete/dist/v-autocomplete.css'
-
 export default {
   name: 'app',
   components: {
     Card,
-    NavBar
+    NavBar,
+    Tabs
   }
 }
 </script>

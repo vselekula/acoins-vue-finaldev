@@ -1,7 +1,7 @@
 <template>
     <div class="float-left">
-        <b-form-select v-model="selectedCennost" :options="cennosti" size="sm" class="title mr-2" />
-        <!-- <pre> {{ selectedCennost }} </pre> -->
+        <b-form-select v-model="pickedCennost" :options="cennosti" size="sm" class="title mr-2" @input="choosedCennost"/>
+        <!-- <pre> {{ pickedCennost }} </pre> -->
     </div>
 </template>
 <script>
@@ -10,8 +10,13 @@ import Cennosti from '../data/cennosti.js'
 export default {
     data () {
         return {
-      selectedCennost: null,
+      pickedCennost: null,
       cennosti: Cennosti,
+        }
+    },
+    methods: {
+        choosedCennost(){
+            this.$emit('pickedCennost', this.pickedCennost)
         }
     }
 }

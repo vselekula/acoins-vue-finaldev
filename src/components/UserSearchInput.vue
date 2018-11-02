@@ -1,16 +1,11 @@
 <template>
   <div class="float-left">
     <v-autocomplete  
-    :items="items" 
-    v-model="item" 
-    :get-label="getLabel" 
-    :min-len="0" 
-    @update-items="update" 
-    :component-item="userlist" 
-    @item-selected="itemSelected" @item-clicked="itemClicked"
-    :input-attrs="{name: 'input-test', id: 'v-my-autocomplete', placeholder: 'Кому спасибо?'}">
+    :items="items" v-model="item" :get-label="getLabel" :min-len="0" :component-item="userlist"
+    @update-items="update" @input="pickedUser"
+    autocomplete="off"
+    :input-attrs="{name: 'input-test', id: 'v-my-autocomplete', placeholder: 'Кому спасибо?'}" >
     </v-autocomplete>
-    <!-- <pre>{{ item }}</pre> -->
     </div>
 </template>
 
@@ -31,12 +26,6 @@ export default {
     }
   },
   methods: {
-     itemSelected (item) {
-      alert('Selected item!', item.name)
-    },
-    itemClicked (item) {
-      alert('You clicked an item!', item.name)
-    },
     getLabel (item) {
       if (item) {
         return item.name;
@@ -52,9 +41,9 @@ export default {
         }
       })
     },
-    // recieverInfo (item){
-    //   if (item) {
-    //   }
+    pickedUser () {
+      this.$emit('pickedUser', this.item)
+    }
     }
   }
 

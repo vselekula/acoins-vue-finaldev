@@ -1,14 +1,24 @@
 <template>
     <div class="send-wrapper">
-        <user-search-input></user-search-input>
-        <amount-dropdown></amount-dropdown>
-        <cennost-dropdown></cennost-dropdown>
+        <user-search-input @pickedUser="user = $event"></user-search-input>
+        <amount-dropdown @pickedAmount="amount = $event"></amount-dropdown>
+        <cennost-dropdown @pickedCennost="cennost = $event"></cennost-dropdown>
         <b-button size="sm" v-b-modal.modallg variant="primary">Спасибо</b-button>
-        <b-modal id="modallg" size="lg" title="Напиши сообщение коллеге!"></b-modal>
+        <b-modal id="modallg" size="lg" title="Напиши сообщение коллеге!">
+            <div class="float-left">
+                <h2>{{ user.name }}</h2><br>
+                <h5>{{ user.position }}</h5> <br>
+                {{ user.mail }} <br>
+                <img :src="user.photo" alt="" class="rounded-circle">
+            </div>
+            <div class="float-left">
+                {{ amount }} <br>
+                {{ cennost }} <br>
+            </div>
+        </b-modal>
     </div>
 </template>
 <script>
-
 import UserSearchInput from './UserSearchInput.vue'
 import Autocomplete from 'v-autocomplete'
 import AmountDropdown from './AmountDropdown.vue'
@@ -21,6 +31,13 @@ export default {
     AmountDropdown,
     CennostDropdown,
     },
+    data(){
+        return{
+            amount: 'сколько то',
+            cennost: 'какая-то ценность',
+            user: 'какой-то юзер',
+        }
+    }
 }
 </script>
 <style>

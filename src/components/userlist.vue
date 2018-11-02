@@ -23,6 +23,7 @@ export default {
   width: 40px;
   height: 40px;
 }
+
 .single-user-search_info{
   margin-left: 10px;
 }

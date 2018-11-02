@@ -11,7 +11,9 @@ export default [{
         hb_date: "21.12",
         in_avito_from: "21.08.17",
         about: "",
-        photo: "../assets/avatars/aaskorobogatov.png"
+        photo: require('../assets/avatars/aaskorobogatov.png'),
+        total_recieved: 121,
+        total_sended: 327 
     },
     {
         id: 2,
@@ -26,7 +28,9 @@ export default [{
         hb_date: "26.04",
         in_avito_from: "14.09.09",
         about: "",
-        photo: "../assets/avatars/albert.png"
+        photo: require('../assets/avatars/albert.png'),
+        total_recieved: 131,
+        total_sended: 337
     },
     {
         id: 3,
@@ -41,7 +45,9 @@ export default [{
         hb_date: "25.08",
         in_avito_from: "03.10.16",
         about: "",
-        photo: "../assets/avatars/aeten.png"
+        photo: require('../assets/avatars/aeten.png'),
+        total_recieved: 151,
+        total_sended: 323
     },
     {
         id: 4,
@@ -56,7 +62,9 @@ export default [{
         hb_date: "01.05",
         in_avito_from: "26.12.13",
         about: "",
-        photo: "../assets/avatars/kos.png"
+        photo: require('../assets/avatars/kos.png'),
+        total_recieved: 117,
+        total_sended: 37
     },
     {
         id: 6,
@@ -71,7 +79,9 @@ export default [{
         hb_date: "19.07",
         in_avito_from: "09.10.17",
         about: "",
-        photo: "../assets/avatars/aklochkova.png"
+        photo: require('../assets/avatars/aklochkova.png'),
+        total_recieved: 110,
+        total_sended: 3237
     }
 
 ]
