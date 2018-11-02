@@ -1,9 +1,16 @@
 <template>
-  <div>
-  <v-autocomplete  :items="items" v-model="item" :get-label="getLabel" :min-len="0" @update-items="update" :component-item="userlist" @item-selected="itemSelected" @item-clicked="itemClicked" :input-attrs="{name: 'input-test', id: 'v-my-autocomplete', placeholder: 'Кому спасибо?'}">
-    
+  <div class="float-left">
+    <v-autocomplete  
+    :items="items" 
+    v-model="item" 
+    :get-label="getLabel" 
+    :min-len="0" 
+    @update-items="update" 
+    :component-item="userlist" 
+    @item-selected="itemSelected" @item-clicked="itemClicked"
+    :input-attrs="{name: 'input-test', id: 'v-my-autocomplete', placeholder: 'Кому спасибо?'}">
     </v-autocomplete>
-    <pre>{{ item }}</pre>
+    <!-- <pre>{{ item }}</pre> -->
     </div>
 </template>
 
@@ -24,17 +31,33 @@ export default {
     }
   },
   methods: {
+     itemSelected (item) {
+      alert('Selected item!', item.name)
+    },
+    itemClicked (item) {
+      alert('You clicked an item!', item.name)
+    },
     getLabel (item) {
+      if (item) {
         return item.name;
+        // this.$emit("recieverInfo", 'хуй');
+      }
+      return ''
     },
     update (text) {
       this.items = People.filter((item) => {
         let re = new RegExp(text, "i");
-        return re.test(item.name) || re.test(item.mail);
+        if (re.test(item.name) || re.test(item.mail)){
+          return item;
+        }
       })
+    },
+    // recieverInfo (item){
+    //   if (item) {
+    //   }
     }
   }
-}
+
 </script>
 <style lang="stylus">
 .v-autocomplete

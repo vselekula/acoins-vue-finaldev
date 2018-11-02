@@ -11,7 +11,7 @@ export default [{
         hb_date: "21.12",
         in_avito_from: "21.08.17",
         about: "",
-        photo: "https://mus.avito.ru/cf/download/attachments/39471935/aaskorobogatov.png"
+        photo: "../assets/avatars/aaskorobogatov.png"
     },
     {
         id: 2,
@@ -26,7 +26,7 @@ export default [{
         hb_date: "26.04",
         in_avito_from: "14.09.09",
         about: "",
-        photo: "https://mus.avito.ru/cf/download/attachments/39471935/albert.png"
+        photo: "../assets/avatars/albert.png"
     },
     {
         id: 3,
@@ -41,7 +41,7 @@ export default [{
         hb_date: "25.08",
         in_avito_from: "03.10.16",
         about: "",
-        photo: "https://mus.avito.ru/cf/download/attachments/39471935/aeten.png"
+        photo: "../assets/avatars/aeten.png"
     },
     {
         id: 4,
@@ -56,7 +56,7 @@ export default [{
         hb_date: "01.05",
         in_avito_from: "26.12.13",
         about: "",
-        photo: "https://mus.avito.ru/cf/download/attachments/39471935/kos.png"
+        photo: "../assets/avatars/kos.png"
     },
     {
         id: 6,
@@ -71,7 +71,7 @@ export default [{
         hb_date: "19.07",
         in_avito_from: "09.10.17",
         about: "",
-        photo: "https://mus.avito.ru/cf/download/attachments/39471935/aklochkova.png"
+        photo: "../assets/avatars/aklochkova.png"
     }
 
 ]

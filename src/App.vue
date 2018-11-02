@@ -1,9 +1,6 @@
 <template>
   <div id="app">
     <NavBar></NavBar>
-    <card>
-    </card>
-       <pre> {{ item }} </pre>
   </div>
 </template>
 
@@ -30,4 +27,5 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
+
 </style>
