@@ -6,11 +6,7 @@
                     Tab Contents 1
                 </b-tab>
                 <b-tab title="МАГАЗИН">
-                    <b-card-group deck class="mr-auto ml-auto" style="width: 100%">
-                        <shopcard></shopcard>
-                        <shopcard></shopcard>
-                        <shopcard></shopcard>
-                    </b-card-group>
+                    <tabshoplist></tabshoplist>
                 </b-tab>
                 <b-tab title="ТОП">
                     <div class="row">
@@ -25,13 +21,13 @@
 <script>
     import tabbestrecieved from './tab-best-recieved.vue'
     import tabbestsended from './tab-best-sended.vue'
-    import shopcard from './shop-card.vue'
+    import tabshoplist from './tab-shop-list.vue'
 
     export default {
         components: {
             tabbestrecieved,
             tabbestsended,
-            shopcard
+            tabshoplist
         }
     }
 </script>
