@@ -6,7 +6,7 @@
 </template>
 <script>
     
-import Amounts from '../data/amounts.js'
+import Amounts from '../../data/amounts.js'
 export default {
     data () {
         return {

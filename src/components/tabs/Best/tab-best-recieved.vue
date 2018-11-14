@@ -4,7 +4,7 @@
 
 <script>
 
-import People from '../data/People.js'
+import People from '../../../data/People.js'
 
 export default {
   data () {

@@ -6,7 +6,7 @@
 </template>
 <script>
     
-import Cennosti from '../data/cennosti.js'
+import Cennosti from '../../data/cennosti.js'
 export default {
     data () {
         return {

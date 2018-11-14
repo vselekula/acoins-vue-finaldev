@@ -1,6 +1,6 @@
 <template>
         <b-card :title="product.title" :img-src="product.img" :img-alt="product.title" img-top tag="article"
-            style="width: 31%" class="mb-2">
+            style="width: 32%" class="mb-3">
             <p class="card-text">
                 {{ product.details }} <br> 
                 <b> {{ product.cost }} </b>

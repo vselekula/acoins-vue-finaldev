@@ -8,24 +8,24 @@
                     <b-nav-form>
                       <SendMoneyTmpl></SendMoneyTmpl> 
                     </b-nav-form>
+                   
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
     </div>
 </template>
 <script>
-// import UserSearchInput from './UserSearchInput.vue'
-import Autocomplete from 'v-autocomplete'
-// import AmountDropdown from './AmountDropdown.vue'
-// import CennostDropdown from './CennostDropdown.vue'
-import SendMoneyTmpl from './SendMoneyTmpl.vue'
+import Autocomplete from "v-autocomplete";
+import SendMoneyTmpl from "./transactionForm/transactionForm";
 
 export default {
-    components: {
-    'v-autocomplete': Autocomplete,
+  components: {
+    "v-autocomplete": Autocomplete,
     SendMoneyTmpl
-    },
-}
+  }
+};
+
+
 </script>
 
 <style scoped>
@@ -35,7 +35,7 @@ export default {
 h1 {
   color: #42b983;
 }
-.title{
- width: 100px;   
+.title {
+  width: 100px;
 }
 </style>

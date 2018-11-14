@@ -1,7 +1,7 @@
 <template>
   <div class="float-left">
     <v-autocomplete  
-    :items="items" v-model="item" :get-label="getLabel" :min-len="0" :component-item="userlist"
+    :items="items" v-model="item" :get-label="getLabel" :min-len="0" :component-item="userItem"
     @update-items="update" @input="pickedUser"
     autocomplete="off"
     :input-attrs="{name: 'input-test', id: 'v-my-autocomplete', placeholder: 'Кому спасибо?'}" >
@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import userlist from './userlist.vue'
-import People from '../data/People.js'
+import userItem from './UserSearchInput-userItem.vue'
+import People from '../../../data/People.js'
 import Autocomplete from 'v-autocomplete'
 
 export default {
@@ -22,7 +22,7 @@ export default {
       itemsApi: [],
       item: '',
       items: [],
-      userlist: userlist
+      userItem: userItem
     }
   },
   methods: {

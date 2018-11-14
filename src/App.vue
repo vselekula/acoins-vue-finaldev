@@ -7,14 +7,13 @@
 
 <script>
 
-import Card from './components/Card.vue'
+// import Card from './components/Card.vue'
 import NavBar from './components/NavBar.vue'
-import Tabs from './components/tabs.vue'
+import Tabs from './components/tabs/tabs.vue'
 import 'v-autocomplete/dist/v-autocomplete.css'
 export default {
   name: 'app',
   components: {
-    Card,
     NavBar,
     Tabs
   }

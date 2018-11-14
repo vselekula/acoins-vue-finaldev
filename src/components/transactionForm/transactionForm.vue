@@ -19,7 +19,7 @@
     </div>
 </template>
 <script>
-import UserSearchInput from './UserSearchInput.vue'
+import UserSearchInput from '../transactionForm/user-search-input/UserSearchInput'
 import Autocomplete from 'v-autocomplete'
 import AmountDropdown from './AmountDropdown.vue'
 import CennostDropdown from './CennostDropdown.vue'
