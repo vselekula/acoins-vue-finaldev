@@ -1,5 +1,5 @@
 <template>
-    <div class="col-6 ml-auto mr-auto">
+    <div class="col-6 ml-auto mr-auto tabs">
         <b-card no-body>
             <b-tabs pills card class="nav-fill">
                 <b-tab title="МОЯ ЛЕНТА" active>
@@ -36,5 +36,16 @@
 <style>
 #shop-tab {
     padding: 0;
+}
+.card-header {
+    background-color: white;
+    border-bottom: none;
+}
+.card {
+    border: none;
+    height: 100%;
+}
+.card-body{
+box-shadow: 0 -10px 40px -10px rgba(0,64,128,.2);
 }
 </style>

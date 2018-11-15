@@ -21,7 +21,7 @@
 <script>
 import UserSearchInput from '../transactionForm/user-search-input/UserSearchInput'
 import Autocomplete from 'v-autocomplete'
-import AmountDropdown from './AmountDropdown.vue'
+import AmountDropdown from './AmountDropdown'
 import CennostDropdown from './CennostDropdown.vue'
 
 export default {
