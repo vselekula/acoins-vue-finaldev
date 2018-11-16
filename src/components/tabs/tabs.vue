@@ -2,7 +2,7 @@
     <div class="col-6 ml-auto mr-auto tabs">
         <b-card no-body>
             <b-tabs pills card class="nav-fill">
-                <b-tab title="МОЯ ЛЕНТА" active>
+                <b-tab title="МОЯ ЛЕНТА" active class="p-0">
                     <tabwallposts></tabwallposts>
                 </b-tab>
                 <b-tab title="МАГАЗИН" id="shop-tab" class="p-3">
@@ -22,7 +22,7 @@
     import tabbestrecieved from '../tabs/Best/tab-best-recieved.vue'
     import tabbestsended from '../tabs/Best/tab-best-sended.vue'
     import tabshoplist from '../tabs/Shop/tab-shop-list.vue'
-    import tabwallposts from '../tabs/wallposts/tab-wall-posts.vue'
+    import tabwallposts from '../tabs/wallposts/tab-wall-posts1.vue'
 
     export default {
         components: {
@@ -44,8 +44,5 @@
 .card {
     border: none;
     height: 100%;
-}
-.card-body{
-box-shadow: 0 -10px 40px -10px rgba(0,64,128,.2);
 }
 </style>

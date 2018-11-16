@@ -17,10 +17,11 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUsers } from '@fortawesome/free-solid-svg-icons'
 import { faBirthdayCake } from '@fortawesome/free-solid-svg-icons'
 import { faPhone } from '@fortawesome/free-solid-svg-icons'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faUsers, faBirthdayCake, faEnvelope, faPhone)
+library.add(faUsers, faBirthdayCake, faEnvelope, faPhone, faHeart)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false

@@ -39,7 +39,7 @@
         display: flex;
     }
     .avatar{
-        box-shadow: 0 -10px 40px -10px rgba(0,64,128,.2);
+        box-shadow: 0 0px 40px -5px rgba(0,64,128,.2);
         width: 80%;
         height: 80%
     }
