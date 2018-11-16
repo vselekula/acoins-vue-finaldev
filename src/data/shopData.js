@@ -6,7 +6,7 @@ export default [{
         cost:1000,
         details:"Прочные, легкие, брендированные носки Avito",
         amount: 3,
-        img: require('../assets/shop-imgs/socks.jpg'),    
+        img: require('../assets/shop-imgs/no_image.png'),
     }, 
     {
         id: 2,
@@ -16,7 +16,7 @@ export default [{
         cost: 500,
         details: "Новый, супер органайзер для твоих новых супер-планов",
         amount: 5,
-        img: require('../assets/shop-imgs/organizer.jpg'),
+        img: require('../assets/shop-imgs/no_image.png'),
     }, 
     {
         id: 3,
@@ -26,7 +26,7 @@ export default [{
         cost: 1000,
         details: "Прочные, легкие, брендированные носки Avito",
         amount: 3,
-        img: require('../assets/shop-imgs/gym.jpg'),
+        img: require('../assets/shop-imgs/no_image.png'),
     }, 
     {
         id: 4,

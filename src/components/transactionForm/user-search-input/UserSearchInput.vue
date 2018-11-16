@@ -15,7 +15,6 @@ import People from '../../../data/People.js'
 import Autocomplete from 'v-autocomplete'
 
 export default {
-  name: 'demo',
   components: {'v-autocomplete': Autocomplete},
   data () {
     return {

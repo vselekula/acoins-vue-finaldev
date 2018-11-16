@@ -5,7 +5,7 @@
                 <b-tab title="МОЯ ЛЕНТА" active class="p-0">
                     <tabwallposts></tabwallposts>
                 </b-tab>
-                <b-tab title="МАГАЗИН" id="shop-tab" class="p-3">
+                <b-tab title="МАГАЗИН" id="shop-tab" class="p-0">
                     <tabshoplist></tabshoplist>
                 </b-tab>
                 <b-tab title="ТОП">
@@ -22,7 +22,7 @@
     import tabbestrecieved from '../tabs/Best/tab-best-recieved.vue'
     import tabbestsended from '../tabs/Best/tab-best-sended.vue'
     import tabshoplist from '../tabs/Shop/tab-shop-list.vue'
-    import tabwallposts from '../tabs/wallposts/tab-wall-posts1.vue'
+    import tabwallposts from '../tabs/wallposts/wallposts-list.vue'
 
     export default {
         components: {
@@ -34,9 +34,6 @@
     }
 </script>
 <style>
-#shop-tab {
-    padding: 0;
-}
 .card-header {
     background-color: white;
     border-bottom: none;

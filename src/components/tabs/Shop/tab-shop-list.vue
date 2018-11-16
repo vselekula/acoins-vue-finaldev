@@ -1,5 +1,5 @@
 <template>
-    <div class="shopItemWrapper justify-content-between">
+    <div class="d-flex flex-wrap">
         <shopItem v-for="(product, i) in products" :key="product.id" :product="product" :index="(i+1)" ></shopItem>
     </div>
 </template>
@@ -26,5 +26,8 @@ export default {
 .shopItemWrapper {
     display: flex;
     flex-wrap: wrap;
+}
+#shop-tab{
+    padding: none;
 }
 </style>

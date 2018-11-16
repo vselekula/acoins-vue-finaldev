@@ -19,9 +19,10 @@ import { faBirthdayCake } from '@fortawesome/free-solid-svg-icons'
 import { faPhone } from '@fortawesome/free-solid-svg-icons'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { faWallet } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faUsers, faBirthdayCake, faEnvelope, faPhone, faHeart)
+library.add(faUsers, faBirthdayCake, faEnvelope, faPhone, faHeart, faWallet)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
@@ -42,8 +43,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-.content-wrapper{
-  height: 100px;
-  width: 100;
+::-webkit-scrollbar {
+  width: 0 !important
 }
 </style>
