@@ -24,13 +24,13 @@
         SendNewTransaction
     },
     created: function(){
-                HTTP.get(`transactions?include=from_user,to_user`)
+            HTTP.get(`transactions?include=from_user,to_user,messages,value`)
             .then(response => {
                 this.transactions = response.data;
             })
             .catch(e => {
                 this.errors.push(e)
-            })
+            });
         }
 }
 </script>

@@ -4,7 +4,7 @@
     :items="items" v-model="item" :get-label="getLabel" :min-len="0" :component-item="userItem"
     @update-items="update" @input="pickedUser"
     autocomplete="off"
-    :input-attrs="{name: 'input-test', id: 'v-my-autocomplete', placeholder: 'Кому спасибо?'}" >
+    :input-attrs="{name: 'input-test', id: 'v-my-autocomplete', placeholder: 'Кому спасибо?'}" style="z-index: 100" >
     </v-autocomplete>
     </div>
 </template>
@@ -28,7 +28,6 @@ export default {
     getLabel (item) {
       if (item) {
         return item.name;
-        // this.$emit("recieverInfo", 'хуй');
       }
       return ''
     },
@@ -62,7 +61,7 @@ export default {
       .v-autocomplete-input
         background-color #f2fff2
   .v-autocomplete-list
-    z-index 1
+    z-index 100
     width 100%
     text-align left
     border none

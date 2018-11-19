@@ -3,7 +3,7 @@
         <user-search-input @pickedUser="user = $event"></user-search-input>
         <amount-dropdown @pickedAmount="amount = $event"></amount-dropdown>
         <cennost-dropdown @pickedCennost="cennost = $event"></cennost-dropdown>
-        <b-button size="sm" v-b-modal.modallg variant="primary">Спасибо</b-button>
+        <b-button size="md" v-b-modal.modallg variant="primary">Спасибо</b-button>
         <b-modal id="modallg" size="lg" title="Напиши сообщение коллеге!">
             <div class="float-left">
                 <h2>{{ user.name }}</h2><br>
