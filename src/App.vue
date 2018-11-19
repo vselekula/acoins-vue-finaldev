@@ -12,7 +12,8 @@ import NavBar from "./components/NavBar.vue";
 import Tabs from "./components/tabs/tabs.vue";
 import Profile from "./components/profile/profile.vue";
 import "v-autocomplete/dist/v-autocomplete.css";
-import Vue from 'vue'
+import Vue from 'vue';
+import VueTextareaAutosize from 'vue-textarea-autosize'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUsers } from '@fortawesome/free-solid-svg-icons'
 import { faBirthdayCake } from '@fortawesome/free-solid-svg-icons'
@@ -24,6 +25,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faUsers, faBirthdayCake, faEnvelope, faPhone, faHeart, faWallet)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.use(VueTextareaAutosize)
 
 Vue.config.productionTip = false
 export default {

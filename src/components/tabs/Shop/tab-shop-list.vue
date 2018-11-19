@@ -1,24 +1,36 @@
 <template>
     <div class="d-flex flex-wrap">
-        <shopItem v-for="(product, i) in products" :key="product.id" :product="product" :index="(i+1)" ></shopItem>
+        <shopItem v-for="product in products.data" :key="product.id" :product="product" ></shopItem>
     </div>
 </template>
 
 <script>
     
-import shopData from '../../../data/shopData.js';
+// import shopData from '../../../data/shopData.js';
 import shopItem from '../Shop/shopItem';
+import {HTTP} from '../../../data/common.js';
 
 export default {
     data() {
         return{
-            products: shopData,
+            // products: shopData,
+            products: [],
+            errors: []
         }
     },
     components: {
-        shopData,
+        // shopData,
         shopItem
     },
+    created: function(){
+            HTTP.get(`goods`)
+        .then(response => {
+            this.products = response.data;
+        })
+        .catch(e => {
+            this.errors.push(e)
+        })
+    }
 }
 
 </script>  

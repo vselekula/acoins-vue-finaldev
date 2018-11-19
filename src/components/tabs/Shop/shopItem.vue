@@ -1,16 +1,16 @@
 <template>
-    <b-card :title="product.title" :img-src="product.img" :img-alt="product.title" img-top tag="article" style="width: 31%"
+    <b-card :title="product.name" :img-src="product.img" :img-alt="product.name" img-top tag="article" style="width: 31%"
         class="mb-3 mr-3 shop-card flex-grow-1">
         <p class="card-text">
-            {{ product.details }} <br>
-            <b> {{ product.cost }} </b>
+            {{ product.description }} <br>
+            <b> {{ product.price }} </b>
         </p>
-        <b-button v-b-modal="'modalfor' + product.id" href="#" variant="primary" ref="btnShow">Купить {{product.id}}</b-button>
+        <b-button v-b-modal="'modalfor' + product.id" href="#" variant="primary" ref="btnShow">Купить</b-button>
         <b-modal size="sm" title="Small Modal" :id="'modalfor' + product.id">
             <b>Вы покупаете:</b>
-            {{ product.details }} <br><br>
+            {{ product.description }} <br><br>
             <b>С вашего счета вычтется:</b>
-            {{ product.cost }}
+            {{ product.price }}
         </b-modal>
     </b-card>
 </template>

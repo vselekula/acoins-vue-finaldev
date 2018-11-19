@@ -2,11 +2,11 @@
     <div class="col-6 ml-auto mr-auto profile-wrapper">
             <div class="row d-flex align-items-center profile">
                 <div class="col">
-                    <b-img rounded="circle" blank blank-color="#fff" alt="left img" class="float-left avatar"/>
+                    <img src="../../assets/avatars/ya.png" rounded="circle" blank blank-color="#fff" alt="left img" class="rounded-circle avatar" />
                 </div>
                 <div class="col-7">
                     <div class="mb-4">
-                        <div class="user_firstName"><h3 class="mb-0">Вячеслав Петров</h3></div>
+                        <div class="user_firstName"><h3 class="mb-0"> <b>Вячеслав Петров</b> </h3></div>
                         <div class="user_position"><h5>старший дизайнер</h5></div>
                     </div>
                     <div class="row">

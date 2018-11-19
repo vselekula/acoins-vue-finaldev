@@ -6,7 +6,7 @@
             <b-collapse is-nav id="nav_collapse">
                 <b-navbar-nav class="ml-auto">
                     <b-nav-form>
-                      <SendMoneyTmpl></SendMoneyTmpl> 
+                      <!-- <SendMoneyTmpl></SendMoneyTmpl>  -->
                     </b-nav-form>
                    
                 </b-navbar-nav>
@@ -16,12 +16,12 @@
 </template>
 <script>
 import Autocomplete from "v-autocomplete";
-import SendMoneyTmpl from "./transactionForm/transactionForm";
+// import SendMoneyTmpl from "./transactionForm/transactionForm";
 
 export default {
   components: {
     "v-autocomplete": Autocomplete,
-    SendMoneyTmpl
+    // SendMoneyTmpl
   }
 };
 

@@ -1,5 +1,5 @@
-<template>
-    <div class="send-wrapper">
+<template> 
+    <form class="send-wrapper">
         <user-search-input @pickedUser="user = $event"></user-search-input>
         <amount-dropdown @pickedAmount="amount = $event"></amount-dropdown>
         <cennost-dropdown @pickedCennost="cennost = $event"></cennost-dropdown>
@@ -16,7 +16,7 @@
                 {{ cennost }} <br>
             </div>
         </b-modal>
-    </div>
+    </form>
 </template>
 <script>
 import UserSearchInput from '../transactionForm/user-search-input/UserSearchInput'

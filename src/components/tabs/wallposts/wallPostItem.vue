@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="add-answer_wrapper">
-                <textarea @focus="seen = !seen" @blur="seen = !seen" name="" id="add-answer" cols="1" rows="1" placeholder="Добавить комментарий" class="mx-4 mt-2 p-2"></textarea>
+                <textarea-autosize @focus.native="seen = !seen" @blur.native="seen = !seen" name="" id="add-answer" cols="1" rows="1" :placeholder="placeholder" class="mx-4 mt-2 p-2 message"></textarea-autosize>
                 <button v-if="seen" type="button" class="btn btn-primary ml-4 mb-4">Отправить</button>
             </div>
     </div>
@@ -38,7 +38,8 @@ export default {
         },
   data() {
     return{
-      seen: false
+      seen: false,
+      placeholder: "Добавить комментарий"
     }
   }
 }
@@ -47,7 +48,12 @@ export default {
     .button-send {
         border-radius: 50%;
     }
-
+    textarea{
+        resize: none;
+    }
+    textarea:focus {
+        outline: none
+    }
     .transaction-item {
         box-shadow: 0 5px 40px -5px rgba(0, 64, 128, .2);
         border-radius: 10px;
@@ -69,7 +75,7 @@ export default {
         height: 55px;
         overflow: hidden;
         overflow-wrap: break-word;
-        width: 100%;
+        width: 96%;
         border: none;
         background-color: #f6f7f9;
         font-size: 18px;
