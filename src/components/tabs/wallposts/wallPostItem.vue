@@ -1,7 +1,7 @@
 <template>
     <div class="transaction-item pt-4 mb-4">
             <div class="transaction-item_info mx-4">
-                <div class="transactionHeadline row m-1 my-3">
+                <div class="transactionHeadline row m-0 my-2">
                     <div>
                         <img src="../../../assets/avatars/aklochkova.png" width="50" height="50" alt="..." class="rounded-circle">
                     </div>
@@ -15,23 +15,25 @@
                                 <b>{{ transaction.relations.value.data.name }}</b>
                             </div>
                         </div>
-                        <div class="d-flex ml-auto">{{ transaction.created_at }}</div>
+                        <div class="d-flex ml-auto">{{ transaction_date }}</div>
                     </div>
                 </div> 
 
-                <div class="row m-1 my-3">
+                <div class="row m-0 my-3">
                     <b>{{ transaction.relations.from_user.data.first_name }}:</b> {{ transaction.title }}
                 </div>
             </div>
             <wall-post-reply v-for="message in messages" :key="message.id" :message="message"></wall-post-reply>
-            <div class="add-answer_wrapper">
-                <textarea-autosize @focus.native="seen = !seen" @blur.native="seen = !seen" name="" id="add-answer" cols="1" rows="1" :placeholder="placeholder" class="mx-4 mt-2 p-2 message"></textarea-autosize>
-                <button v-if="seen" type="button" class="btn btn-primary ml-4 mb-4">Отправить</button>
+            <div class="add-answer_wrapper" @click="showActions" v-click-outside="hideActions">
+                <textarea-autosize v-model="newMessage" id="add-answer" cols="1" rows="1" :placeholder="placeholder" class="mx-4 my-2 p-0 message"></textarea-autosize>
+                <button v-if="seen" type="button" @click="postTransactionComment()" class="btn btn-primary ml-4 mb-4">Отправить</button>
             </div>
     </div>
 </template>
 <script>
 import WallPostReply from "../wallposts/wallPostReply";
+import { HTTP } from "../../../data/common.js";
+import ClickOutside from "vue-click-outside";
 
 export default {
   components: {
@@ -44,14 +46,47 @@ export default {
   },
   data() {
     return {
+      transaction_date: [],
+      newMessage: "",
       messages: [],
       seen: false,
       placeholder: "Добавить комментарий"
     };
   },
   created: function() {
-    this.messages = JSON.parse(JSON.stringify(this.transaction.relations.messages.data));
+    this.messages = JSON.parse(
+      JSON.stringify(this.transaction.relations.messages.data)
+    );
+    let date = this.transaction.created_at;
+    this.transaction_date = date.substring(5, 10).replace("-", ".");
     // this.messages = this.transaction.relations.messages.data.slice()
+  },
+  methods: {
+    postTransactionComment() {
+      HTTP.post(`transactions/` + this.transaction.id + `/messages`, {
+        id: 2,
+        message: this.newMessage,
+        user_id: 4,
+        transaction_id: this.transaction.id
+      })
+        .then(response => {
+          this.messages.push(response.data.data);
+          this.newMessage = ''
+          this.seen = false
+        })
+        .catch(e => {
+          this.errors.push(e);
+        });
+    },
+    hideActions() {
+      this.seen = false;
+    },
+    showActions() {
+      this.seen = true;
+    }
+  },
+  directives: {
+    ClickOutside
   }
 };
 </script>

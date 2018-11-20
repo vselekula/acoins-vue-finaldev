@@ -1,5 +1,5 @@
 <template>
-        <div class="reply px-5 py-2">
+        <div class="reply px-4 py-3">
             <b>Игорь:</b> {{ message.message }}
         </div>
 </template>
