@@ -19,6 +19,7 @@ import AccountCircle from "../node_modules/vue-material-design-icons/AccountCirc
 import Cake from "../node_modules/vue-material-design-icons/Cake"
 import Email from "../node_modules/vue-material-design-icons/Email"
 import Phone from "../node_modules/vue-material-design-icons/Phone"
+import Del from "../node_modules/vue-material-design-icons/DeleteOutline"
 import VueTextareaAutosize from 'vue-textarea-autosize'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUsers } from '@fortawesome/free-solid-svg-icons'
@@ -37,6 +38,7 @@ Vue.component("Account-Circle", AccountCircle)
 Vue.component("Cake", Cake)
 Vue.component("Email", Email)
 Vue.component("Phone", Phone)
+Vue.component("Del", Del)
 Vue.use(VueTextareaAutosize)
 
 Vue.config.productionTip = false

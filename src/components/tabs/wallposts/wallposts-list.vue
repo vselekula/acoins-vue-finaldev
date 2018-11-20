@@ -24,7 +24,7 @@
         SendNewTransaction
     },
     created: function(){
-            HTTP.get(`transactions?include=from_user,to_user,messages,value`)
+            HTTP.get(`transactions?include=from_user,to_user,messages.user,value`)
             .then(response => {
                 this.transactions = response.data;
             })
