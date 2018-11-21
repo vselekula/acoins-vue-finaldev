@@ -11,7 +11,6 @@
         HTTP
     } from "../../../data/common.js";
     export default {
-
         props: ["message", "transaction"],
         methods: {
             deleteComment() {
@@ -29,5 +28,4 @@
         background-color: #f6f7f9;
         border-top: solid 1px rgb(220, 220, 220);
     }
-
 </style>

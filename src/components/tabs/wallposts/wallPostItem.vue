@@ -62,7 +62,7 @@
         },
         methods: {
             postTransactionComment() {
-                HTTP.post(`transactions/` + this.transaction.id + `/messages`, {
+                HTTP.post(`transactions/` + this.transaction.id + `/messages?include=user`, {
                     id: 2,
                     message: this.newMessage,
                     user_id: 4,
@@ -84,6 +84,7 @@
                 this.seen = true;
             },
             deleteMessageItem(msgId) {
+                // window.console.log(this.messages);
                 this.messages.splice(msgId , 1);
             }
         },
