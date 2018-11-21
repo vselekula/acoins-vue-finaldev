@@ -18,6 +18,7 @@
     "vue-click-outside": "^1.0.7",
     "vue-disable-autocomplete": "0.0.4",
     "vue-material-design-icons": "^2.4.0",
+    "vue-router": "^3.0.1",
     "vue-textarea-autosize": "^1.0.4"
   },
   "devDependencies": {

@@ -2,7 +2,6 @@
     <div class="send_new_transaction mb-4" @click="showActions" v-click-outside="hideActions">
         <textarea-autosize name="" id="add-answer" placeholder="Отправить коллеге спасибо" class="mx-4 mt-2 p-2"></textarea-autosize>
         <TransactionForm v-if="seen"></TransactionForm>
-        <!-- <button v-if="seen" type="button" class="btn btn-primary ml-4 mb-4">Отправить</button> -->
     </div>
 </template>
 <script>

@@ -84,9 +84,8 @@
                 this.seen = true;
             },
             deleteMessageItem(msgIndex) {
-                window.console.log(msgIndex);
-                // let messageIndex = this.messages.findIndex(obj => obj.id == msgIndex)
-                this.messages.splice(msgIndex , 1);
+                let messageIndex = this.messages.findIndex(obj => obj.id == msgIndex)
+                this.messages.splice(messageIndex , 1);
             }
         },
         directives: {
