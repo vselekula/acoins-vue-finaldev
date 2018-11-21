@@ -23,7 +23,7 @@
                 <b>{{ transaction.relations.from_user.data.first_name }}:</b> {{ transaction.title }}
             </div>
         </div>
-        <wall-post-reply v-for="message in messages" :key="message.id" :message="message" :transaction="transaction" @deletedMessage="deleteMessageItem()" ></wall-post-reply>
+        <wall-post-reply v-for="(message, index) in messages" :key="message.id" :message="message" :index="index" :transaction="transaction" @deletedIndex="deleteMessageItem" ></wall-post-reply>
         <div class="add-answer_wrapper" @click="showActions" v-click-outside="hideActions">
             <textarea-autosize v-model="newMessage" id="add-answer" cols="1" rows="1" :placeholder="placeholder" class="mx-4 my-4 p-0 message"></textarea-autosize>
             <button v-if="seen" type="button" @click="postTransactionComment()" class="btn btn-primary ml-4 mb-4">Отправить</button>
@@ -70,7 +70,7 @@
                 })
                     .then(response => {
                         this.messages.push(response.data.data);
-                        this.newMessage = ''
+                        this.newMessage = '';
                         this.seen = false
                     })
                     .catch(e => {
@@ -83,9 +83,10 @@
             showActions() {
                 this.seen = true;
             },
-            deleteMessageItem(msgId) {
-                // window.console.log(this.messages);
-                this.messages.splice(msgId , 1);
+            deleteMessageItem(msgIndex) {
+                window.console.log(msgIndex);
+                // let messageIndex = this.messages.findIndex(obj => obj.id == msgIndex)
+                this.messages.splice(msgIndex , 1);
             }
         },
         directives: {
