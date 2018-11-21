@@ -3,33 +3,28 @@
         <b-card no-body>
             <b-tabs pills card class="nav-fill">
                 <b-tab title="МОЯ ЛЕНТА" active class="p-0 pt-2">
-                    <tabwallposts></tabwallposts>
+                    <tabwallposts/>
                 </b-tab>
                 <b-tab title="МАГАЗИН" id="shop-tab" class="p-0 pt-2">
-                    <tabshoplist></tabshoplist>
+                    <tabshoplist/>
                 </b-tab>
                 <b-tab title="ТОП" class="p-0 pt-2">
-                    <div class="row">
-                        <div class="col"><tabbestrecieved></tabbestrecieved></div>
-                        <div class="col"><tabbestsended></tabbestsended></div>
-                    </div>
+                    <tabBest/>
                 </b-tab>
             </b-tabs>
         </b-card>
     </div>
 </template>
 <script>
-    import tabbestrecieved from '../tabs/Best/tab-best-recieved.vue'
-    import tabbestsended from '../tabs/Best/tab-best-sended.vue'
-    import tabshoplist from '../tabs/Shop/tab-shop-list.vue'
+    import tabshoplist from '../tabs/Shop/tab-shop-list'
     import tabwallposts from '../tabs/wallposts/wallposts-list.vue'
+    import TabBest from "../tabs/Best/TabBest";
 
     export default {
         components: {
-            tabbestrecieved,
-            tabbestsended,
             tabshoplist,
-            tabwallposts
+            tabwallposts,
+            TabBest
         }
     }
 </script>
