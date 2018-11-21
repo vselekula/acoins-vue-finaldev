@@ -7,15 +7,12 @@
 </template>
 
 <script>
-// import Card from './components/Card.vue'
 import NavBar from "./components/NavBar.vue";
 import Tabs from "./components/tabs/tabs.vue";
 import Profile from "./components/profile/profile.vue";
 import "v-autocomplete/dist/v-autocomplete.css";
 import Vue from 'vue';
 import AccountCircle from "../node_modules/vue-material-design-icons/AccountCircle"
-// import AccountBalance from "../node_modules/vue-material-design-icons/Account"
-// import FavoriteBorder from "../node_modules/vue-material-design-icons/FavoriteBorder"
 import Cake from "../node_modules/vue-material-design-icons/Cake"
 import Email from "../node_modules/vue-material-design-icons/Email"
 import Phone from "../node_modules/vue-material-design-icons/Phone"
@@ -33,8 +30,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faUsers, faBirthdayCake, faEnvelope, faPhone, faHeart, faWallet)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component("Account-Circle", AccountCircle)
-// Vue.component("Account-Balance", AccountBalance)
-// Vue.component("Favorite-Border", FavoriteBorder)
 Vue.component("Cake", Cake)
 Vue.component("Email", Email)
 Vue.component("Phone", Phone)

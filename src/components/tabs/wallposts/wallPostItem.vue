@@ -59,7 +59,6 @@
             );
             let date = this.transaction.created_at;
             this.transaction_date = date.substring(5, 10).replace("-", ".");
-            // this.messages = this.transaction.relations.messages.data.slice()
         },
         methods: {
             postTransactionComment() {
@@ -85,9 +84,7 @@
                 this.seen = true;
             },
             deleteMessageItem(msgId) {
-                // this.messages.splice(msgId, 1);
-                var indexToRemove = this.messages.findIndex(obj => obj.id == msgId);
-                this.messages.splice(indexToRemove , 1);
+                this.messages.splice(msgId , 1);
             }
         },
         directives: {
@@ -96,9 +93,6 @@
     };
 </script>
 <style>
-.button-send {
-  border-radius: 50%;
-}
 textarea {
   resize: none;
 }
@@ -112,9 +106,6 @@ textarea:focus {
 
 .amount {
   background-color: white;
-}
-.answer {
-  background-color: #f6f7f9;
 }
 .add-answer_wrapper {
   background-color: #f6f7f9;
