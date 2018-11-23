@@ -1,99 +1,99 @@
 <template>
-  <div class="float-left">
-    <v-autocomplete  
-    :items="items" v-model="item" :get-label="getLabel" :min-len="0" :component-item="userItem"
-    @update-items="update" @input="pickedUser"
-    autocomplete="off"
-    :input-attrs="{name: 'input-test', id: 'v-my-autocomplete', placeholder: 'Кому спасибо?'}" style="z-index: 100" >
-    </v-autocomplete>
-    </div>
+    <form>
+        <v-autocomplete :items="items" id="userSearch" v-model="item" :get-label="getLabel" :component-item='template' :min-len='1'
+                        @update-items="updateItems" @item-selected="itemSelected"
+                        @item-clicked="itemClicked" :input-attrs="{name: 'input-test', id: 'v-my-autocomplete', autoComplete: 'off', placeholder: 'Кому?' }">
+        </v-autocomplete>
+    </form>
 </template>
 
 <script>
-import userItem from './UserSearchInput-userItem.vue'
-import People from '../../../data/People.js'
-import Autocomplete from 'v-autocomplete'
+    import ItemTemplate from './ItemTemplate.vue'
+    import Users from '../../../data/People'
+    import Autocomplete from 'v-autocomplete'
 
 export default {
-  components: {'v-autocomplete': Autocomplete},
-  data () {
-    return {
-      itemsApi: [],
-      item: '',
-      items: [],
-      userItem: userItem
-    }
-  },
-  methods: {
-    getLabel (item) {
-      if (item) {
-        return item.name;
-      }
-      return ''
-    },
-    update (text) {
-      this.items = People.filter((item) => {
-        let re = new RegExp(text, "i");
-        if (re.test(item.name) || re.test(item.mail)){
-          return item;
+        components:{
+            'v-autocomplete': Autocomplete
+        },
+        data() {
+            return {
+                item: '',
+                items: [],
+                template: ItemTemplate
+            }
+        },
+        methods: {
+            getLabel(item) {
+                if (item) {
+                return item.name
+            }
+                return ''
+            },
+            itemSelected (item) {
+                window.console.log('Selected item!', item);
+                this.$emit('pickedReciever', item)
+            },
+            itemClicked (item) {
+                window.console.log('You clicked an item!', item)
+            },
+            updateItems(text) {
+                this.items = Users.filter((item) => {
+                    return (new RegExp(text.toLowerCase())).test(item.name.toLowerCase())
+                })
+            }
         }
-      })
-    },
-    pickedUser () {
-      this.$emit('pickedUser', this.item)
     }
-    }
-  }
-
 </script>
+
+<style>
+    .v-autocomplete-input {
+        height: 38px;
+        width: 240px;
+        font-size: 18px;
+        margin-right: 20px;
+        border-radius: 5px;
+        padding-left: 15px;
+    }
+    .v-autocomplete-list-item{
+        z-index: 100
+    }
+    .v-autocomplete-input:focus {
+        border-color: #80bdff;
+        outline: 0;
+        -webkit-box-shadow: 0 0 0 0.2rem rgba(128,189,255,.5);
+        box-shadow: 0 0 0 0.2rem rgba(128,189,255,.5);
+    }
+</style>
 <style lang="stylus">
-.v-autocomplete
-  margin-right 10px
-  .v-autocomplete-input-group
-    .v-autocomplete-input
-      box-shadow none
-      border none
-      width 200px
-      outline none
-      background-color #eee
-      padding 5px 10px
-    &.v-autocomplete-selected
-      .v-autocomplete-input
-        background-color #f2fff2
-  .v-autocomplete-list
-    z-index 100
-    width 100%
-    text-align left
-    border none
-    border-top none
-    max-height 400px
-    overflow-y auto
-    border-bottom none
-    .v-autocomplete-list-item
-      font-size 14px
-      cursor pointer
-      background-color #fff
-      padding 10px
-      &:last-child
-        border-bottom none
-      &:hover
-        background-color #eee
-      abbr
-        opacity 0.8
-        font-size 0.8em
-        display flex
-        font-family sans-serif
-pre
-  text-align left
-  white-space pre-wrap
-  background-color #eee
-  border 1px solid silver
-  padding 20px !important
-  border-radius 10px
-  font-family monospace !important
-.left
-  text-align left
-.note
-  border-left 5px solid #ccc
-  padding 10px
+    .v-autocomplete
+        .v-autocomplete-input-group
+            z-index 100
+            .v-autocomplete-input
+                border none
+                box-shadow 0 0px 40px -5px rgba(0,64,128,.2);
+                outline none
+            &.v-autocomplete-selected
+                .v-autocomplete-input
+                    background-color white
+        .v-autocomplete-list
+            position: absolute
+            width fit-content
+            text-align left
+            border none
+            border-top none
+            max-height 400px
+            overflow-y auto
+            box-shadow: 0 0px 40px -5px rgba(0,64,128,.2);
+
+            .v-autocomplete-list-item
+                cursor pointer
+                background-color #fff
+                padding 10px
+                &:hover
+                    background-color #eee
+                abbr
+                    opacity 0.8
+                    font-size 0.8em
+                    display block
 </style>

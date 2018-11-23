@@ -4,24 +4,22 @@
             <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
             <b-navbar-brand href="#">Avito+</b-navbar-brand>
             <b-collapse is-nav id="nav_collapse">
+
                 <b-navbar-nav class="ml-auto">
-                    <b-nav-form>
-                      <!-- <SendMoneyTmpl></SendMoneyTmpl>  -->
-                    </b-nav-form>
-                   
+                    <test-dropdown />
+                    <TestDropdownValues />
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
     </div>
 </template>
 <script>
-import Autocomplete from "v-autocomplete";
-// import SendMoneyTmpl from "./transactionForm/transactionForm";
-
+import dropdownSum from '../components/transactionForm/iconDropdownAmount'
+import dropdownValues from '../components/transactionForm/iconDropdownValues'
 export default {
   components: {
-    "v-autocomplete": Autocomplete,
-    // SendMoneyTmpl
+      TestDropdown: dropdownSum,
+      TestDropdownValues: dropdownValues
   }
 };
 

@@ -7,7 +7,6 @@
 
 <script>
     import NavBar from "./components/NavBar.vue";
-    import "v-autocomplete/dist/v-autocomplete.css";
     import Vue from 'vue';
     import AccountCircle from "../node_modules/vue-material-design-icons/AccountCircle"
     import Cake from "../node_modules/vue-material-design-icons/Cake"

@@ -5,11 +5,11 @@
                 <div>
                     <img src="../../../assets/avatars/aklochkova.png" width="50" height="50" alt="..." class="rounded-circle">
                 </div>
-                <div class="amount d-flex flex-grow-1 flex-row ml-3">
+                <div class="sum d-flex flex-grow-1 flex-row ml-3">
                     <div class="d-flex flex-column">
                         <div>
                             <span class="badge badge-pill badge-primary">
-                                <font-awesome-icon icon="heart" size="lg" /> + {{ transaction.sum }}</span>
+                                <font-awesome-icon icon="heart" size="lg" /> + {{ transaction.value }}</span>
                         </div>
                         <div class="mt-1">
                             <b>{{ transaction.relations.value.data.name }}</b>
@@ -105,7 +105,7 @@ textarea:focus {
   border-radius: 10px;
 }
 
-.amount {
+.sum {
   background-color: white;
 }
 .add-answer_wrapper {

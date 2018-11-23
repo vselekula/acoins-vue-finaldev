@@ -4,7 +4,7 @@ export default [{
         reciever_id: 2,
         transaction_info: {
             title_id: 2,
-            sum: 100,
+            value: 100,
             message: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis, id? Dicta iure eaque et mollitia, necessitatibus cupiditate numquam blanditiis reprehenderit reiciendis dolorum, fuga rerum hic."
         }
 }, {
@@ -13,7 +13,7 @@ export default [{
     reciever_id: 2,
     transaction_info: {
         title_id: 3,
-        sum: 50,
+        value: 50,
         message: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis, id? Dicta iure eaque et mollitia, necessitatibus cupiditate numquam blanditiis reprehenderit reiciendis dolorum, fuga rerum hic."
 }
 }]

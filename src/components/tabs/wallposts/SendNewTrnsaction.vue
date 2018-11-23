@@ -1,7 +1,7 @@
 <template>
     <div class="send_new_transaction mb-4" @click="showActions" v-click-outside="hideActions">
-        <textarea-autosize name="" id="add-answer" placeholder="Отправить коллеге спасибо" class="mx-4 mt-2 p-2"></textarea-autosize>
         <TransactionForm v-if="seen"></TransactionForm>
+        <textarea-autosize name="" id="add-answer" placeholder="Отправить коллеге спасибо" class="mx-4 mt-2 p-2"></textarea-autosize>
     </div>
 </template>
 <script>
