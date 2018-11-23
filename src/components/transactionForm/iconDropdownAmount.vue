@@ -1,16 +1,15 @@
 <template>
     <div>
-        <b-dropdown v-model="selectedSum" variant="link" size="lg" no-caret>
+        <b-dropdown class="dropdownSum" v-model="selectedSum" variant="link" size="lg" no-caret>
 
             <template slot="button-content">
-                <!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In  -->
                 <svg  version="1.1"
                      xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
                      x="0px" y="0px" width="30px" height="30px" viewBox="0 0 289.4 254.3"
                      xml:space="preserve">
 <defs>
 </defs>
-                    <path class="dropdownIcon" fill="black" d="M145,254.3c-10.1,0-20.1-3.6-28.1-10.9c-13.1-11.8-38.8-35.1-85.3-77.4l-3.2-2.9c-0.2-0.2-0.5-0.4-0.7-0.7
+                    <path class="dropdownIcon" fill="#eee" d="M145,254.3c-10.1,0-20.1-3.6-28.1-10.9c-13.1-11.8-38.8-35.1-85.3-77.4l-3.2-2.9c-0.2-0.2-0.5-0.4-0.7-0.7
 	C9.8,144.5,0,120.7,0,95.3c0-25.2,9.8-49.1,27.6-67.2c0,0,0,0,0,0C49.3,6,73.4-3.1,99.3,1c15,2.4,30,9.2,45.4,20.7
 	C160,10.2,175,3.4,190,1c25.9-4.2,50.1,4.9,71.9,27.1c17.8,18,27.6,41.8,27.6,67.1c0,25.4-9.8,49.2-27.7,67.2
 	c-0.2,0.2-0.4,0.4-0.7,0.7c-37.7,34.6-61.1,55.9-76.6,70c-4.5,4.1-8.2,7.5-11.3,10.3C165.2,250.6,155.1,254.3,145,254.3z
@@ -21,7 +20,7 @@
 
                 <span class="sr-only">Ценность</span>
             </template>
-            <b-dropdown-item-button @click="selectedSum = sum" :value="sum.value" v-for="sum in sums" :key="sum.value">
+            <b-dropdown-item-button class="dropdownItem" @click="selectedSum = sum" :value="sum.value" v-for="sum in sums" :key="sum.value">
                 {{ sum.value }}
             </b-dropdown-item-button>
         </b-dropdown>
@@ -44,7 +43,10 @@
     }
 </script>
 <style>
-    svg:hover .dropdownIcon:hover {
-        fill: aqua;
+    .dropdownSum button{
+        padding: 0;
+    }
+    .dropdownSum:hover button svg path{
+        fill: #007bff;
     }
 </style>
