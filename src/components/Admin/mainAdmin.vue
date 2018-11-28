@@ -5,7 +5,7 @@
                 <userList/>
             </b-tab>
             <b-tab title="Money">
-                Tab Contents 2
+                <initiate-button></initiate-button>
             </b-tab>
         </b-tabs>
     </b-card>
@@ -13,11 +13,13 @@
 
 <script>
     import UserList from "./UserList";
+    import initiateButton from '../tabs/wallposts/initiateNewTransaction';
 
     export default {
         name: "mainAdmin",
         components: {
-            UserList
+            UserList,
+            initiateButton
         }
     }
 </script>

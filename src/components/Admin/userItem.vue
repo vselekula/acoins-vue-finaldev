@@ -2,12 +2,13 @@
     <div class=" profile-wrapper mb-4">
         <div class="row d-flex align-items-center profile">
             <div>
-                <img src="../../assets/avatars/ya.png" rounded="circle" blank blank-color="#fff" alt="left img"
+                <img :src="'http://192.168.99.100:8000' + user.relations.avatar_file.data.full_path" rounded="circle" blank blank-color="#fff" alt="left img"
                      class="rounded-circle avatar"/>
             </div>
             <div class="col">
                 <div class="mb-4">
-                    <div class="user_firstName">id: {{ user.id }} <b>{{ user.first_name }} {{ user.last_name }}</b></div>
+                    <div class="user_firstName">id: {{ user.id }} <b>{{ user.first_name }} {{ user.last_name }}</b>
+                    </div>
                     <div class="user_position">{{ user.relations.position.data.name }}</div>
                 </div>
                 <div class="row">
@@ -40,23 +41,34 @@
                         <p>1300</p>
                         <font-awesome-icon icon="heart" size="sm"/>
                         <p>100</p></div>
+                    <button @click="delUser" class="btn btn-danger">X</button>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
-
+import { HTTP } from '../../data/common'
     export default {
         props: {
             user: {
                 required: true
             }
         },
-        data () {
+        data() {
             return {
                 dateInAvito: [],
-                birthDate: []
+                birthDate: [],
+                avatar: null
+            }
+        },
+        methods: {
+            delUser() {
+                HTTP.delete(`users/` + this.user.id)
+                    .then(response => {
+                        window.console.log('удален юзер' + response);
+                        this.$emit('deletedUser', this.user.id)
+                    })
             }
         },
         created: function () {

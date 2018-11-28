@@ -20,7 +20,7 @@
 
                 <span class="sr-only">Ценность</span>
             </template>
-            <b-dropdown-item-button class="dropdownItem" @click="selectedSum = sum" :value="sum.value" v-for="sum in sums" :key="sum.value">
+            <b-dropdown-item-button class="dropdownItem" @click="pickedSum($event)" :value="sum.value" v-for="sum in sums" :key="sum.value">
                 {{ sum.value }}
             </b-dropdown-item-button>
         </b-dropdown>
@@ -38,8 +38,12 @@
                 sum: '',
                 selectedSum: '',
             }
+        },
+        methods: {
+            pickedSum($event){
+                this.selectedSum = $event;
+            }
         }
-
     }
 </script>
 <style>
