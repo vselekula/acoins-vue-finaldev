@@ -5,19 +5,29 @@ import loginPage from "./components/login/login"
 export const routes = [
     {
         path: '/login',
-        component: loginPage
+        component: loginPage,
+        name: 'login'
     },
     {
         path: '/home',
         component: UserPage,
-        name: 'home'
+        name: 'home',
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '*',
-        component: UserPage
+        component: UserPage,
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/admin',
-        component: mainAdmin
+        component: mainAdmin,
+        meta: {
+            requiresAuth: true
+        }
     }
 ]

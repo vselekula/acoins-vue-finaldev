@@ -20,7 +20,8 @@
             </b-form-group>
             <b-button type="submit"
                       variant="primary"
-                      class="submitButton">Войти!</b-button>
+                      class="submitButton">Войти!
+            </b-button>
         </b-form>
     </div>
 </template>
@@ -52,7 +53,7 @@
                 })
                     .then(response => {
                         window.console.log(response.data);
-                        if (response.status === 200){
+                        if (response.status === 200) {
                             window.console.log('user object', response.data.data.api_token);
 
                             HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.data.api_token;
