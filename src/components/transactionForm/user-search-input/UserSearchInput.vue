@@ -1,65 +1,111 @@
 <template>
-        <v-autocomplete :items="items" id="userSearch" v-model="item" :get-label="getLabel" :component-item='template' :min-len='1'
-                        @update-items="updateItems" @item-selected="itemSelected"
-                        @item-clicked="itemClicked" :input-attrs="{name: 'input-test', id: 'v-my-autocomplete', autoComplete: 'off', placeholder: 'Кому?' }">
-        </v-autocomplete>
+    <v-autocomplete label="first_name" v-model="user" :filterable="false" :options="options" @search="onSearch">
+        <template slot="no-options">
+            поиск по сотрудникам ASD
+        </template>
+        <template slot="option" slot-scope="option">
+            <div class="d-center">
+                <img v-if="'avatar_file' in option.relations" :src="'http://192.168.99.100:8000' + option.relations.avatar_file.data.full_path"/>
+                {{ option.first_name }}
+            </div>
+        </template>
+        <template slot="selected-option" slot-scope="option">
+            <div class="selected d-center">
+                <img v-if="'avatar_file' in option.relations" :src="'http://192.168.99.100:8000' + option.relations.avatar_file.data.full_path"/>
+                {{ option.first_name }}
+            </div>
+        </template>
+    </v-autocomplete>
 </template>
 
 <script>
-    import ItemTemplate from './ItemTemplate.vue'
-    import Users from '../../../data/People'
-    import Autocomplete from 'v-autocomplete'
+    import _ from 'lodash'
+    import {HTTP} from '../../../data/common';
+    import Vue from 'vue'
+    import Autocomplete from 'vue-select'
 
-export default {
-        components:{
+    Vue.component('v-select', Autocomplete);
+
+    export default {
+        components: {
             'v-autocomplete': Autocomplete
         },
         data() {
             return {
-                item: '',
-                items: [],
-                template: ItemTemplate
+                // itemsApi: '',
+                options: [],
+                errors: [],
+                user: null
             }
         },
         methods: {
-            getLabel(item) {
-                if (item) {
-                return item.name
-            }
-                return ''
+            onSearch(search, loading) {
+                loading(true);
+                this.search(loading, search, this);
             },
-            itemSelected (item) {
-                window.console.log('Selected item!', item);
-                this.$emit('pickedReciever', item)
-            },
-            itemClicked (item) {
-                window.console.log('You clicked an item!', item)
-            },
-            updateItems(text) {
-                this.items = Users.filter((item) => {
-                    return (new RegExp(text.toLowerCase())).test(item.name.toLowerCase())
-                })
-            }
+            search: _.debounce((loading, search, vm) => {
+                HTTP.get(`users?q=${(search)}&include=position,avatar_file`)
+                    .then(response => {
+                        vm.options = response.data.data;
+                        loading(false);
+                    })
+                    .catch(e => {
+                        window.console.log(e)
+                    });
+            }, 350)
         }
     }
 </script>
-
 <style>
-    .v-autocomplete-input {
-        height: 38px;
-        font-size: 18px;
-        border-radius: 5px;
+    .d-center {
+        display: flex;
+        align-items: center;
+    }
+
+    .v-select {
+        width: 260px;
+        appearance: none;
+    }
+    .v-select .dropdown-toggle {
+        border: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        box-shadow: 0 0px 40px -5px rgba(0,64,128,.2);
+    }
+    .v-select .dropdown-menu  {
         border: none;
         box-shadow: 0 0px 40px -5px rgba(0,64,128,.2);
-        padding-left: 15px;
     }
-    .v-autocomplete-list-item{
-        z-index: 100
+    .selected img {
+        width: auto;
+        max-height: 23px;
+        margin-right: 0.5rem;
     }
-    .v-autocomplete-input:focus {
-        border-color: #80bdff;
-        outline: 0;
-        -webkit-box-shadow: 0 0 0 0.2rem rgba(128,189,255,.5);
-        box-shadow: 0 0 0 0.2rem rgba(128,189,255,.5);
+
+    .v-select .dropdown li {
+        border-bottom: 1px solid rgba(112, 128, 144, 0.1);
+    }
+
+    .v-select .dropdown li:last-child {
+        border-bottom: none;
+    }
+
+    .v-select .dropdown li a {
+        padding: 10px 20px;
+        width: 100%;
+        font-size: 1.25em;
+        color: #3c3c3c;
+    }
+
+    .v-select .dropdown-menu .active > a {
+        color: #fff;
+    }
+</style>
+<style scoped>
+    img {
+        height: auto;
+        max-width: 2.5rem;
+        margin-right: 1rem;
     }
 </style>

@@ -1,10 +1,16 @@
 import UserPage from "./UserPage";
 import mainAdmin from "./components/Admin/mainAdmin";
+import loginPage from "./components/login/login"
 
 export const routes = [
     {
-        path: '/',
-        component: UserPage
+        path: '/login',
+        component: loginPage
+    },
+    {
+        path: '/home',
+        component: UserPage,
+        name: 'home'
     },
     {
         path: '*',

@@ -1,45 +1,42 @@
 <template>
-        <select v-model="selectedValue" class="title" @change="changedValue">
-            <option v-for="value in values" :key="value.value">
-                {{ value.value }}
-            </option>
-        </select>
+    <vueSelect label="name" v-model="selectedValue" :options="values" placeholder="Ценность" @change="changedValue">
+    </vueSelect>
 </template>
 <script>
-    import values from '../../data/cennosti.js'
+    import { HTTP } from './../../data/common'
+    import vueSelect from 'vue-select'
 
     export default {
+        components: {
+            vueSelect
+        },
         data() {
             return {
-                selectedValue: 'Ценность',
-                values: values,
+                selectedValue: '',
+                values: [],
                 value: '',
             }
         },
         methods: {
             changedValue() {
-                this.value = this.values.find(obj => obj.text === this.selectedValue);
-                this.$emit('pickedCennost', this.value)
+                // this.value = this.values.find(obj => obj.name === this.selectedValue);
+                this.$emit('pickedCennost', this.selectedValue)
             }
+        },
+        created: function() {
+            HTTP.get(`values`)
+                .then(response => {
+                    this.values = response.data.data;
+                })
+                .catch(e => {
+                    this.errors.push(e)
+                });
         }
     }
 </script>
-<style>
-    .title {
-        background-color: white;
-        height: 38px !important;
-        width: 50%;
-        padding-left: 10px;
-        border: none;
-        box-shadow: 0 0px 40px -5px rgba(0,64,128,.2);
-        appearance: none;
-        font-size: 16px;
-        border-radius: 5px;
-    }
-    .title:focus {
-        border-color: #80bdff;
-        outline: 0;
-        -webkit-box-shadow: 0 0 0 0.2rem rgba(128,189,255,.5);
-        box-shadow: 0 0 0 0.2rem rgba(128,189,255,.5);
+<style scoped>
+    .v-select {
+        width: 340px !important;
+
     }
 </style>

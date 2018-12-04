@@ -43,11 +43,11 @@
                 </b-form-group>
                 <b-form-group horizontal label="устройство на работу:"
                               label-class="text-sm-right">
-                    <Datepicker format="yyyy-MM-dd" v-model="selectedEmploymentDate" name="employmentdate"></Datepicker>
+                    <Datepicker format="YYYY-MM-DD" lang="en" v-model="selectedEmploymentDate" name="employmentdate" @change="changedEmployment"></Datepicker>
                 </b-form-group>
                 <b-form-group horizontal label="рождение:"
                               label-class="text-sm-right">
-                    <Datepicker format="yyyy-MM-dd" v-model="selectedBirthDate" name="birthdaydate" :typeable="true"></Datepicker>
+                    <Datepicker format="YYYY-MM-DD" lang="en" v-model="selectedBirthDate" name="birthdaydate" :typeable="true"></Datepicker>
                 </b-form-group>
                 <b-form-group horizontal label="фото:"
                               label-class="text-sm-right">
@@ -61,7 +61,7 @@
 
 <script>
     import {HTTP} from '../../data/common'
-    import Datepicker from 'vuejs-datepicker';
+    import Datepicker from 'vue2-datepicker';
 
     export default {
         name: "AddUser",
@@ -92,6 +92,9 @@
             Datepicker
         },
         methods: {
+            changedEmployment() {
+              window.console.log(this.selectedEmploymentDate)
+            },
             changeGroup() {
                 this.selectedGroupItem = this.groupOptions.find(obj => obj.name === this.selectedGroup);
             },

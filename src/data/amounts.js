@@ -1,9 +1,5 @@
 export default [
     {
-        id: 0,
-        value: null,
-        text: '$'
-    }, {
         id: 1,
         value: 10,
         text: 10

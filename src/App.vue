@@ -1,12 +1,12 @@
 <template>
     <div id="app">
-        <NavBar></NavBar>
+        <!--<NavBar></NavBar>-->
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-    import NavBar from "./components/NavBar.vue";
+    // import NavBar from "./components/NavBar.vue";
     import Vue from 'vue';
     import AccountCircle from "../node_modules/vue-material-design-icons/AccountCircle"
     import Cake from "../node_modules/vue-material-design-icons/Cake"
@@ -17,7 +17,14 @@
     import {library} from '@fortawesome/fontawesome-svg-core'
     import {faBirthdayCake, faEnvelope, faHeart, faPhone, faUsers, faWallet} from '@fortawesome/free-solid-svg-icons'
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+    import {HTTP} from './data/common'
 
+    let item = window.localStorage.getItem('authUser');
+    if(item){
+        window.console.log('user' + item);
+        let json = JSON.parse(item);
+        HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + json.api_token;
+    }
 
     library.add(faUsers, faBirthdayCake, faEnvelope, faPhone, faHeart, faWallet)
     Vue.component('font-awesome-icon', FontAwesomeIcon)
@@ -32,7 +39,6 @@
     export default {
         name: "app",
         components: {
-            NavBar,
         }
     };
 </script>
