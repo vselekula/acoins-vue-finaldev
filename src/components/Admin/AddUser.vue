@@ -82,6 +82,7 @@
                 selectedMail: null,
                 selectedPhone: null,
                 selectedEmploymentDate: null,
+                selectedEmploymentDateValue: null,
                 selectedBirthDate: null,
                 errors: [],
                 newUser: ''

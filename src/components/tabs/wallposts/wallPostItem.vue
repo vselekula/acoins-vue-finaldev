@@ -63,9 +63,9 @@
         methods: {
             postTransactionComment() {
                 HTTP.post(`transactions/` + this.transaction.id + `/messages?include=user`, {
-                    id: 2,
+                    id: 2, //TODO хардкод
                     message: this.newMessage,
-                    user_id: 4,
+                    user_id: 4, //TODO хардкод
                     transaction_id: this.transaction.id
                 })
                     .then(response => {

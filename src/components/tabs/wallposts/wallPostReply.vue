@@ -28,4 +28,10 @@
         background-color: #f6f7f9;
         border-top: solid 1px rgb(220, 220, 220);
     }
+.delMessage{
+    cursor: pointer;   
+}
+    .delMessage:hover svg path {
+        fill: crimson;
+    }
 </style>

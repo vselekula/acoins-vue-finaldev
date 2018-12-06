@@ -2,33 +2,33 @@
     <div class="col-6 ml-auto mr-auto profile-wrapper">
         <div class="row d-flex align-items-center profile">
             <div class="col">
-                <img src="../../assets/avatars/ya.png" rounded="circle" blank blank-color="#fff" alt="left img"
+                <img v-if="'avatar_file' in authUser.relations" :src="'http://192.168.99.100:8000' + authUser.relations.avatar_file.data.full_path" rounded="circle" blank blank-color="#fff" alt="left img"
                      class="rounded-circle avatar"/>
             </div>
             <div class="col-7">
                 <div class="mb-4">
-                    <div class="user_firstName"><h3 class="mb-0"><b> </b></h3></div>
-                    <div class="user_position"><h5>старший дизайнер</h5></div>
+                    <div class="user_firstName"><h3 class="mb-0"><b> {{ authUser.first_name }} {{  authUser.last_name }}</b></h3></div>
+                    <div class="user_position"><h5>{{ authUser.relations.position.data.name }}</h5></div>
                 </div>
                 <div class="row">
                     <div class="col flex-column">
                         <div class="user_phone">
                             <Phone fillColor="rgba(0, 123, 255, 0.9)"/>
-
+                            +7{{ authUser.phone }}
                         </div>
                         <div class="user_mail">
                             <Email fillColor="rgba(0, 123, 255, 0.9)"/>
-                            vkp@avito.ru
+                            {{ authUser.email }}
                         </div>
                     </div>
                     <div class="col flex-column">
                         <div class="user_inAvito">
                             <Account-Circle fillColor="rgba(0, 123, 255, 0.9)"/>
-                            c 2017г.
+                            {{ authUser.employment_date }}
                         </div>
                         <div class="user_HB">
                             <Cake fillColor="rgba(0, 123, 255, 0.9)"/>
-                            11 апреля
+                            {{ authUser.birth_date}}
                         </div>
                     </div>
                 </div>

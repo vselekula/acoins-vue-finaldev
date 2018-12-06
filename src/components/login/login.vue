@@ -41,7 +41,7 @@
         data() {
             return {
                 form: {
-                    email: 'test@test.com',
+                    email: 'avito@avito.ru',
                     password: 'password'
                 },
                 token: null,

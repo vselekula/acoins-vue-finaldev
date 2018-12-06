@@ -32,7 +32,7 @@
             }
         },
         created: function () {
-            HTTP.get(`users?include=position,avatar_file`)
+            HTTP.get(`users?include=position,avatar_file,boss,group`)
                 .then(response => {
                     this.users = response.data.data;
                 })

@@ -2,7 +2,8 @@
     <div class=" profile-wrapper mb-4">
         <div class="row d-flex align-items-center profile">
             <div>
-                <img v-if="imageExists" :src="'http://192.168.99.100:8000/' + user.relations.avatar_file.data.full_path"
+                <img v-if="'avatar_file' in user.relations"
+                     :src="'http://192.168.99.100:8000/' + user.relations.avatar_file.data.full_path"
                      rounded="circle" blank blank-color="#fff" alt="left img"
                      class="rounded-circle avatar"/>
             </div>
@@ -47,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <b-modal @ok="sendUserEdits" v-model="modalShow" size="lg">
+        <b-modal @ok="sendEditedUser" v-model="modalShow" size="lg">
             <b-card bg-variant="light">
                 <b-form-group horizontal label="Имя:"
                               label-class="text-sm-right"
@@ -121,19 +122,19 @@
         },
         data() {
             return {
-                imageExists: false,
+                avatarExists: null,
                 dateInAvito: [],
                 birthDate: [],
                 avatar: null,
-                imgSrc: "'http://192.168.99.100:8000' + this.user.relations.avatar_file.data.full_path",
                 modalShow: false,
-                avatarId: null,
+                avatarId: '',
                 file: null,
+                editedUser: null,
                 dateFormat: 'yyyy MM dd',
-                selectedGroup: this.user.relations.position.data.name,
+                selectedGroup: this.user.relations.group.data.name,
                 selectedGroupItem: '',
                 groupOptions: null,
-                selectedPosition: null,
+                selectedPosition: this.user.relations.position.data.name,
                 selectedPositionItem: null,
                 positionOptions: null,
                 selectedFirstName: this.user.first_name,
@@ -163,23 +164,85 @@
                     })
             },
             editUser() {
-                HTTP.get(`users/` + this.user.id)
+                HTTP.get(`users/` + this.user.id + '?include=avatar_file')
                     .then(response => {
                         this.modalShow = true;
                         window.console.log(response.data.data);
-                        this.$emit('editUser', this.user.id)
+                        if ('avatar_file' in response.data.data.relations) {
+                            this.avatarId = response.data.data.relations.avatar_file.data.id;
+                            this.avatarExists = true
+                        }
+                        this.$emit('editUser', this.user.id);
                     })
-
+                    .catch(e => {
+                        window.console.log(e);
+                    })
             },
-            sendUserEdits() {
-                window.console.log('gdfgjd')
+            sendEditedUser() {
+                if ('avatar_file' in this.user.relations && this.file !== null) {
+                    let formData = new FormData(); // добавление или изменение аватарки
+                    formData.append('file', this.file);
+                    HTTP.post(`files`, formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        })
+                        .then(response => {
+                            this.avatarId = response.data.data.id;
+                            this.selectedGroupItem = this.groupOptions.find(obj => obj.name === this.selectedGroup);
+                            this.selectedPositionItem = this.positionOptions.find(obj => obj.name === this.selectedPosition);
+                            HTTP.patch(`users/` + this.user.id, {
+                                email: this.selectedMail,
+                                password: 'password', //TODO хардкод
+                                first_name: this.selectedFirstName,
+                                last_name: this.selectedLastName,
+                                phone: this.selectedPhone,
+                                group_id: this.selectedGroupItem.id,
+                                position_id: this.selectedPositionItem.id,
+                                avatar_file_id: this.avatarId,
+                                birth_date: '2008-02-22', //TODO хардкод, разобраться как лучше передавать дату
+                                employment_date: '2008-02-22' //TODO хардкод, разобраться как лучше передавать дату
+                            })
+                                .then(response => {
+                                    window.console.log('отредактированный юзер юзер', response.data);
+                                    this.editedUser = response.data.data;
+                                    this.$emit('editedUser', this.editedUser);
+                                })
+                                .catch(e => {
+                                    window.console.log(e);
+                                })
+                        })
+                        .catch(e => {
+                            window.console.log(e);
+                        });
+                    return
+                }
+                this.selectedGroupItem = this.groupOptions.find(obj => obj.name === this.selectedGroup);
+                this.selectedPositionItem = this.positionOptions.find(obj => obj.name === this.selectedPosition);
+                HTTP.patch(`users/` + this.user.id, {
+                    email: this.selectedMail,
+                    password: 'password', //TODO хардкод
+                    first_name: this.selectedFirstName,
+                    last_name: this.selectedLastName,
+                    phone: this.selectedPhone,
+                    group_id: this.selectedGroupItem.id,
+                    position_id: this.selectedPositionItem.id,
+                    // avatar_file_id: this.avatarId,
+                    birth_date: '2008-02-22', //TODO хардкод, разобраться как лучше передавать дату
+                    employment_date: '2008-02-22' //TODO хардкод, разобраться как лучше передавать дату
+                })
+                    .then(response => {
+                        window.console.log('отредактированный юзер юзер', response.data);
+                        this.editedUser = response.data.data;
+                        this.$emit('editedUser', this.editedUser);
+                    })
+                    .catch(e => {
+                        window.console.log(e);
+                    })
             }
         },
         created: function () {
-            if ("avatar_file" in this.user.relations) {
-                this.imageExists = true;
-                window.console.log('есть инфа об аве')
-            }
             let date = this.user.employment_date;
             this.dateInAvito = date.substring(5, 10).replace("-", ".");
             let d = this.user.birth_date;
