@@ -39,6 +39,10 @@
             }
         },
         methods: {
+            // onChange(){
+            //     window.console.log(this.user);
+            //     this.user.$emit('pickedReciever', this.user)
+            // },
             onSearch(search, loading) {
                 loading(true);
                 this.search(loading, search, this);

@@ -7,14 +7,14 @@
             </div>
             <div class="col-7">
                 <div class="mb-4">
-                    <div class="user_firstName"><h3 class="mb-0"><b>{{authUser.first_name}}</b></h3></div>
+                    <div class="user_firstName"><h3 class="mb-0"><b> </b></h3></div>
                     <div class="user_position"><h5>старший дизайнер</h5></div>
                 </div>
                 <div class="row">
                     <div class="col flex-column">
                         <div class="user_phone">
                             <Phone fillColor="rgba(0, 123, 255, 0.9)"/>
-                            +7 (909) 095 35 02
+
                         </div>
                         <div class="user_mail">
                             <Email fillColor="rgba(0, 123, 255, 0.9)"/>
@@ -54,10 +54,14 @@
                 authUser: null
             }
         },
-        created: function() {
+        created: function () {
             this.authUser = JSON.parse(window.localStorage.getItem('authUser'));
-            window.console.log(this.authUser);
-        }
+            window.console.log('authUser', this.authUser);
+            // this.$auth.check(function () {
+            //     window.console.log('содержание auth после логина с ready');
+            //     window.console.log(this);
+            }
+
     }
 
 

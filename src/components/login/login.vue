@@ -7,7 +7,7 @@
                               type="email"
                               v-model="form.email"
                               required
-                              placeholder="email">
+                              placeholder="email">test@test.com
                 </b-form-input>
             </b-form-group>
             <b-form-group label-for="passwordInput">
@@ -16,7 +16,8 @@
                               v-model="form.password"
                               class="form-control"
                               id="passwordInput"
-                              placeholder="password"></b-form-input>
+                              placeholder="password">password
+                </b-form-input>
             </b-form-group>
             <b-button type="submit"
                       variant="primary"
@@ -27,46 +28,60 @@
 </template>
 
 <script>
-    import {HTTP} from '../../data/common';
+    // import {HTTP} from '../../data/common'
+    import Vue from 'vue'
+    import axios from 'axios';
+    import VueAxios from 'vue-axios';
+    import VueRouter from 'vue-router'
+    import {HTTP} from '../../data/common'
+    Vue.use(VueAxios, axios, VueRouter);
 
     export default {
         name: "loginPage",
         data() {
             return {
                 form: {
-                    email: '',
-                    password: ''
+                    email: 'test@test.com',
+                    password: 'password'
                 },
                 token: null,
                 show: true,
-                errors: []
+                errors: [],
+                loaded: false
             }
         },
         methods: {
             onSubmit() {
-                // evt.preventDefault();
-                let sendForm = JSON.stringify(this.form);
-                window.console.log(sendForm);
-                HTTP.post(`login`, {
+                // window.console.log(this.$auth);
+                // this.$auth.login({
+                //     data: {
+                //         email: this.form.email,
+                //         password: this.form.password
+                //     }
+                // })
+                //     .then((resp) => {
+                //         window.console.log('resp', resp);
+                //         HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + resp.data.data.api_token;
+                //         window.console.log('$auth', this.$auth)
+                //     }), (res) => {
+                //         window.console.log('error ', this.context);
+                //         this.errors = res.data;
+                HTTP.post(`login?include=avatar_file,boss,position`, {
                     email: this.form.email,
                     password: this.form.password
                 })
                     .then(response => {
-                        window.console.log(response.data);
                         if (response.status === 200) {
-                            window.console.log('user object', response.data.data.api_token);
-
                             HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.data.api_token;
-
                             window.localStorage.setItem('authUser', JSON.stringify(response.data.data));
-
                             this.$router.push({name: 'home'});
                         }
                     })
                     .catch(e => {
                         this.errors.push(e)
                     });
-            },
+
+            }
         }
     }
 </script>

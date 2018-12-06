@@ -14,11 +14,13 @@
             return {
                 selectedSum: 'Сумма',
                 sums: sums,
+                sum: '',
             }
         },
         methods: {
             changedSum() {
-                this.sum = this.sums.find(obj => obj.text == this.selectedSum);
+                // this.sum = this.sums.find(obj => obj.text == this.selectedSum);
+                // window.console.log('ffff' + this.sum);
                 this.$emit('pickedAmount', this.sum)
             }
         }

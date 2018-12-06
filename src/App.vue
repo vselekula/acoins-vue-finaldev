@@ -1,12 +1,10 @@
 <template>
     <div id="app">
-        <!--<NavBar></NavBar>-->
         <router-view></router-view>
     </div>
 </template>
 
 <script>
-    // import NavBar from "./components/NavBar.vue";
     import Vue from 'vue';
     import AccountCircle from "../node_modules/vue-material-design-icons/AccountCircle"
     import Cake from "../node_modules/vue-material-design-icons/Cake"
@@ -21,7 +19,7 @@
 
     let item = window.localStorage.getItem('authUser');
     if(item){
-        window.console.log('user' + item);
+        // window.console.log('user' + item);
         let json = JSON.parse(item);
         HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + json.api_token;
     }
@@ -41,6 +39,8 @@
         components: {
         }
     };
+
+
 </script>
 
 <style>
