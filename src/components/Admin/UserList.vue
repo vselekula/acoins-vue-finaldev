@@ -2,7 +2,7 @@
     <div>
         <add-user @PostedNewUser="postedNewUser"/>
         <userItem v-for="user in users" :key="user.id"
-                  :user="user" @deletedUser="deleteUser"></userItem>
+                  :user="user" :positionOptions="positionOptions" :groupOptions="groupOptions" @deletedUser="deleteUser"></userItem>
     </div>
 </template>
 <script>
@@ -19,7 +19,9 @@
         data() {
             return {
                 users: [],
-                errors: []
+                errors: [],
+                positionOptions: null,
+                groupOptions: null
             }
         },
         methods: {
@@ -35,6 +37,20 @@
             HTTP.get(`users?include=position,avatar_file,boss,group`)
                 .then(response => {
                     this.users = response.data.data;
+                })
+                .catch(e => {
+                    this.errors.push(e)
+                });
+            HTTP.get(`positions`)
+                .then(response => {
+                    this.positionOptions = response.data.data;
+                })
+                .catch(e => {
+                    this.errors.push(e)
+                });
+            HTTP.get(`groups`)
+                .then(response => {
+                    this.groupOptions = response.data.data;
                 })
                 .catch(e => {
                     this.errors.push(e)

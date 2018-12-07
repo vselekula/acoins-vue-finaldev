@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-button @click="modalShow = !modalShow">Go</b-button>
+        <b-button class="btn-success" @click="modalShow = !modalShow">Add User</b-button>
         <b-modal @ok="addUser" v-model="modalShow" size="lg">
             <b-card bg-variant="light">
                 <b-form-group horizontal label="Имя:"
@@ -81,9 +81,9 @@
                 selectedLastName: null,
                 selectedMail: null,
                 selectedPhone: null,
-                selectedEmploymentDate: null,
+                selectedEmploymentDate: '',
                 selectedEmploymentDateValue: null,
-                selectedBirthDate: null,
+                selectedBirthDate: '',
                 errors: [],
                 newUser: ''
             }
@@ -112,20 +112,18 @@
                         }
                     })
                     .then(response => {
-                        window.console.log('инфо о файле');
-                        window.console.log(response.data.data);
                         this.avatarId = response.data.data.id;
-                        HTTP.post(`users?include=position,avatar_file`, {
+                        HTTP.post(`users?include=position,avatar_file,group`, {
                             email: this.selectedMail,
-                            password: 'password', //TODO хардкод
+                            password: 'password',                               //TODO хардкод
                             first_name: this.selectedFirstName,
                             last_name: this.selectedLastName,
                             phone: this.selectedPhone,
                             group_id: this.selectedGroupItem.id,
                             position_id: this.selectedPositionItem.id,
                             avatar_file_id: this.avatarId,
-                            birth_date: '2008-02-22', //TODO хардкод, разобраться как лучше передавать дату
-                            employment_date: '2008-02-22' //TODO хардкод, разобраться как лучше передавать дату
+                            birth_date: this.dateEmployment,
+                            employment_date: this.dateBirth
                         })
                             .then(response => {
                                 window.console.log('новый юзер');
@@ -157,7 +155,18 @@
                 .catch(e => {
                     this.errors.push(e)
                 });
+
         },
+        computed: {
+            dateEmployment () {
+                return this.selectedEmploymentDate ? Datepicker.methods.stringify(this.selectedEmploymentDate, 'YYYY-MM-DD') : '';
+
+            },
+            dateBirth () {
+                return this.selectedBirthDate ? Datepicker.methods.stringify(this.selectedBirthDate, 'YYYY-MM-DD') : ''
+            }
+
+        }
     }
 </script>
 

@@ -118,6 +118,12 @@
         props: {
             user: {
                 required: true
+            },
+            positionOptions: {
+                required: true
+            },
+            groupOptions: {
+                required: true
             }
         },
         data() {
@@ -133,10 +139,8 @@
                 dateFormat: 'yyyy MM dd',
                 selectedGroup: this.user.relations.group.data.name,
                 selectedGroupItem: '',
-                groupOptions: null,
                 selectedPosition: this.user.relations.position.data.name,
                 selectedPositionItem: null,
-                positionOptions: null,
                 selectedFirstName: this.user.first_name,
                 selectedLastName: this.user.last_name,
                 selectedMail: this.user.email,
@@ -201,8 +205,8 @@
                                 group_id: this.selectedGroupItem.id,
                                 position_id: this.selectedPositionItem.id,
                                 avatar_file_id: this.avatarId,
-                                birth_date: '2008-02-22', //TODO хардкод, разобраться как лучше передавать дату
-                                employment_date: '2008-02-22' //TODO хардкод, разобраться как лучше передавать дату
+                                birth_date: this.dateEmployment,
+                                employment_date: this.dateBirth
                             })
                                 .then(response => {
                                     window.console.log('отредактированный юзер юзер', response.data);
@@ -228,9 +232,8 @@
                     phone: this.selectedPhone,
                     group_id: this.selectedGroupItem.id,
                     position_id: this.selectedPositionItem.id,
-                    // avatar_file_id: this.avatarId,
-                    birth_date: '2008-02-22', //TODO хардкод, разобраться как лучше передавать дату
-                    employment_date: '2008-02-22' //TODO хардкод, разобраться как лучше передавать дату
+                    birth_date: this.dateEmployment,
+                    employment_date: this.dateBirth
                 })
                     .then(response => {
                         window.console.log('отредактированный юзер юзер', response.data);
@@ -247,21 +250,17 @@
             this.dateInAvito = date.substring(5, 10).replace("-", ".");
             let d = this.user.birth_date;
             this.birthDate = d.substring(5, 10).replace("-", ".");
-            HTTP.get(`positions`)
-                .then(response => {
-                    this.positionOptions = response.data.data;
-                })
-                .catch(e => {
-                    this.errors.push(e)
-                });
-            HTTP.get(`groups`)
-                .then(response => {
-                    this.groupOptions = response.data.data;
-                })
-                .catch(e => {
-                    this.errors.push(e)
-                });
         },
+        computed: {
+            dateEmployment () {
+                return this.selectedEmploymentDate ? Datepicker.methods.stringify(this.selectedEmploymentDate, 'YYYY-MM-DD') : '';
+
+            },
+            dateBirth () {
+                return this.selectedBirthDate ? Datepicker.methods.stringify(this.selectedBirthDate, 'YYYY-MM-DD') : ''
+            }
+
+        }
     }
 </script>
 
