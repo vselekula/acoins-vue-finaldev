@@ -55,7 +55,7 @@
             }
         },
         created: function () {
-            this.authUser = JSON.parse(window.localStorage.getItem('authUser'));
+            this.authUser = this.$auth;
             window.console.log('authUser', this.authUser);
             // this.$auth.check(function () {
             //     window.console.log('содержание auth после логина с ready');
