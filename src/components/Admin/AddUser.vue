@@ -22,7 +22,7 @@
                               label-class="text-sm-right"
                               label-for="nestedPosition">
                     <select v-model="selectedGroup" @change="changeGroup">
-                        <option v-for="group in groupOptions" :key="group.id">
+                        <option v-for="group in groupsList" :key="group.id">
                             {{ group.name }}
                         </option>
                     </select>
@@ -31,7 +31,7 @@
                               label-class="text-sm-right"
                               label-for="nestedPosition">
                     <select v-model="selectedPosition" @change="changePosition">
-                        <option v-for="option in positionOptions" :key="option.id">
+                        <option v-for="option in positionList" :key="option.id">
                             {{ option.name }}
                         </option>
                     </select>
@@ -43,11 +43,13 @@
                 </b-form-group>
                 <b-form-group horizontal label="устройство на работу:"
                               label-class="text-sm-right">
-                    <Datepicker format="YYYY-MM-DD" lang="en" v-model="selectedEmploymentDate" name="employmentdate" @change="changedEmployment"></Datepicker>
+                    <Datepicker format="YYYY-MM-DD" lang="en" v-model="selectedEmploymentDate" name="employmentdate"
+                                @change="changedEmployment"></Datepicker>
                 </b-form-group>
                 <b-form-group horizontal label="рождение:"
                               label-class="text-sm-right">
-                    <Datepicker format="YYYY-MM-DD" lang="en" v-model="selectedBirthDate" name="birthdaydate" :typeable="true"></Datepicker>
+                    <Datepicker format="YYYY-MM-DD" lang="en" v-model="selectedBirthDate" name="birthdaydate"
+                                :typeable="true"></Datepicker>
                 </b-form-group>
                 <b-form-group horizontal label="фото:"
                               label-class="text-sm-right">
@@ -60,7 +62,7 @@
 </template>
 
 <script>
-    import {HTTP} from '../../data/common'
+    // import {HTTP} from '../../data/common'
     import Datepicker from 'vue2-datepicker';
 
     export default {
@@ -94,79 +96,52 @@
         },
         methods: {
             changedEmployment() {
-              window.console.log(this.selectedEmploymentDate)
+                window.console.log(this.selectedEmploymentDate)
             },
             changeGroup() {
-                this.selectedGroupItem = this.groupOptions.find(obj => obj.name === this.selectedGroup);
+                this.selectedGroupItem = this.groupsList.find(obj => obj.name === this.selectedGroup);
             },
             changePosition() {
-                this.selectedPositionItem = this.positionOptions.find(obj => obj.name === this.selectedPosition);
+                this.selectedPositionItem = this.positionList.find(obj => obj.name === this.selectedPosition);
             },
             addUser() {
                 let formData = new FormData();
                 formData.append('file', this.file);
-                HTTP.post(`files`, formData,
-                    {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    })
-                    .then(response => {
-                        this.avatarId = response.data.data.id;
-                        HTTP.post(`users?include=position,avatar_file,group`, {
-                            email: this.selectedMail,
-                            password: 'password',                               //TODO хардкод
-                            first_name: this.selectedFirstName,
-                            last_name: this.selectedLastName,
-                            phone: this.selectedPhone,
-                            group_id: this.selectedGroupItem.id,
-                            position_id: this.selectedPositionItem.id,
-                            avatar_file_id: this.avatarId,
-                            birth_date: this.dateEmployment,
-                            employment_date: this.dateBirth
-                        })
-                            .then(response => {
-                                window.console.log('новый юзер');
-                                window.console.log(response.data);
-                                this.newUser = response.data.data;
-                                this.$emit('PostedNewUser', this.newUser);
-                            })
-                            .catch(e => {
-                                window.console.log(e);
-                            })
-                    })
-                    .catch(e => {
-                        window.console.log(e);
-                    });
+                let newUserData = {
+                    email: this.selectedMail,
+                    password: 'password',                               //TODO хардкод
+                    first_name: this.selectedFirstName,
+                    last_name: this.selectedLastName,
+                    phone: this.selectedPhone,
+                    group_id: this.selectedGroupItem.id,
+                    position_id: this.selectedPositionItem.id,
+                    avatar_file_id: this.avatarId,
+                    birth_date: this.dateEmployment,
+                    employment_date: this.dateBirth
+                };
+                window.console.log('залит файл', newUserData);
+                window.console.log('данные о новом сотруднике', newUserData);
+                this.$store.dispatch('ADD_USER_W_AVATAR', {userData: newUserData, file: formData});
             }
         },
         created: function () {
-            HTTP.get(`positions`)
-                .then(response => {
-                    this.positionOptions = response.data.data;
-                })
-                .catch(e => {
-                    this.errors.push(e)
-                });
-            HTTP.get(`groups`)
-                .then(response => {
-                    this.groupOptions = response.data.data;
-                })
-                .catch(e => {
-                    this.errors.push(e)
-                });
-
         },
         computed: {
-            dateEmployment () {
+            dateEmployment() {
                 return this.selectedEmploymentDate ? Datepicker.methods.stringify(this.selectedEmploymentDate, 'YYYY-MM-DD') : '';
 
             },
-            dateBirth () {
+            dateBirth() {
                 return this.selectedBirthDate ? Datepicker.methods.stringify(this.selectedBirthDate, 'YYYY-MM-DD') : ''
+            },
+            positionList() {
+                return this.$store.getters.POSITIONS
+            },
+            groupsList() {
+                return this.$store.getters.GROUPS
             }
-
         }
+
     }
 </script>
 

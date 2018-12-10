@@ -2,8 +2,7 @@
     <div class=" profile-wrapper mb-4">
         <div class="row d-flex align-items-center profile">
             <div>
-                <img :src="'http://192.168.99.100:8000/' + user.relations.avatar_file.data.full_path"
-                     rounded="circle" blank blank-color="#fff" alt="left img"
+                <img :src="'http://192.168.99.100:8000' + user.relations.avatar_file.data.full_path" rounded="circle" blank blank-color="#fff" alt="left img"
                      class="rounded-circle avatar"/>
             </div>
             <div class="col">
@@ -26,11 +25,11 @@
                     <div class="col flex-column">
                         <div class="user_inAvito">
                             <Account-Circle fillColor="rgba(0, 123, 255, 0.9)"/>
-                            {{ dateInAvito }}
+                            {{ user.employment_date }}
                         </div>
                         <div class="user_HB">
                             <Cake fillColor="rgba(0, 123, 255, 0.9)"/>
-                            {{ birthDate }}
+                            {{ user.birth_date }}
                         </div>
                     </div>
                 </div>
@@ -43,7 +42,8 @@
                         <font-awesome-icon icon="heart" size="sm"/>
                         <p>100</p></div>
                     <button @click="DEL_USER(user.id)" class="btn btn-danger">X</button>
-                    <button @click="editUser" class="btn btn-warning">/</button>
+                    <button @click="modalShow = !modalShow" class="btn btn-warning">/</button>
+                    <button @click="modalAvaShow = !modalAvaShow" class="btn btn-light">0</button>
                 </div>
             </div>
         </div>
@@ -67,8 +67,8 @@
                 <b-form-group horizontal label="Группа:"
                               label-class="text-sm-right"
                               label-for="nestedPosition">
-                    <select v-model="selectedGroup" @change="changeGroup">
-                        <option v-for="group in groupOptions" :key="group.id">
+                    <select v-model="user.relations.group.data.name" @change="changeGroup">
+                        <option v-for="group in groupsList" :key="group.id">
                             {{ group.name }}
                         </option>
                     </select>
@@ -76,8 +76,8 @@
                 <b-form-group horizontal label="Должность:"
                               label-class="text-sm-right"
                               label-for="nestedPosition">
-                    <select v-model="selectedPosition" @change="changePosition">
-                        <option v-for="option in positionOptions" :key="option.id">
+                    <select v-model="user.relations.position.data.name" @change="changePosition">
+                        <option v-for="option in positionList" :key="option.id">
                             {{ option.name }}
                         </option>
                     </select>
@@ -89,14 +89,18 @@
                 </b-form-group>
                 <b-form-group horizontal label="устройство на работу:"
                               label-class="text-sm-right">
-                    <Datepicker format="YYYY-MM-DD" lang="en" v-model="user.employment_date" name="employmentdate"
-                                @change="changedEmployment"></Datepicker>
+                    <Datepicker format="YYYY-MM-DD" lang="en" v-model="user.employment_date"
+                                name="employmentdate"></Datepicker>
                 </b-form-group>
                 <b-form-group horizontal label="рождение:"
                               label-class="text-sm-right">
-                    <Datepicker format="YYYY-MM-DD" lang="en" v-model="user.birthDate" name="birthdaydate"
+                    <Datepicker format="YYYY-MM-DD" lang="en" v-model="user.birth_date" name="birthdaydate"
                                 :typeable="true"></Datepicker>
                 </b-form-group>
+            </b-card>
+        </b-modal>
+        <b-modal @ok="editUserAvatar" v-model="modalAvaShow" size="lg">
+            <b-card bg-variant="light">
                 <b-form-group horizontal label="фото:"
                               label-class="text-sm-right">
                     <b-form-file v-model="file" placeholder="Choose a file..."></b-form-file>
@@ -107,7 +111,6 @@
     </div>
 </template>
 <script>
-    import {HTTP} from '../../data/common'
     import Datepicker from 'vue2-datepicker';
     import {mapState, mapActions} from 'vuex'
 
@@ -118,18 +121,15 @@
         props: {
             user: {
                 required: true
-            },
-            positionOptions: {
-                required: true
-            },
-            groupOptions: {
-                required: true
             }
         },
         data() {
             return {
+                modalAvaShow: false,
+                avatar: null,
                 modalShow: false,
                 file: null,
+                editedUser: null,
                 dateFormat: 'yyyy MM dd',
                 selectedGroup: '',
                 selectedGroupItem: '',
@@ -143,112 +143,46 @@
                 'DEL_USER',
                 'EDIT_USER'
             ]),
-            changedEmployment() {
-                window.console.log(this.selectedEmploymentDate)
-            },
             changeGroup() {
                 this.selectedGroupItem = this.groupOptions.find(obj => obj.name === this.selectedGroup);
             },
             changePosition() {
                 this.selectedPositionItem = this.positionOptions.find(obj => obj.name === this.selectedPosition);
             },
-            editUser() {
-                HTTP.get(`users/` + this.user.id + '?include=avatar_file')
-                    .then(response => {
-                        this.modalShow = true;
-                        window.console.log(response.data.data);
-                        if ('avatar_file' in response.data.data.relations) {
-                            this.avatarId = response.data.data.relations.avatar_file.data.id;
-                            this.avatarExists = true
-                        }
-                        this.$emit('editUser', this.user.id);
-                    })
-                    .catch(e => {
-                        window.console.log(e);
-                    })
+            editUserAvatar() {
+                let formData = new FormData();
+                formData.append('file', this.file);
+                this.$store.dispatch('UPLOAD_AVATAR', {file: formData, userId: this.user.id});
             },
             sendEditedUser() {
-                if ('avatar_file' in this.user.relations && this.file !== null) {
-                    let formData = new FormData(); // добавление или изменение аватарки
-                    formData.append('file', this.file);
-                    HTTP.post(`files`, formData,
-                        {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        })
-                        .then(response => {
-                            this.avatarId = response.data.data.id;
-                            this.selectedGroupItem = this.groupOptions.find(obj => obj.name === this.selectedGroup);
-                            this.selectedPositionItem = this.positionOptions.find(obj => obj.name === this.selectedPosition);
-                            HTTP.patch(`users/` + this.user.id, {
-                                email: this.selectedMail,
-                                password: 'password', //TODO хардкод
-                                first_name: this.selectedFirstName,
-                                last_name: this.selectedLastName,
-                                phone: this.selectedPhone,
-                                group_id: this.selectedGroupItem.id,
-                                position_id: this.selectedPositionItem.id,
-                                avatar_file_id: this.avatarId,
-                                birth_date: this.dateEmployment,
-                                employment_date: this.dateBirth
-                            })
-                                .then(response => {
-                                    window.console.log('отредактированный юзер юзер', response.data);
-                                    this.editedUser = response.data.data;
-                                    this.$emit('editedUser', this.editedUser);
-                                })
-                                .catch(e => {
-                                    window.console.log(e);
-                                })
-                        })
-                        .catch(e => {
-                            window.console.log(e);
-                        });
-                    return
-                }
-                this.selectedGroupItem = this.groupOptions.find(obj => obj.name === this.selectedGroup);
-                this.selectedPositionItem = this.positionOptions.find(obj => obj.name === this.selectedPosition);
-                HTTP.patch(`users/` + this.user.id + '?include=avatar_file,position', {
-                    email: this.selectedMail,
-                    password: 'password', //TODO хардкод
-                    first_name: this.selectedFirstName,
-                    last_name: this.selectedLastName,
-                    phone: this.selectedPhone,
-                    group_id: this.selectedGroupItem.id,
-                    position_id: this.selectedPositionItem.id,
-                    birth_date: this.dateEmployment,
-                    employment_date: this.dateBirth
-                })
-                    .then(response => {
-                        window.console.log('отредактированный юзер юзер', response.data);
-                        this.editedUser = response.data.data;
-                        this.$emit('editedUser', this.editedUser);
-                    })
-                    .catch(e => {
-                        window.console.log(e);
-                    })
+                let userPatchData = this.user;
+                window.console.log('вся инфа которая отправляется на изменение юзера', userPatchData);
+                this.$store.dispatch('PATCH_USER', userPatchData);
+            },
+            mounted: function () {
+                this.user.employment_date.substring(5, 10).replace("-", ".");
+                this.user.birth_date.substring(5, 10).replace("-", ".");
+                this.selectedGroup = this.user.relations.group.data.name;
+                this.selectedPosition = this.user.relations.position.data.name;
             }
         },
-        created: function () {
-            let date = this.user.employment_date;
-            this.dateInAvito = date.substring(5, 10).replace("-", ".");
-            let d = this.user.birth_date;
-            this.birthDate = d.substring(5, 10).replace("-", ".");
-            this.selectedGroup = this.user.relations.group.data.name;
-            this.selectedPosition = this.user.relations.position.data.name;
-        },
         computed: {
-            ...mapState({
-                users: (state) => state.users
-            }),
+            ...
+                mapState({
+                    users: (state) => state.users
+                }),
             dateEmployment() {
-                return this.selectedEmploymentDate ? Datepicker.methods.stringify(this.selectedEmploymentDate, 'YYYY-MM-DD') : '';
+                return this.selectedEmploymentDate ? Datepicker.methods.stringify(this.user.employment_date, 'YYYY-MM-DD') : '';
             },
             dateBirth() {
-                return this.selectedBirthDate ? Datepicker.methods.stringify(this.selectedBirthDate, 'YYYY-MM-DD') : ''
+                return this.selectedBirthDate ? Datepicker.methods.stringify(this.user.birth_date, 'YYYY-MM-DD') : ''
             },
-
+            positionList() {
+                return this.$store.getters.POSITIONS
+            },
+            groupsList() {
+                return this.$store.getters.GROUPS
+            }
         }
     }
 </script>

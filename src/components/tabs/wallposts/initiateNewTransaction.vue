@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-button @click="modalShow = !modalShow">Go</b-button>
+        <b-button @click="modalShow = !modalShow">Add Transaction</b-button>
         <b-modal v-model="modalShow" size="lg">
             <b-img :src="this.user.photo" center rounded="circle" v-if="this.user !== ''" blank width="100" height="100"
                    blank-color="#eee" alt="img"

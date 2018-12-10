@@ -41,7 +41,7 @@
         data() {
             return {
                 form: {
-                    email: 'avito@avito.ru',
+                    email: 'sd@dfr.ru',
                     password: 'password'
                 },
                 token: null,
@@ -74,6 +74,8 @@
                         if (response.status === 200) {
                             HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.data.api_token;
                             window.localStorage.setItem('authUser', JSON.stringify(response.data.data));
+                            this.$store.state.isAuth = true;
+                            this.$store.commit('LOGIN_USER', response.data.data);
                             this.$router.push({name: 'home'});
                         }
                     })

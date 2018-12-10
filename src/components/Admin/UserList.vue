@@ -1,13 +1,13 @@
 <template>
     <div>
-        <add-user @PostedNewUser="postedNewUser"/>
-        <userItem v-for="user in users" :key="user.id"
-                  :user="user" :positionOptions="positionOptions" :groupOptions="groupOptions" @deletedUser="deleteUser"></userItem>
+        <add-user @PostedNewUser="postedNewUser" :positionOptions="positionList" :groupOptions="groupsList"/>
+        <userItem v-for="user in userList" :key="user.id"
+                  :user="user" :positionOptions="positionList" :groupOptions="groupsList"
+                  @deletedUser="deleteUser" @editedUser="editUser"></userItem>
     </div>
 </template>
 <script>
-    import UserItem from './userItem'
-    import {HTTP} from '../../data/common';
+    import UserItem from './userItemVuex'
     import AddUser from './AddUser'
 
     export default {
@@ -18,43 +18,38 @@
         },
         data() {
             return {
-                users: [],
-                errors: [],
-                positionOptions: null,
-                groupOptions: null
             }
         },
         methods: {
+            editUser(editedUser) {
+                window.console.log('отредактирован юзер', editedUser);
+                let i = this.userList.findIndex(obj => obj.id == editedUser.id);
+                Object.assign(this.userList[i], editedUser);
+                window.console.log('отредактированный в бд юзер', editedUser);
+            },
             postedNewUser(newUser) {
                 this.users.push(newUser)
             },
-            deleteUser(userId){
+            deleteUser(userId) {
                 let userIndex = this.users.findIndex(obj => obj.id == userId);
-                this.users.splice(userIndex , 1);
-            }
+                this.users.splice(userIndex, 1);
+            },
         },
-        created: function () {
-            HTTP.get(`users?include=position,avatar_file,boss,group`)
-                .then(response => {
-                    this.users = response.data.data;
-                })
-                .catch(e => {
-                    this.errors.push(e)
-                });
-            HTTP.get(`positions`)
-                .then(response => {
-                    this.positionOptions = response.data.data;
-                })
-                .catch(e => {
-                    this.errors.push(e)
-                });
-            HTTP.get(`groups`)
-                .then(response => {
-                    this.groupOptions = response.data.data;
-                })
-                .catch(e => {
-                    this.errors.push(e)
-                });
+        mounted: function () {
+            this.$store.dispatch('GET_USERS');
+            this.$store.dispatch('GET_POSITIONS');
+            this.$store.dispatch('GET_GROUPS');
+        },
+        computed: {
+            userList() {
+                return this.$store.getters.USERS
+            },
+            positionList() {
+                return this.$store.getters.POSITIONS
+            },
+            groupsList() {
+                return this.$store.getters.GROUPS
+            }
         }
     }
 </script>
