@@ -182,7 +182,7 @@
             },
             groupsList() {
                 return this.$store.getters.GROUPS
-            }
+            },
         }
     }
 </script>

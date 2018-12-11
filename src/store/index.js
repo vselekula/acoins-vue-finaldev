@@ -9,8 +9,6 @@ export const store = new Vuex.Store({
         users: null,
         groups: null,
         positions: null,
-        isAuth: false,
-        loggedUser: '',
     },
     getters: {
         USERS: state => {
@@ -21,7 +19,7 @@ export const store = new Vuex.Store({
         },
         GROUPS: state => {
             return state.groups;
-        }
+        },
     },
     mutations: {
         LOGIN_USER: (state, payload) => {
@@ -53,7 +51,7 @@ export const store = new Vuex.Store({
         },
         SET_GROUPS: (state, payload) => {
             state.groups = payload;
-        }
+        },
     },
     actions: {
         GET_USERS: async (context) => {
@@ -114,7 +112,7 @@ export const store = new Vuex.Store({
                         'Content-Type': 'multipart/form-data'
                     }
                 })
-                .then(response =>{
+                .then(response => {
                     let avatarId = {avatar_file_id: response.data.data.id};
                     Object.assign(userData, avatarId);
                     HTTP.post('users?include=group,position,avatar_file', userData)
@@ -122,7 +120,6 @@ export const store = new Vuex.Store({
                             context.commit('ADD_USERS', response.data.data)
                         })
                 });
-
-        }
+        },
     }
 });

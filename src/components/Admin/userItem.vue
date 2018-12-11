@@ -248,6 +248,9 @@
             dateBirth() {
                 return this.selectedBirthDate ? Datepicker.methods.stringify(this.selectedBirthDate, 'YYYY-MM-DD') : ''
             },
+            userInfo() {
+                return this.$store.getters.USER
+            },
 
         }
     }

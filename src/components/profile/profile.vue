@@ -1,8 +1,8 @@
 <template>
-    <div v-if="$store.state.isAuth" class="col-6 ml-auto mr-auto profile-wrapper">
+    <div class="col-6 ml-auto mr-auto profile-wrapper">
         <div class="row d-flex align-items-center profile">
             <div class="col">
-                <img v-if="'avatar_file' in $store.state.loggedUser.relations" :src="'http://192.168.99.100:8000' + authUser.relations.avatar_file.data.full_path" rounded="circle" blank blank-color="#fff" alt="left img"
+                <img v-if="'avatar_file' in authUser.relations" :src="'http://192.168.99.100:8000' + authUser.relations.avatar_file.data.full_path" rounded="circle" blank blank-color="#fff" alt="left img"
                      class="rounded-circle avatar"/>
             </div>
             <div class="col-7">
@@ -47,7 +47,6 @@
     </div>
 </template>
 <script>
-    // import {HTTP} from '../../data/common'
     export default {
         data() {
             return {
