@@ -42,9 +42,12 @@ export const store = new Vuex.Store({
             Object.assign(state.users[i], userPatchData);
         },
         PATCH_USER_AVATAR: (state, {userId, fileUploadResponse}) => {
-            let avatarObject = {relations: {avatar_file: {data: fileUploadResponse}}};
+            let avatarObject = fileUploadResponse;
             let i = state.users.findIndex(obj => obj.id === userId);
-            Object.assign(state.users[i], avatarObject);
+            Vue.delete(state.users[i].relations, 'avatar_file' );
+            window.console.log('из объекта удалено свойство avatar_file', state.users[i]);
+            Vue.set(state.users[i].relations, 'avatar_file', avatarObject.relations.avatar_file);
+            window.console.log('новый объект:', state.users[i])
         },
         SET_POSITIONS: (state, payload) => {
             state.positions = payload;
@@ -91,10 +94,13 @@ export const store = new Vuex.Store({
                     }
                 })
                 .then(response => {
-                    HTTP.patch('users/' + userId, {
+                    HTTP.patch('users/' + userId + '?include=avatar_file', {
                         avatar_file_id: response.data.data.id
+                    })
+                    .then(response => {
+                        window.console.log('Ответ на патч юзера', response.data.data);
+                        context.commit('PATCH_USER_AVATAR', {userId: userId, fileUploadResponse: response.data.data})
                     });
-                    context.commit('PATCH_USER_AVATAR', {userId: userId, fileUploadResponse: response.data.data})
                 })
         },
         GET_POSITIONS: async (context) => {

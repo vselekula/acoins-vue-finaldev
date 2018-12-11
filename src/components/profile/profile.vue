@@ -54,6 +54,7 @@
             }
         },
         created: function () {
+
             this.authUser = JSON.parse(window.localStorage.getItem('authUser'));
             window.console.log('authUser', this.authUser);
             // this.$auth.check(function () {
