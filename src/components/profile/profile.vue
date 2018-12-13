@@ -55,7 +55,7 @@
             }
         },
         created: function () {
-            this.authUser = this.$auth;
+            this.authUser = this.$auth.user();
             window.console.log('authUser', this.authUser);
             // this.$auth.check(function () {
             //     window.console.log('содержание auth после логина с ready');

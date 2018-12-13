@@ -44,14 +44,12 @@
         },
         methods: {
             onSubmit() {
-
                 this.$auth.login({
                     data: {
                         email: this.form.email,
                         password: this.form.password
                     },
                     redirect: '/home',
-                    fetchUser: false,
                     error: function () {
                         window.console.log('error ', this.context);
                     }
