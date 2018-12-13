@@ -2,12 +2,14 @@
     <div class="col-6 ml-auto mr-auto profile-wrapper">
         <div class="row d-flex align-items-center profile">
             <div class="col">
-                <img v-if="'avatar_file' in authUser.relations" :src="'http://192.168.99.100:8000' + authUser.relations.avatar_file.data.full_path" rounded="circle" blank blank-color="#fff" alt="left img"
+                <img v-if="'avatar_file' in authUser.relations"
+                     :src="'http://192.168.99.100:8000' + authUser.relations.avatar_file.data.full_path"
+                     rounded="circle" blank blank-color="#fff" alt="left img"
                      class="rounded-circle avatar"/>
             </div>
             <div class="col-7">
                 <div class="mb-4">
-                    <div class="user_firstName"><h3 class="mb-0"><b> {{ authUser.first_name }} {{  authUser.last_name }}</b></h3></div>
+                    <div class="user_firstName"><h3 class="mb-0"><b> {{ authUser.first_name }} {{ authUser.last_name }}</b></h3></div>
                     <div class="user_position"><h5>{{ authUser.relations.position.data.name }}</h5></div>
                 </div>
                 <div class="row">
@@ -54,16 +56,10 @@
             }
         },
         created: function () {
-
             this.authUser = JSON.parse(window.localStorage.getItem('authUser'));
             window.console.log('authUser', this.authUser);
-            // this.$auth.check(function () {
-            //     window.console.log('содержание auth после логина с ready');
-            //     window.console.log(this);
-            }
-
+        }
     }
-
 
 </script>
 

@@ -2,7 +2,7 @@
     <div class=" profile-wrapper mb-4">
         <div class="row d-flex align-items-center profile">
             <div>
-                <img v-bind:src="'http://192.168.99.100:8000' + user.relations.avatar_file.data.full_path" rounded="circle" blank blank-color="#fff" alt="left img"
+                <b-img-lazy :src="'http://192.168.99.100:8000' + user.relations.avatar_file.data.full_path" rounded="circle" blank blank-color="#fff" alt="left img"
                      class="rounded-circle avatar"/>
             </div>
             <div class="col">
