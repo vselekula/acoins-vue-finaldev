@@ -1,7 +1,7 @@
 <template>
     <div>
         <add-transaction></add-transaction>
-        <transactionItem v-for="transaction in transactionsList" :key="transaction.id"
+        <transactionItem v-for="transaction in transactionsList.slice().reverse()" :key="transaction.id"
                          :transaction="transaction"></transactionItem>
     </div>
 </template>
