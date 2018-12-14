@@ -1,15 +1,17 @@
 <template>
     <div>
-        <b-button size="md" class="btn-primary addTransaction mb-4" @click="modalShow = !modalShow">Отправить спасибо</b-button>
-        <b-modal v-model="modalShow" size="lg">
-            <img :src="'http://192.168.99.100:8000' + user.relations.avatar_file.data.full_path" center rounded="circle" v-if="this.user !== ''" blank width="100" height="100"
-                   blank-color="#eee" alt="img"
-                   class="mx-auto mb-4">
+        <b-button size="md" class="btn-primary addTransaction mb-4" @click="modalShow = !modalShow">Отправить спасибо
+        </b-button>
+        <b-modal @ok="addTransaction" v-model="modalShow" size="lg">
+            <img :src="'http://192.168.99.100:8000' + reciever.relations.avatar_file.data.full_path" center rounded="circle"
+                 v-if="this.reciever !== ''" blank width="100" height="100"
+                 blank-color="#eee" alt="img"
+                 class="mx-auto mb-4">
             <b-form inline>
                 <user-search-input @input="userIsSelected"></user-search-input>
                 <sum-input @pickedAmount="sumIsSelected"></sum-input>
                 <value-input @pickedCennost="valueIsSelected"></value-input>
-                <textarea-autosize v-model="newMessage"
+                <textarea-autosize v-model="transactionData.title"
                                    placeholder="Введите текст благодарности для получателя"
                                    class="message mt-3 px-3 py-2"></textarea-autosize>
             </b-form>
@@ -25,25 +27,34 @@
         name: "initiateNewTransaction",
         methods: {
             userIsSelected(userItem) {
-                window.console.log('выбран получатель',userItem);
-                this.user = userItem
+                window.console.log('выбран получатель', userItem);
+                this.reciever = userItem;
+                this.transactionData.to_user_id = userItem.id
             },
             sumIsSelected(sum) {
-                window.console.log('выбрана сумма',sum);
-                this.sum = sum
+                window.console.log('выбрана сумма', sum);
+                this.transactionData.sum = sum.value
             },
             valueIsSelected(value) {
                 window.console.log('выбрана ценность', value);
-                this.value = value
+                this.transactionData.value_id = value.id
+            },
+            addTransaction() {
+                this.$store.dispatch('ADD_TRANSACTION', this.transactionData)
             }
         },
         data() {
             return {
+                transactionData: {
+                    from_user_id: null,
+                    to_user_id: '',
+                    sum: '',
+                    value_id: '',
+                    title: '',
+                },
+                authUser: null,
+                reciever: '',
                 modalShow: false,
-                user: '',
-                sum: '',
-                value: '',
-                newMessage: '',
                 showReciever: false
             }
         },
@@ -51,6 +62,10 @@
             sumInput,
             valueInput,
             userSearchInput
+        },
+        mounted: function () {
+                this.authUser = JSON.parse(window.localStorage.getItem('authUser'));
+                this.transactionData.from_user_id = this.authUser.id
         }
     }
 
@@ -70,6 +85,7 @@
     .dropdown-toggle::after {
         visibility: hidden;
     }
+
     .addTransaction {
         width: 100%;
     }

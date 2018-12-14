@@ -90,7 +90,7 @@ export const store = new Vuex.Store({
         SET_GROUPS: (state, payload) => {
             state.groups = payload;
         },
-        SET_VALUES:(state, payload) => {
+        SET_VALUES: (state, payload) => {
             state.values = payload;
         },
         SET_TRANSACTIONS: (state, payload) => {
@@ -99,6 +99,10 @@ export const store = new Vuex.Store({
         ADD_MESSAGE: (state, {postMessageResponse, transactionId}) => {
             let i = state.transactions.findIndex(obj => obj.id === transactionId);
             state.transactions[i].relations.messages.data.push(postMessageResponse);
+        },
+        ADD_TRANSACTION: (state, transactionData) => {
+            window.console.log('добавляется транзакция', transactionData);
+            state.transactions.push(transactionData.data)
         }
     },
     actions: {
@@ -194,6 +198,16 @@ export const store = new Vuex.Store({
                 transactionId: transactionData.transaction_id
             })
         },
+        ADD_TRANSACTION: async (context, transactionData) => {
+            let {data} = await HTTP.post('transactions?include=from_user.avatar_file,to_user.avatar_file,value', {
+                sum: transactionData.sum,
+                from_user_id: transactionData.from_user_id,
+                to_user_id: transactionData.to_user_id,
+                title: transactionData.title,
+                value_id: transactionData.value_id
+            });
+            context.commit('ADD_TRANSACTION', data)
+        },
         AUTH_REQUEST: ({commit}, user) => {
             return new Promise((resolve, reject) => {
                 commit('AUTH_REQUEST');
@@ -223,18 +237,5 @@ export const store = new Vuex.Store({
                 resolve()
             })
         },
-        // USER_REQUEST: ({commit, dispatch}, {respo, token}) => {
-        //     commit('USER_REQUEST');
-        //     HTTP({url: 'user', data: token, method: 'GET'})
-        //         .then(resp => {
-        //             window.localStorage.setItem('authUser', JSON.stringify(resp.data.data));
-        //             commit('USER_SUCCESS', resp)
-        //         })
-        //         .catch(resp => {
-        //             commit('USER_ERROR');
-        //             if resp is unauthorized, logout, to
-                    // dispatch('AUTH_LOGOUT')
-                // })
-        // },
     }
 })
