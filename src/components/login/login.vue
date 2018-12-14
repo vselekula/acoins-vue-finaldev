@@ -1,11 +1,11 @@
 <template>
     <div class="col-4 mx-auto my-auto">
-        <b-form @submit.prevent="onSubmit()" v-if="show" class="loginForm p-4">
+        <b-form @submit.prevent="login()" v-if="show" class="loginForm p-4">
             <b-form-group id="exampleInputGroup1"
                           label-for="exampleInput1">
                 <b-form-input id="exampleInput1"
                               type="email"
-                              v-model="form.email"
+                              v-model="email"
                               required
                               placeholder="email">test@test.com
                 </b-form-input>
@@ -13,7 +13,7 @@
             <b-form-group label-for="passwordInput">
                 <b-form-input type="password"
                               required
-                              v-model="form.password"
+                              v-model="password"
                               class="form-control"
                               id="passwordInput"
                               placeholder="password">password
@@ -33,17 +33,16 @@
     import axios from 'axios';
     import VueAxios from 'vue-axios';
     import VueRouter from 'vue-router'
-    import {HTTP} from '../../data/common'
+    // import {HTTP} from '../../data/common'
+
     Vue.use(VueAxios, axios, VueRouter);
 
     export default {
         name: "loginPage",
         data() {
             return {
-                form: {
-                    email: 'sd@dfr.ru',
-                    password: 'password'
-                },
+                email: 'phyllis.mclaughlin@gmail.com',
+                password: 'password',
                 token: null,
                 show: true,
                 errors: [],
@@ -51,6 +50,12 @@
             }
         },
         methods: {
+            login: function () {
+                const {email, password} = this;
+                this.$store.dispatch('AUTH_REQUEST', {email, password}).then(() => {
+                    this.$router.push('/home')
+                })
+            },
             onSubmit() {
                 // window.console.log(this.$auth);
                 // this.$auth.login({
@@ -66,20 +71,22 @@
                 //     }), (res) => {
                 //         window.console.log('error ', this.context);
                 //         this.errors = res.data;
-                HTTP.post(`login?include=avatar_file,boss,position`, {
-                    email: this.form.email,
-                    password: this.form.password
-                })
-                    .then(response => {
-                        if (response.status === 200) {
-                            HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.data.api_token;
-                            window.localStorage.setItem('authUser', JSON.stringify(response.data.data));
-                            this.$router.push({name: 'home'});
-                        }
-                    })
-                    .catch(e => {
-                        this.errors.push(e)
-                    });
+
+
+                // HTTP.post(`login?include=avatar_file,boss,position`, {
+                //     email: this.form.email,
+                //     password: this.form.password
+                // })
+                //     .then(response => {
+                //         if (response.status === 200) {
+                //             HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.data.api_token;
+                //             window.localStorage.setItem('authUser', JSON.stringify(response.data.data));
+                //             this.$router.push({name: 'home'});
+                //         }
+                //     })
+                //     .catch(e => {
+                //         this.errors.push(e)
+                //     });
 
             }
         }

@@ -1,5 +1,5 @@
 <template>
-    <vueSelect label="name" v-model="selectedValue" :options="values" placeholder="Ценность" @change="changedValue">
+    <vueSelect label="name" v-model="selectedValue" :options="valuesList" placeholder="Ценность" @input="changedValue">
     </vueSelect>
 </template>
 <script>
@@ -31,6 +31,14 @@
                 .catch(e => {
                     this.errors.push(e)
                 });
+        },
+        mounted: function() {
+            this.$store.dispatch('GET_VALUES');
+        },
+        computed: {
+            valuesList() {
+                return this.$store.getters.VALUES
+            }
         }
     }
 </script>

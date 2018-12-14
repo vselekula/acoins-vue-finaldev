@@ -1,5 +1,5 @@
 <template>
-    <v-autocomplete label="first_name" v-model="user" :filterable="false" :options="options" @search="onSearch">
+    <v-autocomplete label="first_name" v-model="user" :filterable="false" @input="setUser" :options="options" placeholder="Кому?" @search="onSearch">
         <template slot="no-options">
             поиск по сотрудникам ASD
         </template>
@@ -39,10 +39,9 @@
             }
         },
         methods: {
-            // onChange(){
-            //     window.console.log(this.user);
-            //     this.user.$emit('pickedReciever', this.user)
-            // },
+            setUser(val) {
+              this.$emit('input', val)
+            },
             onSearch(search, loading) {
                 loading(true);
                 this.search(loading, search, this);
@@ -56,7 +55,10 @@
                     .catch(e => {
                         window.console.log(e)
                     });
-            }, 350)
+            }, 350),
+            // changeUser(val){
+            //  this.$emit('input', val);
+            // }
         }
     }
 </script>

@@ -1,23 +1,21 @@
 <template>
     <div>
-        <b-button @click="modalShow = !modalShow">Add Transaction</b-button>
+        <b-button size="md" class="btn-primary addTransaction mb-4" @click="modalShow = !modalShow">Отправить спасибо</b-button>
         <b-modal v-model="modalShow" size="lg">
-            <b-img :src="this.user.photo" center rounded="circle" v-if="this.user !== ''" blank width="100" height="100"
+            <img :src="'http://192.168.99.100:8000' + user.relations.avatar_file.data.full_path" center rounded="circle" v-if="this.user !== ''" blank width="100" height="100"
                    blank-color="#eee" alt="img"
-                   class="mx-auto mb-4"/>
+                   class="mx-auto mb-4">
             <b-form inline>
-                <user-search-input @input="this.user = $event"></user-search-input>
-                <sum-input @pickedAmount="this.sum = $event"></sum-input>
-                <value-input @pickedCennost="this.value = $event"></value-input>
+                <user-search-input @input="userIsSelected"></user-search-input>
+                <sum-input @pickedAmount="sumIsSelected"></sum-input>
+                <value-input @pickedCennost="valueIsSelected"></value-input>
                 <textarea-autosize v-model="newMessage"
                                    placeholder="Введите текст благодарности для получателя"
                                    class="message mt-3 px-3 py-2"></textarea-autosize>
             </b-form>
         </b-modal>
     </div>
-
 </template>
-
 <script>
     import sumInput from '../../transactionForm/AmountDropdown'
     import valueInput from '../../transactionForm/CennostDropdown'
@@ -26,8 +24,17 @@
     export default {
         name: "initiateNewTransaction",
         methods: {
-            pickedReciever(userItem) {
-                window.console.log(userItem)
+            userIsSelected(userItem) {
+                window.console.log('выбран получатель',userItem);
+                this.user = userItem
+            },
+            sumIsSelected(sum) {
+                window.console.log('выбрана сумма',sum);
+                this.sum = sum
+            },
+            valueIsSelected(value) {
+                window.console.log('выбрана ценность', value);
+                this.value = value
             }
         },
         data() {
@@ -62,5 +69,8 @@
 <style>
     .dropdown-toggle::after {
         visibility: hidden;
+    }
+    .addTransaction {
+        width: 100%;
     }
 </style>

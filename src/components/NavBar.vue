@@ -6,34 +6,46 @@
             <b-collapse is-nav id="nav_collapse">
 
                 <b-navbar-nav class="ml-auto">
-                    <test-dropdown />
-                    <TestDropdownValues />
+                    <div class="btn-danger" @click="logout">logout</div>
+                    <!--<test-dropdown/>-->
+                    <!--<TestDropdownValues/>-->
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
     </div>
 </template>
 <script>
-import dropdownSum from '../components/transactionForm/iconDropdownAmount'
-import dropdownValues from '../components/transactionForm/iconDropdownValues'
-export default {
-  components: {
-      TestDropdown: dropdownSum,
-      TestDropdownValues: dropdownValues
-  }
-};
+    // import dropdownSum from '../components/transactionForm/iconDropdownAmount'
+    // import dropdownValues from '../components/transactionForm/iconDropdownValues'
+
+    export default {
+        components: {
+            // TestDropdown: dropdownSum,
+            // TestDropdownValues: dropdownValues
+        },
+        methods: {
+            logout: function () {
+                this.$store.dispatch('AUTH_LOGOUT')
+            .then(() => {
+                    this.$router.push('/login')
+                })
+            }
+        }
+    };
 
 
 </script>
 
 <style scoped>
-.card-wrapper {
-  background-color: #eee;
-}
-h1 {
-  color: #42b983;
-}
-.title {
-  width: 100px;
-}
+    .card-wrapper {
+        background-color: #eee;
+    }
+
+    h1 {
+        color: #42b983;
+    }
+
+    .title {
+        width: 100px;
+    }
 </style>

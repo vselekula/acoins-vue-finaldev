@@ -6,9 +6,9 @@
     </div>
 </template>
 <script>
-    import addTransaction from '../wallposts/wallPostItem2';
+    // import addTransaction from '../wallposts/wallPostItem2';
     import transactionItem from '../wallposts/wallPostItem';
-
+    import addTransaction from '../wallposts/initiateNewTransaction'
     export default {
         data() {
             return {

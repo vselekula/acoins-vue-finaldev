@@ -3,7 +3,7 @@
         <div class="transaction-item_info mx-4">
             <div class="transactionHeadline row m-0 my-2">
                 <div>
-                    <img src="../../../assets/avatars/aklochkova.png" width="50" height="50" alt="..."
+                    <img :src="'http://192.168.99.100:8000' + transaction.relations.from_user.data.relations.avatar_file.data.full_path" width="50" height="50" alt="..."
                          class="rounded-circle">
                 </div>
                 <div class="sum d-flex flex-grow-1 flex-row ml-3">

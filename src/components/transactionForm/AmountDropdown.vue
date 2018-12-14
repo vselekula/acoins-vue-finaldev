@@ -1,5 +1,5 @@
 <template>
-    <vueSelect label="value" v-model="selectedSum" :options="sums" @change="changedSum" placeholder="Сумма">
+    <vueSelect label="value" v-model="selectedSum" :options="sums" @input="changedSum" placeholder="Сумма">
     </vueSelect>
 </template>
 <script>
@@ -21,7 +21,7 @@
             changedSum() {
                 // this.sum = this.sums.find(obj => obj.text == this.selectedSum);
                 // window.console.log('ffff' + this.sum);
-                this.$emit('pickedAmount', this.sum)
+                this.$emit('pickedAmount', this.selectedSum)
             }
         }
     }

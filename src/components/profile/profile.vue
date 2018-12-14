@@ -2,8 +2,7 @@
     <div class="col-6 ml-auto mr-auto profile-wrapper">
         <div class="row d-flex align-items-center profile">
             <div class="col">
-                <img v-if="'avatar_file' in authUser.relations"
-                     :src="'http://192.168.99.100:8000' + authUser.relations.avatar_file.data.full_path"
+                <img :src="'http://192.168.99.100:8000' + authUser.relations.avatar_file.data.full_path"
                      rounded="circle" blank blank-color="#fff" alt="left img"
                      class="rounded-circle avatar"/>
             </div>
