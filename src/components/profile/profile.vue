@@ -38,10 +38,10 @@
                 <div class="row">
                     <div class="col user_moneyAmount">
                         <font-awesome-icon icon="wallet" size="3x"/>
-                        <h3>1300</h3></div>
+                        <h3>{{ authUser.purchase_balance }}</h3></div>
                     <div class="col user_likesAmount">
                         <font-awesome-icon icon="heart" size="3x"/>
-                        <h3>100</h3></div>
+                        <h3>{{ authUser.donation_balance }}</h3></div>
                 </div>
             </div>
         </div>

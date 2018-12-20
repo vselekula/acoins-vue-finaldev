@@ -9,6 +9,9 @@
                 <b-tab title="Money">
                     <initiate-button></initiate-button>
                 </b-tab>
+                <b-tab title="Shop">
+                    <shoplist></shoplist>
+                </b-tab>
             </b-tabs>
         </b-card>
     </div>
@@ -18,10 +21,11 @@
     import UserList from "./UserList";
     import initiateButton from '../tabs/wallposts/initiateNewTransaction';
     import NavBar from "../NavBar"
-
+    import Shoplist from "./shoplist";
     export default {
         name: "mainAdmin",
         components: {
+            Shoplist,
             UserList,
             initiateButton,
             NavBar

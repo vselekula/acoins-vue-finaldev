@@ -89,7 +89,7 @@
         },
         computed: {
             messages: function () {
-                if ('messages' in this.transaction) {
+                if (typeof this.transaction.messages != undefined) {
                     return this.transaction.relations.messages.data;
                 }
             },

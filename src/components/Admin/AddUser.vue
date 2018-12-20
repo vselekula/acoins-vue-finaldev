@@ -129,7 +129,6 @@
         computed: {
             dateEmployment() {
                 return this.selectedEmploymentDate ? Datepicker.methods.stringify(this.selectedEmploymentDate, 'YYYY-MM-DD') : '';
-
             },
             dateBirth() {
                 return this.selectedBirthDate ? Datepicker.methods.stringify(this.selectedBirthDate, 'YYYY-MM-DD') : ''

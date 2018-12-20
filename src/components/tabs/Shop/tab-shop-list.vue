@@ -1,45 +1,40 @@
 <template>
     <div class="d-flex flex-wrap">
-        <shopItem v-for="product in products.data" :key="product.id" :product="product" ></shopItem>
+        <shopItem v-for="product in goodsList" :key="product.id" :product="product"></shopItem>
     </div>
 </template>
 
 <script>
-    
-// import shopData from '../../../data/shopData.js';
-import shopItem from '../Shop/shopItem';
-import {HTTP} from '../../../data/common.js';
 
-export default {
-    data() {
-        return{
-            // products: shopData,
-            products: [],
-            errors: []
-        }
-    },
-    components: {
-        // shopData,
-        shopItem
-    },
-    created: function(){
-            HTTP.get(`goods`)
-        .then(response => {
-            this.products = response.data;
-        })
-        .catch(e => {
-            this.errors.push(e)
-        })
+    import shopItem from '../Shop/shopItem';
+
+    export default {
+        data() {
+            return {
+                errors: []
+            }
+        },
+        components: {
+            shopItem
+        },
+        computed: {
+            goodsList() {
+                return this.$store.getters.GOODS
+            },
+        },
+        mounted: function () {
+            this.$store.dispatch('GET_GOODS');
+        },
     }
-}
 
-</script>  
+</script>
 <style scoped>
-.shopItemWrapper {
-    display: flex;
-    flex-wrap: wrap;
-}
-#shop-tab{
-    padding: none;
-}
+    .shopItemWrapper {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    #shop-tab {
+        padding: none;
+    }
 </style>

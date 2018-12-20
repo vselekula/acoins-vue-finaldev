@@ -13,13 +13,17 @@ export const store = new Vuex.Store({
         token: localStorage.getItem('user-token') || '',
         status: '',
         values: null,
-        sums: null
+        sums: null,
+        goods: null,
     },
     getters: {
         isAuthenticated: state => !!state.token,
         authStatus: state => state.status,
         USERS: state => {
             return state.users;
+        },
+        GOODS: state => {
+            return state.goods;
         },
         VALUES: state => {
             return state.values;
@@ -64,13 +68,24 @@ export const store = new Vuex.Store({
         SET_USERS: (state, payload) => {
             state.users = payload;
         },
+        SET_GOODS: (state, payload) => {
+            state.goods = payload;
+        },
         ADD_USERS: (state, userData) => {
             window.console.log('прям вот щас добавится в основной массив', userData);
             state.users.push(userData)
         },
+        ADD_GOODS: (state, productData) => {
+            window.console.log('прям вот щас добавится в основной массив', productData);
+            state.goods.push(productData)
+        },
         DEL_USER: (state, userId) => {
             let userIndex = state.users.findIndex(obj => obj.id === userId);
             state.users.splice(userIndex, 1);
+        },
+        DEL_GOODS: (state, productId) => {
+            let productIndex = state.goods.findIndex(obj => obj.id === productId);
+            state.goods.splice(productIndex, 1)
         },
         PATCH_USER: (state, userPatchData) => {
             window.console.log('вот это', userPatchData);
@@ -79,10 +94,24 @@ export const store = new Vuex.Store({
             Vue.set(state.users[i], userPatchData);
             window.console.log('слитый объект', state.users[i]);
         },
+        PATCH_GOODS: (state, goodsPatchData) => {
+            window.console.log('мутирует хранилище товаров', goodsPatchData);
+            let i = state.goods.findIndex(obj => obj.id === goodsPatchData.id);
+            window.console.log('будет мутировать вооот этот товар', state.goods[i]);
+            Vue.set(state.goods[i], goodsPatchData);
+            window.console.log('ну вот он и мутировал', state.goods[i]);
+        },
         PATCH_USER_AVATAR: (state, {userId, fileUploadResponse}) => {
             let avatarObject = fileUploadResponse;
             let i = state.users.findIndex(obj => obj.id === userId);
             Vue.set(state.users[i].relations, 'avatar_file', avatarObject.relations.avatar_file);
+        },
+        PATCH_GOODS_IMG: (state, {productId, fileUploadResponse}) => {
+            let imgObject = fileUploadResponse;
+            window.console.log(imgObject);
+            let i = state.goods.findIndex(obj => obj.id === productId);
+            window.console.log('найден объект', state.goods[i]);
+            Vue.set(state.goods[i].relations, 'image_file', imgObject.relations.image_file);
         },
         SET_POSITIONS: (state, payload) => {
             state.positions = payload;
@@ -110,12 +139,19 @@ export const store = new Vuex.Store({
             let {data} = await HTTP.get('users?include=position,avatar_file,boss,group');
             context.commit('SET_USERS', data.data)
         },
+        GET_GOODS: async (context) => {
+            let {data} = await HTTP.get('goods?include=image_file');
+            context.commit('SET_GOODS', data.data)
+        },
         DEL_USER: async ({commit}, userId) => {
             await HTTP.delete('users/' + userId);
             commit('DEL_USER', userId)
         },
+        DEL_GOODS: async ({commit}, productId) => {
+            await HTTP.delete('goods/' + productId);
+            commit('DEL_GOODS', productId)
+        },
         PATCH_USER: async (context, userPatchData) => {
-            // Vue.delete(userPatchData, 'relations');
             window.console.log('юзер до патча', userPatchData);
             await HTTP.patch('users/' + userPatchData.id + '?include=avatar_file', {
                 id: userPatchData.id,
@@ -133,6 +169,20 @@ export const store = new Vuex.Store({
                 .then(response => {
                     window.console.log('изменен юзер', response.data.data);
                     context.commit('PATCH_USER', response.data.data)
+                })
+        },
+        PATCH_GOODS: async (context, goodsPatchData) => {
+            window.console.log('Получены данные о редактировании товара', goodsPatchData);
+            await HTTP.patch('goods/' + goodsPatchData.id + '?include=image_file', {
+                id: goodsPatchData.id,
+                name: goodsPatchData.name,
+                description: goodsPatchData.description,
+                image_file_id: goodsPatchData.image_file_id,
+                price: goodsPatchData.price
+            })
+                .then(response => {
+                    window.console.log('Получен ответ от сервера после patch товара', response.data.data);
+                    context.commit('PATCH_GOODS', response.data.data);
                 })
         },
         UPLOAD_AVATAR: async (context, {file, userId}) => {
@@ -153,6 +203,25 @@ export const store = new Vuex.Store({
                                 fileUploadResponse: response.data.data
                             })
                         });
+                })
+        },
+        UPLOAD_GOODS_IMG: async (context, {file, productId}) => {
+            await HTTP.post('files', file, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then(response => {
+                    HTTP.patch('goods/' + productId + '?include=image_file', {
+                        image_file_id: response.data.data.id
+                    })
+                        .then(response => {
+                            window.console.log('Получен ответ patch goods img', response.data.data);
+                            context.commit('PATCH_GOODS_IMG', {
+                                productId: productId,
+                                fileUploadResponse: response.data.data
+                            })
+                        })
                 })
         },
         GET_POSITIONS: async (context) => {
@@ -184,6 +253,21 @@ export const store = new Vuex.Store({
                     HTTP.post('users?include=group,position,avatar_file', userData)
                         .then(response => {
                             context.commit('ADD_USERS', response.data.data)
+                        })
+                });
+        },
+        ADD_GOODS: async (context, {productData, file}) => {
+            HTTP.post('files', file, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then(response => {
+                    let imageId = {image_file_id: response.data.data.id};
+                    Object.assign(productData, imageId);
+                    HTTP.post('goods?include=image_file', productData)
+                        .then(response => {
+                            context.commit('ADD_GOODS', response.data.data)
                         })
                 });
         },

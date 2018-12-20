@@ -15,14 +15,19 @@
                 selectedSum: 'Сумма',
                 sums: sums,
                 sum: '',
+                authUser: null
             }
         },
         methods: {
             changedSum() {
-                // this.sum = this.sums.find(obj => obj.text == this.selectedSum);
-                // window.console.log('ffff' + this.sum);
-                this.$emit('pickedAmount', this.selectedSum)
+                if(this.authUser.donation_balance > 0 && this.authUser.donation_balance - this.selectedSum.value >= 0){
+                    this.$emit('pickedAmount', this.selectedSum)
+                }
+                window.console.log('недостаточно денег братан')
             }
+        },
+        mounted: function () {
+            this.authUser = JSON.parse(window.localStorage.getItem('authUser'));
         }
     }
 </script>

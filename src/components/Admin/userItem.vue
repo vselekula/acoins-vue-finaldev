@@ -159,7 +159,6 @@
                         window.console.log(response.data.data);
                         if ('avatar_file' in response.data.data.relations) {
                             this.avatarId = response.data.data.relations.avatar_file.data.id;
-                            this.avatarExists = true
                         }
                         this.$emit('editUser', this.user.id);
                     })

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <add-user @PostedNewUser="postedNewUser" :positionOptions="positionList" :groupOptions="groupsList"/>
+        <add-user  :positionOptions="positionList" :groupOptions="groupsList"/>
         <userItem v-for="user in userList" :key="user.id"
                   :user="user" :positionOptions="positionList" :groupOptions="groupsList"
                   @deletedUser="deleteUser" @editedUser="editUser"></userItem>
@@ -27,9 +27,9 @@
                 Object.assign(this.userList[i], editedUser);
                 window.console.log('отредактированный в бд юзер', editedUser);
             },
-            postedNewUser(newUser) {
-                this.users.push(newUser)
-            },
+            // postedNewUser(newUser) {
+            //     this.users.push(newUser)
+            // },
             deleteUser(userId) {
                 let userIndex = this.users.findIndex(obj => obj.id == userId);
                 this.users.splice(userIndex, 1);
