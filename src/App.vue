@@ -17,27 +17,26 @@
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
     import {HTTP} from './data/common'
 
-    let item = window.localStorage.getItem('authUser');
-    if(item){
+    let item = window.localStorage.getItem('user');
+    if (item) {
         // window.console.log('user' + item);
         let json = JSON.parse(item);
         HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + json.api_token;
     }
 
-    library.add(faUsers, faBirthdayCake, faEnvelope, faPhone, faHeart, faWallet)
-    Vue.component('font-awesome-icon', FontAwesomeIcon)
-    Vue.component("Account-Circle", AccountCircle)
-    Vue.component("Cake", Cake)
-    Vue.component("Email", Email)
-    Vue.component("Phone", Phone)
-    Vue.component("Del", Del)
-    Vue.use(VueTextareaAutosize)
+    library.add(faUsers, faBirthdayCake, faEnvelope, faPhone, faHeart, faWallet);
+    Vue.component('font-awesome-icon', FontAwesomeIcon);
+    Vue.component("Account-Circle", AccountCircle);
+    Vue.component("Cake", Cake);
+    Vue.component("Email", Email);
+    Vue.component("Phone", Phone);
+    Vue.component("Del", Del);
+    Vue.use(VueTextareaAutosize);
 
-    Vue.config.productionTip = false
+    Vue.config.productionTip = false;
     export default {
         name: "app",
-        components: {
-        }
+        components: {}
     };
 
 

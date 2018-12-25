@@ -2,34 +2,34 @@
     <div class="col-6 ml-auto mr-auto profile-wrapper">
         <div class="row d-flex align-items-center profile">
             <div class="col">
-                <img :src="'http://192.168.99.100:8000' + authUser.relations.avatar_file.data.full_path"
+                <img :src="'http://192.168.99.100:8000' + currentUser.relations.avatar_file.data.full_path"
                      rounded="circle" blank blank-color="#fff" alt="left img"
                      class="rounded-circle avatar"/>
             </div>
             <div class="col-7">
                 <div class="mb-4">
-                    <div class="user_firstName"><h3 class="mb-0"><b> {{ authUser.first_name }} {{ authUser.last_name }}</b></h3></div>
-                    <div class="user_position"><h5>{{ authUser.relations.position.data.name }}</h5></div>
+                    <div style="cursor: pointer" @click="goToUser" class="user_firstName"><h3 class="mb-0"><b>{{ currentUser.first_name }} {{ currentUser.last_name }}</b></h3></div>
+                    <div class="user_position"><h5>{{ currentUser.relations.position.data.name }}</h5></div>
                 </div>
                 <div class="row">
                     <div class="col flex-column">
                         <div class="user_phone">
                             <Phone fillColor="rgba(0, 123, 255, 0.9)"/>
-                            +7{{ authUser.phone }}
+                            +7{{ currentUser.phone }}
                         </div>
                         <div class="user_mail">
                             <Email fillColor="rgba(0, 123, 255, 0.9)"/>
-                            {{ authUser.email }}
+                            {{ currentUser.email }}
                         </div>
                     </div>
                     <div class="col flex-column">
                         <div class="user_inAvito">
                             <Account-Circle fillColor="rgba(0, 123, 255, 0.9)"/>
-                            {{ authUser.employment_date }}
+                            {{ currentUser.employment_date }}
                         </div>
                         <div class="user_HB">
                             <Cake fillColor="rgba(0, 123, 255, 0.9)"/>
-                            {{ authUser.birth_date}}
+                            {{ currentUser.birth_date}}
                         </div>
                     </div>
                 </div>
@@ -38,10 +38,10 @@
                 <div class="row">
                     <div class="col user_moneyAmount">
                         <font-awesome-icon icon="wallet" size="3x"/>
-                        <h3>{{ authUser.purchase_balance }}</h3></div>
+                        <h3>{{ currentUser.purchase_balance }}</h3></div>
                     <div class="col user_likesAmount">
                         <font-awesome-icon icon="heart" size="3x"/>
-                        <h3>{{ authUser.donation_balance }}</h3></div>
+                        <h3>{{ currentUser.donation_balance }}</h3></div>
                 </div>
             </div>
         </div>
@@ -51,12 +51,22 @@
     export default {
         data() {
             return {
-                authUser: null
+                user: null
             }
         },
         created: function () {
-            this.authUser = JSON.parse(window.localStorage.getItem('authUser'));
-            window.console.log('authUser', this.authUser);
+            this.user = JSON.parse(window.localStorage.getItem('user'));
+            window.console.log('user', this.user);
+        },
+        methods: {
+            goToUser () {
+                this.$router.push({ name: 'user', params: { userId: this.user.id }})
+            }
+        },
+        computed: {
+            currentUser: function () {
+                    return this.$store.getters.CURRUSER
+            }
         }
     }
 

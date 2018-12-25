@@ -15,8 +15,12 @@ export const store = new Vuex.Store({
         values: null,
         sums: null,
         goods: null,
+        currUser: JSON.parse(localStorage.getItem('user'))
     },
     getters: {
+        CURRUSER: state => {
+            return state.currUser
+        },
         isAuthenticated: state => !!state.token,
         authStatus: state => state.status,
         USERS: state => {
@@ -116,6 +120,10 @@ export const store = new Vuex.Store({
         SET_POSITIONS: (state, payload) => {
             state.positions = payload;
         },
+        SET_CURRUSER: (state, payload) => {
+          state.currUser = payload
+            window.console.log('currUser', state.currUser)
+        },
         SET_GROUPS: (state, payload) => {
             state.groups = payload;
         },
@@ -138,6 +146,9 @@ export const store = new Vuex.Store({
         GET_USERS: async (context) => {
             let {data} = await HTTP.get('users?include=position,avatar_file,boss,group');
             context.commit('SET_USERS', data.data)
+        },
+        SET_CURRUSER: (context, userObj)  => {
+            context.commit('SET_CURRUSER', userObj)
         },
         GET_GOODS: async (context) => {
             let {data} = await HTTP.get('goods?include=image_file');
@@ -237,7 +248,7 @@ export const store = new Vuex.Store({
             context.commit('SET_GROUPS', data.data)
         },
         GET_TRANSACTIONS: async (context) => {
-            let {data} = await HTTP.get('transactions?include=from_user.avatar_file,to_user.avatar_file,messages.user,value');
+            let {data} = await HTTP.get('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value');
             context.commit('SET_TRANSACTIONS', data.data)
         },
         ADD_USER_W_AVATAR: async (context, {userData, file}) => {
@@ -300,7 +311,7 @@ export const store = new Vuex.Store({
                         window.console.log('здесь где то токен', resp);
                         const token = 'Bearer ' + resp.data.data.api_token;
                         localStorage.setItem('user-token', token);
-                        window.localStorage.setItem('authUser', JSON.stringify(resp.data.data));
+                        window.localStorage.setItem('user', JSON.stringify(resp.data.data));
                         // Add the following line:
                         HTTP.defaults.headers.common['Authorization'] = token;
                         commit('AUTH_SUCCESS', resp);

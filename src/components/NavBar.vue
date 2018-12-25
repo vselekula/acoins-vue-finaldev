@@ -4,24 +4,19 @@
             <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
             <b-navbar-brand href="#">Avito+</b-navbar-brand>
             <b-collapse is-nav id="nav_collapse">
-
                 <b-navbar-nav class="ml-auto">
-                    <div class="btn-danger" @click="logout">logout</div>
-                    <!--<test-dropdown/>-->
-                    <!--<TestDropdownValues/>-->
+                    <b-button class="btn-outline-success" @click="home">Home</b-button>
+                    <b-button class="btn-success" @click="adm">adm</b-button>
+                    <b-button class="user2" @click="change">change</b-button>
+                    <b-button class="btn-danger" @click="logout">out</b-button>
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
     </div>
 </template>
 <script>
-    // import dropdownSum from '../components/transactionForm/iconDropdownAmount'
-    // import dropdownValues from '../components/transactionForm/iconDropdownValues'
-
     export default {
         components: {
-            // TestDropdown: dropdownSum,
-            // TestDropdownValues: dropdownValues
         },
         methods: {
             logout: function () {
@@ -29,7 +24,22 @@
             .then(() => {
                     this.$router.push('/login')
                 })
-            }
+            },
+            change() {
+                this.$router.push({ name: 'user', params: { userId: 2 }})
+            },
+            home() {
+                this.$store.dispatch('SET_CURRUSER', JSON.parse(window.localStorage.getItem('user')));
+                this.$router.push({ name: 'home'})
+            },
+            adm() {
+                this.$router.push({ name: 'admin'})
+            },
+        },
+        computed: {
+            currentUser: function () {
+                return this.$store.getters.CURRUSER
+            },
         }
     };
 

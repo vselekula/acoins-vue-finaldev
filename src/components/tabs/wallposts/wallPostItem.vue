@@ -2,8 +2,9 @@
     <div class="transaction-item pt-4 mb-4">
         <div class="transaction-item_info mx-4">
             <div class="transactionHeadline row m-0 my-2">
-                <div>
-                    <img :src="'http://192.168.99.100:8000' + transaction.relations.from_user.data.relations.avatar_file.data.full_path"
+                <div style="cursor: pointer" @click="goToUser">
+                    <img v-b-popover.hover.top="transaction.relations.to_user.data.first_name + ' ' + transaction.relations.to_user.data.last_name"
+                         :src="'http://192.168.99.100:8000' + transaction.relations.to_user.data.relations.avatar_file.data.full_path"
                          width="50" height="50" alt="..."
                          class="rounded-circle">
                 </div>
@@ -20,12 +21,16 @@
                     <div class="d-flex ml-auto">{{ changedDateFormat }}</div>
                 </div>
             </div>
-
             <div class="row m-0 my-3">
-                <b>{{ transaction.relations.from_user.data.first_name }}:</b> {{ transaction.title }}
+                <div style="cursor: pointer" @click="goToUserFrom">
+                    <b>{{ transaction.relations.from_user.data.first_name }}:
+                    </b>
+                </div>
+                {{ transaction.title }}
             </div>
         </div>
-        <wall-post-reply v-for="(message, index) in messages" :key="message.id" :message="message" :index="index"
+        <wall-post-reply v-for="message in messages"
+                         :key="message.id" :message="message"
                          :transaction="transaction" @deletedMessageId="deleteMessageItem"></wall-post-reply>
         <div class="add-answer_wrapper" @click="showActions" v-click-outside="hideActions">
             <textarea-autosize v-model="newMessage" id="add-answer" cols="1" rows="1" :placeholder="placeholder"
@@ -41,6 +46,15 @@
     import ClickOutside from "vue-click-outside";
 
     export default {
+        data() {
+            return {
+                transaction_date: '',
+                newMessage: "",
+                seen: false,
+                placeholder: "Добавить комментарий",
+                authUser: null,
+            };
+        },
         components: {
             WallPostReply
         },
@@ -49,20 +63,20 @@
                 required: true
             }
         },
-        data() {
-            return {
-                transaction_date: '',
-                newMessage: "",
-                seen: false,
-                authUser: null,
-                placeholder: "Добавить комментарий"
-            };
-        },
         mounted: function () {
-            this.authUser = JSON.parse(window.localStorage.getItem('authUser'));
-            this.transaction_date = this.transaction.created_at
+            this.authUser = JSON.parse(window.localStorage.getItem('user'));
+            this.transaction_date = this.transaction.created_at;
         },
         methods: {
+            goToUser() {
+                this.$store.dispatch('SET_CURRUSER', this.transaction.relations.to_user.data);
+                this.$router.push({name: 'user', params: {userId: this.transaction.relations.to_user.data.id}})
+            },
+            goToUserFrom() {
+                this.$store.dispatch('SET_CURRUSER', this.transaction.relations.from_user.data);
+                window.console.log('user', this.transaction.relations.to_user.data);
+                this.$router.push({name: 'user', params: {userId: this.transaction.relations.from_user.data.id}})
+            },
             postMessage() {
                 let transactionData = {
                     message: this.newMessage,
@@ -89,9 +103,12 @@
         },
         computed: {
             messages: function () {
-                if (typeof this.transaction.messages != undefined) {
+                if (typeof this.transaction.relations.messages !== undefined) {
                     return this.transaction.relations.messages.data;
                 }
+            },
+            currentUser: function () {
+                return this.$store.getters.CURRUSER
             },
             changedDateFormat: function () {
                 return this.transaction_date.substring(5, 10).replace("-", ".");

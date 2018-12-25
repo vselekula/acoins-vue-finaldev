@@ -8,9 +8,9 @@
                  blank-color="#eee" alt="img"
                  class="mx-auto mb-4">
             <b-form inline>
-                <user-search-input @input="userIsSelected"></user-search-input>
-                <sum-input @pickedAmount="sumIsSelected"></sum-input>
-                <value-input @pickedCennost="valueIsSelected"></value-input>
+                <user-search-input :user="user" @input="userIsSelected"></user-search-input>
+                <sum-input :user="user" @pickedAmount="sumIsSelected"></sum-input>
+                <value-input :user="user" @pickedCennost="valueIsSelected"></value-input>
                 <textarea-autosize v-model="transactionData.title"
                                    placeholder="Введите текст благодарности для получателя"
                                    class="message mt-3 px-3 py-2"></textarea-autosize>
@@ -52,7 +52,7 @@
                     value_id: '',
                     title: '',
                 },
-                authUser: null,
+                user: null,
                 reciever: '',
                 modalShow: false,
                 showReciever: false
@@ -64,8 +64,8 @@
             userSearchInput
         },
         mounted: function () {
-                this.authUser = JSON.parse(window.localStorage.getItem('authUser'));
-                this.transactionData.from_user_id = this.authUser.id
+                this.user = JSON.parse(window.localStorage.getItem('user'));
+                this.transactionData.from_user_id = this.user.id
         }
     }
 

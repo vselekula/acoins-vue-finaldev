@@ -10,24 +10,28 @@
         components: {
             vueSelect
         },
+        props: {
+            user: {
+                required: true
+            }
+        },
         data() {
             return {
                 selectedSum: 'Сумма',
                 sums: sums,
                 sum: '',
-                authUser: null
             }
         },
         methods: {
             changedSum() {
-                if(this.authUser.donation_balance > 0 && this.authUser.donation_balance - this.selectedSum.value >= 0){
+                if(this.user.donation_balance > 0 && this.user.donation_balance - this.selectedSum.value >= 0){
                     this.$emit('pickedAmount', this.selectedSum)
                 }
                 window.console.log('недостаточно денег братан')
             }
         },
         mounted: function () {
-            this.authUser = JSON.parse(window.localStorage.getItem('authUser'));
+            this.authUser = JSON.parse(window.localStorage.getItem('user'));
         }
     }
 </script>

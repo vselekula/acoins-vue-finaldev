@@ -8,10 +8,10 @@
 <script>
     import transactionItem from '../wallposts/wallPostItem';
     import addTransaction from '../wallposts/initiateNewTransaction'
+
     export default {
         data() {
-            return {
-            }
+            return {}
         },
         components: {
             transactionItem,

@@ -1,5 +1,5 @@
 <template>
-    <b-card :title="product.name" :img-src="product.img" :img-alt="product.name" img-top tag="article" style="width: 31%"
+    <b-card :title="product.name" :img-src="'http://192.168.99.100:8000' + product.relations.image_file.data.full_path" :img-alt="product.name" img-top tag="article" style="width: 31%"
         class="mb-3 mr-3 shop-card flex-grow-1">
         <p class="card-text">
             {{ product.description }} <br>

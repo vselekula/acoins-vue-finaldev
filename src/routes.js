@@ -1,4 +1,5 @@
 import UserPage from "./UserPage";
+import SomeUserPage from "./SomeUserPage";
 import mainAdmin from "./components/Admin/mainAdmin";
 import loginPage from "./components/login/login"
 
@@ -17,6 +18,14 @@ export const routes = [
         }
     },
     {
+        path: '/:userId',
+        component: SomeUserPage,
+        name: 'user',
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
         path: '*',
         component: UserPage,
         meta: {
@@ -26,6 +35,7 @@ export const routes = [
     {
         path: '/admin',
         component: mainAdmin,
+        name: 'admin',
         meta: {
             requiresAuth: true
         }
