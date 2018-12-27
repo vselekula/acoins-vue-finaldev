@@ -39,7 +39,7 @@
         name: "loginPage",
         data() {
             return {
-                email: 'tyrell.rolfson@kessler.com',
+                email: 'glen14@yahoo.com',
                 password: 'password',
                 token: null,
                 show: true,

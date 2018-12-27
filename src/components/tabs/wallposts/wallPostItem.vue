@@ -1,5 +1,5 @@
 <template>
-    <div class="transaction-item pt-4 mb-4">
+    <div v-if="transaction.title !== 'Автоматическое начисление'" class="transaction-item pt-4 mb-4">
         <div class="transaction-item_info mx-4">
             <div class="transactionHeadline row m-0 my-2">
                 <div style="cursor: pointer" @click="goToUser">
@@ -22,14 +22,10 @@
                 </div>
             </div>
             <div class="row m-0 my-3">
-                <div style="cursor: pointer" @click="goToUserFrom">
-                    <b>{{ transaction.relations.from_user.data.first_name }}:
-                    </b>
-                </div>
-                {{ transaction.title }}
+                    <b style="cursor: pointer" @click="goToUserFrom">{{ transaction.relations.from_user.data.first_name }}:</b>{{ transaction.title }}
             </div>
         </div>
-        <wall-post-reply v-for="message in messages"
+        <wall-post-reply  v-for="message in messages"
                          :key="message.id" :message="message"
                          :transaction="transaction" @deletedMessageId="deleteMessageItem"></wall-post-reply>
         <div class="add-answer_wrapper" @click="showActions" v-click-outside="hideActions">
@@ -53,6 +49,7 @@
                 seen: false,
                 placeholder: "Добавить комментарий",
                 authUser: null,
+                route_params: this.$route.params.userId
             };
         },
         components: {
@@ -63,18 +60,18 @@
                 required: true
             }
         },
-        mounted: function () {
+        created: function () {
             this.authUser = JSON.parse(window.localStorage.getItem('user'));
             this.transaction_date = this.transaction.created_at;
         },
         methods: {
             goToUser() {
-                this.$store.dispatch('SET_CURRUSER', this.transaction.relations.to_user.data);
+                // this.$store.dispatch('SET_CURRUSER', this.transaction.relations.to_user.data);
                 this.$router.push({name: 'user', params: {userId: this.transaction.relations.to_user.data.id}})
             },
             goToUserFrom() {
-                this.$store.dispatch('SET_CURRUSER', this.transaction.relations.from_user.data);
-                window.console.log('user', this.transaction.relations.to_user.data);
+                // this.$store.dispatch('SET_CURRUSER', this.transaction.relations.from_user.data);
+                // window.console.log('user', this.transaction.relations.to_user.data);
                 this.$router.push({name: 'user', params: {userId: this.transaction.relations.from_user.data.id}})
             },
             postMessage() {
@@ -103,16 +100,14 @@
         },
         computed: {
             messages: function () {
-                if (typeof this.transaction.relations.messages !== undefined) {
                     return this.transaction.relations.messages.data;
-                }
             },
             currentUser: function () {
                 return this.$store.getters.CURRUSER
             },
             changedDateFormat: function () {
                 return this.transaction_date.substring(5, 10).replace("-", ".");
-            }
+            },
         }
     };
 </script>

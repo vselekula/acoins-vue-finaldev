@@ -7,7 +7,6 @@
                 <b-navbar-nav class="ml-auto">
                     <b-button class="btn-outline-success" @click="home">Home</b-button>
                     <b-button class="btn-success" @click="adm">adm</b-button>
-                    <b-button class="user2" @click="change">change</b-button>
                     <b-button class="btn-danger" @click="logout">out</b-button>
                 </b-navbar-nav>
             </b-collapse>
@@ -24,9 +23,6 @@
             .then(() => {
                     this.$router.push('/login')
                 })
-            },
-            change() {
-                this.$router.push({ name: 'user', params: { userId: 2 }})
             },
             home() {
                 this.$store.dispatch('SET_CURRUSER', JSON.parse(window.localStorage.getItem('user')));

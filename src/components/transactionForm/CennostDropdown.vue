@@ -20,7 +20,7 @@
                 this.$emit('pickedCennost', this.selectedValue)
             }
         },
-        mounted: function() {
+        created: function() {
             this.$store.dispatch('GET_VALUES');
         },
         computed: {

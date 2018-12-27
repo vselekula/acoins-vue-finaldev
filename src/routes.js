@@ -1,5 +1,5 @@
 import UserPage from "./UserPage";
-import SomeUserPage from "./SomeUserPage";
+// import SomeUserPage from "./SomeUserPage";
 import mainAdmin from "./components/Admin/mainAdmin";
 import loginPage from "./components/login/login"
 
@@ -19,11 +19,15 @@ export const routes = [
     },
     {
         path: '/:userId',
-        component: SomeUserPage,
+        component: UserPage,
         name: 'user',
         meta: {
             requiresAuth: true
-        }
+        },
+        // beforeRouteUpdate(to, from, next) {
+        //     this.$store.dispatch('SET_CURRUSER', {userId: to.params.userId});
+        //     next();
+        // }
     },
     {
         path: '*',

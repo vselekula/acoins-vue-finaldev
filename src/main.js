@@ -14,6 +14,7 @@ if (token) {
     axios.defaults.headers.common['Authorization'] = token
 }
 
+
 new Vue({
     router,
     store,

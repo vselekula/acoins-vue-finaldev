@@ -1,7 +1,7 @@
 <template>
     <div>
         <add-transaction></add-transaction>
-        <transactionItem v-for="transaction in transactionsList.slice().reverse()" :key="transaction.id"
+        <transactionItem v-if="typeof transactionsList !== null" v-for="transaction in transactionsList.slice().reverse()" :key="transaction.id"
                          :transaction="transaction"></transactionItem>
     </div>
 </template>
@@ -17,9 +17,9 @@
             transactionItem,
             addTransaction
         },
-        mounted: function () {
-            this.$store.dispatch('GET_TRANSACTIONS')
-        },
+        // beforeMount: function () {
+        //     this.$store.dispatch('GET_TRANSACTIONS')
+        // },
         computed: {
             transactionsList() {
                 return this.$store.getters.TRANSACTIONS

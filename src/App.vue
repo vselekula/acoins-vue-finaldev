@@ -19,7 +19,6 @@
 
     let item = window.localStorage.getItem('user');
     if (item) {
-        // window.console.log('user' + item);
         let json = JSON.parse(item);
         HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + json.api_token;
     }
@@ -32,6 +31,7 @@
     Vue.component("Phone", Phone);
     Vue.component("Del", Del);
     Vue.use(VueTextareaAutosize);
+
 
     Vue.config.productionTip = false;
     export default {

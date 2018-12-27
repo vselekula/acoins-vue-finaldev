@@ -8,7 +8,8 @@
             </div>
             <div class="col-7">
                 <div class="mb-4">
-                    <div style="cursor: pointer" @click="goToUser" class="user_firstName"><h3 class="mb-0"><b>{{ currentUser.first_name }} {{ currentUser.last_name }}</b></h3></div>
+                    <div style="cursor: pointer" class="user_firstName">
+                        <h3 class="mb-0"><b>{{currentUser.first_name }} {{ currentUser.last_name }}</b></h3></div>
                     <div class="user_position"><h5>{{ currentUser.relations.position.data.name }}</h5></div>
                 </div>
                 <div class="row">
@@ -38,10 +39,12 @@
                 <div class="row">
                     <div class="col user_moneyAmount">
                         <font-awesome-icon icon="wallet" size="3x"/>
-                        <h3>{{ currentUser.purchase_balance }}</h3></div>
+                        <h3>{{ currentUser.purchase_balance }}</h3>
+                    </div>
                     <div class="col user_likesAmount">
                         <font-awesome-icon icon="heart" size="3x"/>
-                        <h3>{{ currentUser.donation_balance }}</h3></div>
+                        <h3>{{ currentUser.donation_balance }}</h3>
+                    </div>
                 </div>
             </div>
         </div>
@@ -51,21 +54,31 @@
     export default {
         data() {
             return {
-                user: null
+                route_params: Number(this.$route.params.userId)
             }
         },
-        created: function () {
-            this.user = JSON.parse(window.localStorage.getItem('user'));
-            window.console.log('user', this.user);
-        },
         methods: {
-            goToUser () {
-                this.$router.push({ name: 'user', params: { userId: this.user.id }})
+            // goToUser() {
+            //     this.$router.push({name: 'user', params: {userId: this.route_params}})
+            // }
+        },
+        beforeCreate: function () {
+            this.$store.dispatch('GET_TRANSACTIONS');
+            if (this.route_params) {
+                this.$store.dispatch('SET_CURRUSER', {userId: this.route_params})
             }
         },
         computed: {
             currentUser: function () {
-                    return this.$store.getters.CURRUSER
+                return this.$store.getters.CURRUSER
+            },
+        },
+
+        watch: {
+            '$route'(to, from) {
+                window.console.log('to', to);
+                window.console.log('from', from);
+                    this.$store.dispatch('SET_CURRUSER', {userId: to.params.userId})
             }
         }
     }

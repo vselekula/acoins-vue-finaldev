@@ -32,7 +32,7 @@
                 this.users.splice(userIndex, 1);
             },
         },
-        mounted: function () {
+        created: function () {
             this.$store.dispatch('GET_USERS');
             this.$store.dispatch('GET_POSITIONS');
             this.$store.dispatch('GET_GROUPS');

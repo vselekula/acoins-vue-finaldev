@@ -6,15 +6,15 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     state: {
-        users: null,
-        groups: null,
-        positions: null,
-        transactions: null,
+        users: {},
+        groups: {},
+        positions: {},
+        transactions: [],
         token: localStorage.getItem('user-token') || '',
         status: '',
-        values: null,
-        sums: null,
-        goods: null,
+        values: [],
+        sums: [],
+        goods: {},
         currUser: JSON.parse(localStorage.getItem('user'))
     },
     getters: {
@@ -121,7 +121,7 @@ export const store = new Vuex.Store({
             state.positions = payload;
         },
         SET_CURRUSER: (state, payload) => {
-          state.currUser = payload
+            state.currUser = payload;
             window.console.log('currUser', state.currUser)
         },
         SET_GROUPS: (state, payload) => {
@@ -145,10 +145,26 @@ export const store = new Vuex.Store({
     actions: {
         GET_USERS: async (context) => {
             let {data} = await HTTP.get('users?include=position,avatar_file,boss,group');
+            window.console.log('полетели', data);
             context.commit('SET_USERS', data.data)
         },
-        SET_CURRUSER: (context, userObj)  => {
-            context.commit('SET_CURRUSER', userObj)
+        SET_CURRUSER: async (context, userId) => {
+            if (userId.hasOwnProperty('userId')) {
+                window.console.log('щас пойдет ГЕТ, по юзер айди', userId);
+                await HTTP.get('users/' + userId.userId + '?include=position,avatar_file,boss,group')
+                    .then(response => {
+                        let resp = response.data.data;
+                        Object.keys(resp).forEach(function (key) {
+                            if (resp[key] == null || resp[key] == undefined) {
+                                window.console.log('у юзера есть пустые значения', key, resp[key]);
+                                resp[key] = '';
+                            }
+                        });
+                        context.commit('SET_CURRUSER', resp);
+                    });
+            } else {
+                context.commit('SET_CURRUSER', userId);
+            }
         },
         GET_GOODS: async (context) => {
             let {data} = await HTTP.get('goods?include=image_file');
@@ -164,7 +180,7 @@ export const store = new Vuex.Store({
         },
         PATCH_USER: async (context, userPatchData) => {
             window.console.log('юзер до патча', userPatchData);
-            await HTTP.patch('users/' + userPatchData.id + '?include=avatar_file', {
+            HTTP.patch('users/' + userPatchData.id + '?include=avatar_file', {
                 id: userPatchData.id,
                 first_name: userPatchData.first_name,
                 last_name: userPatchData.last_name,
@@ -309,6 +325,7 @@ export const store = new Vuex.Store({
                 HTTP({url: 'login?include=avatar_file,boss,position', data: user, method: 'POST'})
                     .then(resp => {
                         window.console.log('здесь где то токен', resp);
+                        commit('SET_CURRUSER', resp.data.data);
                         const token = 'Bearer ' + resp.data.data.api_token;
                         localStorage.setItem('user-token', token);
                         window.localStorage.setItem('user', JSON.stringify(resp.data.data));
