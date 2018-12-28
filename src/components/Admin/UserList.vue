@@ -1,6 +1,6 @@
 <template>
     <div>
-        <add-user  :positionOptions="positionList" :groupOptions="groupsList"/>
+        <add-user :positionOptions="positionList" :groupOptions="groupsList"/>
         <userItem v-for="user in userList" :key="user.id"
                   :user="user" :positionOptions="positionList" :groupOptions="groupsList"
                   @deletedUser="deleteUser" @editedUser="editUser"></userItem>
@@ -17,8 +17,7 @@
             AddUser
         },
         data() {
-            return {
-            }
+            return {}
         },
         methods: {
             editUser(editedUser) {
@@ -32,7 +31,11 @@
                 this.users.splice(userIndex, 1);
             },
         },
+        mounted () {
+            this.$insProgress.finish()
+        },
         created: function () {
+            this.$insProgress.start()
             this.$store.dispatch('GET_USERS');
             this.$store.dispatch('GET_POSITIONS');
             this.$store.dispatch('GET_GROUPS');

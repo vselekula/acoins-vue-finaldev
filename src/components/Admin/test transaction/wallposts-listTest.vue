@@ -1,20 +1,17 @@
 <template>
     <div>
-            <add-transaction></add-transaction>
             <transactionItem v-if="typeof transactionsList !== null" v-for="transaction in transactionsList.slice().reverse()" :key="transaction.id"
                              :transaction="transaction"></transactionItem>
     </div>
 </template>
 <script>
-    import transactionItem from '../wallposts/wallPostItem';
-    import addTransaction from '../wallposts/initiateNewTransaction'
+    import transactionItem from './wallPostItemTest';
     export default {
         data() {
             return {}
         },
         components: {
             transactionItem,
-            addTransaction,
         },
         mounted () {
             this.$insProgress.finish()

@@ -12,6 +12,9 @@
                 <b-tab title="Shop">
                     <shoplist></shoplist>
                 </b-tab>
+                <b-tab title="transactionItem">
+                    <transactionList></transactionList>
+                </b-tab>
             </b-tabs>
         </b-card>
     </div>
@@ -22,13 +25,16 @@
     import initiateButton from '../tabs/wallposts/initiateNewTransaction';
     import NavBar from "../NavBar"
     import Shoplist from "./shoplist";
+    import transactionList from "./test transaction/wallposts-listTest";
+
     export default {
         name: "mainAdmin",
         components: {
             Shoplist,
             UserList,
             initiateButton,
-            NavBar
+            NavBar,
+            transactionList
         }
     }
 </script>

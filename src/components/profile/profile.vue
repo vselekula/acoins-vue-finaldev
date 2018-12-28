@@ -51,16 +51,12 @@
     </div>
 </template>
 <script>
+
     export default {
         data() {
             return {
                 route_params: Number(this.$route.params.userId)
             }
-        },
-        methods: {
-            // goToUser() {
-            //     this.$router.push({name: 'user', params: {userId: this.route_params}})
-            // }
         },
         beforeCreate: function () {
             this.$store.dispatch('GET_TRANSACTIONS');
@@ -73,12 +69,11 @@
                 return this.$store.getters.CURRUSER
             },
         },
-
         watch: {
             '$route'(to, from) {
                 window.console.log('to', to);
                 window.console.log('from', from);
-                    this.$store.dispatch('SET_CURRUSER', {userId: to.params.userId})
+                this.$store.dispatch('SET_CURRUSER', {userId: to.params.userId})
             }
         }
     }

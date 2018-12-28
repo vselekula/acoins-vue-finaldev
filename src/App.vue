@@ -1,6 +1,9 @@
 <template>
     <div id="app">
-        <router-view></router-view>
+        <!--<transition-group name="fade">-->
+            <router-view />
+            <vue-ins-progress-bar></vue-ins-progress-bar>
+        <!--</transition-group>-->
     </div>
 </template>
 
@@ -36,7 +39,17 @@
     Vue.config.productionTip = false;
     export default {
         name: "app",
-        components: {}
+        components: {},
+        created () {
+            this.$router.beforeEach((to, from, next) => {
+                this.$insProgress.start();
+                next()
+            });
+
+            this.$router.afterEach((to, from) => {
+                this.$insProgress.finish()
+            })
+        }
     };
 
 

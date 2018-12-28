@@ -24,15 +24,12 @@
         },
         methods: {
             changedSum() {
-                if(this.user.donation_balance > 0 && this.user.donation_balance - this.selectedSum.value >= 0){
-                    this.$emit('pickedAmount', this.selectedSum)
-                }
-                window.console.log('недостаточно денег братан')
+                this.$emit('pickedAmount', this.selectedSum)
             }
         },
-        mounted: function () {
-            this.authUser = JSON.parse(window.localStorage.getItem('user'));
-        }
+        // mounted: function () {
+        //     this.authUser = JSON.parse(window.localStorage.getItem('user'));
+        // }
     }
 </script>
 <style scoped>

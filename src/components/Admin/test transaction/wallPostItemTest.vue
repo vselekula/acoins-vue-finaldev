@@ -2,28 +2,30 @@
     <div v-if="transaction.title !== 'Автоматическое начисление'" class="transaction-item pt-4 mb-4">
         <div class="transaction-item_info mx-4">
             <div class="transactionHeadline row m-0 my-2">
-                <div style="cursor: pointer" @click="goToUser">
+                <div class="avatarWrapper" style="cursor: pointer" @click="goToUser">
                     <img v-b-popover.hover.top="transaction.relations.to_user.data.first_name + ' ' + transaction.relations.to_user.data.last_name"
                          :src="'http://192.168.99.100:8000' + transaction.relations.to_user.data.relations.avatar_file.data.full_path"
-                         width="50" height="50" alt="..."
-                         class="rounded-circle">
+                         width="90" height="90" alt="..."
+                         class="rounded-circle reciever_avatar">
+                    <div class="badgeWrapper">
+                            <span class="badge badge-pill badge-primary transactionSum">
+                                <font-awesome-icon icon="heart" size="lg"/> + {{ transaction.sum }}</span>
+                    </div>
                 </div>
                 <div class="sum d-flex flex-grow-1 flex-row ml-3">
-                    <div class="d-flex flex-column">
-                        <div>
-                            <span class="badge badge-pill badge-primary">
-                                <font-awesome-icon icon="heart" size="lg"/> + {{ transaction.sum }}</span>
-                        </div>
-                        <div class="mt-1">
+                    <div class="d-flex flex-column flex-grow-1">
+                        <div class="valueName">
                             <b>{{ transaction.relations.value.data.name }}</b>
+                        </div>
+                        <div class="row m-0 my-3">
+                            <b style="cursor: pointer" @click="goToUserFrom">{{
+                                transaction.relations.from_user.data.first_name }}:</b>{{ transaction.title }}
                         </div>
                     </div>
                     <div class="d-flex ml-auto">{{ changedDateFormat }}</div>
                 </div>
             </div>
-            <div class="row m-0 my-3">
-                    <b style="cursor: pointer" @click="goToUserFrom">{{ transaction.relations.from_user.data.first_name }}:</b>{{ transaction.title }}
-            </div>
+
         </div>
         <wall-post-reply v-if="transaction.relations.messages !== undefined" v-for="message in messages"
                          :key="message.id" :message="message"
@@ -38,7 +40,7 @@
     </div>
 </template>
 <script>
-    import WallPostReply from "../wallposts/wallPostReply";
+    import WallPostReply from "../../tabs/wallposts/wallPostReply";
     import ClickOutside from "vue-click-outside";
 
     export default {
@@ -114,6 +116,10 @@
     };
 </script>
 <style>
+    .reciever_avatar {
+        border: 3px solid #007bff;
+    }
+
     textarea {
         resize: none;
     }
@@ -122,9 +128,31 @@
         outline: none;
     }
 
+    .avatarWrapper {
+        padding-bottom: 8px;
+    }
+
+    .valueName {
+        text-transform: uppercase;
+        font-weight: bolder;
+        font-size: 20px;
+    }
+
+    .badgeWrapper {
+        position: relative;
+    }
+
+    .transactionSum {
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
+
     .transaction-item {
         box-shadow: 0 5px 40px -5px rgba(0, 64, 128, 0.2);
         border-radius: 10px;
+        padding-top: 10px !important;
     }
 
     .sum {

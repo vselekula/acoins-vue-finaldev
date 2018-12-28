@@ -139,7 +139,7 @@ export const store = new Vuex.Store({
         },
         ADD_TRANSACTION: (state, transactionData) => {
             window.console.log('добавляется транзакция', transactionData);
-            state.transactions.push(transactionData.data)
+            state.transactions.push(transactionData)
         }
     },
     actions: {
@@ -317,7 +317,8 @@ export const store = new Vuex.Store({
                 title: transactionData.title,
                 value_id: transactionData.value_id
             });
-            context.commit('ADD_TRANSACTION', data)
+            // Vue.set(data.data.relations, messages, )
+            context.commit('ADD_TRANSACTION', data.data)
         },
         AUTH_REQUEST: ({commit}, user) => {
             return new Promise((resolve, reject) => {
