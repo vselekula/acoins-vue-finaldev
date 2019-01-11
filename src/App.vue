@@ -45,8 +45,7 @@
                 this.$insProgress.start();
                 next()
             });
-
-            this.$router.afterEach((to, from) => {
+            this.$router.afterEach(() => {
                 this.$insProgress.finish()
             })
         }

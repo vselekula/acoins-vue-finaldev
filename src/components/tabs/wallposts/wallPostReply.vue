@@ -5,7 +5,7 @@
                 <b>{{ message.relations.user.data.first_name }}</b> {{ message.message }}
             </div>
             <Del @click.native="deleteComment()"
-                 fillColor="rgba(209, 209, 208, 0.5)" class="delMessage float-right"/>
+                 fillColor="rgba(209, 209, 208, 0.5)" class="delMessage"/>
         </div>
     </div>
 </template>
@@ -25,14 +25,18 @@
         }
     };
 </script>
-<style scoped>
+<style>
     .reply {
         background-color: #f6f7f9;
         border-top: solid 1px rgb(220, 220, 220);
+        position: relative;
     }
 
     .delMessage {
         cursor: pointer;
+        position: absolute;
+        right: 2%;
+        top: 30%;
     }
 
     .delMessage:hover svg path {

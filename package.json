@@ -25,6 +25,7 @@
     "vue-click-outside": "^1.0.7",
     "vue-content-loader": "^0.2.1",
     "vue-disable-autocomplete": "0.0.4",
+    "vue-emoji-picker": "^1.0.1",
     "vue-ins-progress-bar": "^1.0.0",
     "vue-material-design-icons": "^2.4.0",
     "vue-router": "^3.0.1",

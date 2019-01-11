@@ -73,7 +73,9 @@
             '$route'(to, from) {
                 window.console.log('to', to);
                 window.console.log('from', from);
-                this.$store.dispatch('SET_CURRUSER', {userId: to.params.userId})
+                if (to.name !== 'home'){
+                    this.$store.dispatch('SET_CURRUSER', {userId: to.params.userId})
+                }
             }
         }
     }

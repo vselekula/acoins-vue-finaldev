@@ -3,7 +3,14 @@ import Vuex from 'vuex';
 import {HTTP} from '../data/common'
 
 Vue.use(Vuex);
-
+const watchChangedCurrUser = store => {
+    store.subscribe((mutation) => {
+        if (mutation.type === "SET_CURRUSER") {
+            store.dispatch('GET_TRANSACTIONS');
+            window.console.log('!!!!')
+        }
+    })
+};
 export const store = new Vuex.Store({
     state: {
         users: {},
@@ -15,11 +22,15 @@ export const store = new Vuex.Store({
         values: [],
         sums: [],
         goods: {},
-        currUser: JSON.parse(localStorage.getItem('user'))
+        currUser: JSON.parse(localStorage.getItem('user')),
+        currTransactions: []
     },
     getters: {
         CURRUSER: state => {
             return state.currUser
+        },
+        CURRENT_TRANSACTIONS: state => {
+            return state.currTransactions
         },
         isAuthenticated: state => !!state.token,
         authStatus: state => state.status,
@@ -131,7 +142,8 @@ export const store = new Vuex.Store({
             state.values = payload;
         },
         SET_TRANSACTIONS: (state, payload) => {
-            state.transactions = payload
+            window.console.log(payload);
+            state.transactions = payload;
         },
         ADD_MESSAGE: (state, {postMessageResponse, transactionId}) => {
             let i = state.transactions.findIndex(obj => obj.id === transactionId);
@@ -263,8 +275,41 @@ export const store = new Vuex.Store({
             let {data} = await HTTP.get('groups');
             context.commit('SET_GROUPS', data.data)
         },
+        AUTH_REQUEST: ({commit}, user) => {
+            return new Promise((resolve, reject) => {
+                commit('AUTH_REQUEST');
+                HTTP({url: 'login?include=avatar_file,boss,position', data: user, method: 'POST'})
+                    .then(resp => {
+                        window.console.log('здесь где то токен', resp);
+                        commit('SET_CURRUSER', resp.data.data);
+                        const token = 'Bearer ' + resp.data.data.api_token;
+                        localStorage.setItem('user-token', token);
+                        window.localStorage.setItem('user', JSON.stringify(resp.data.data));
+                        // Add the following line:
+                        HTTP.defaults.headers.common['Authorization'] = token;
+                        commit('AUTH_SUCCESS', resp);
+                        resolve(resp)
+                    })
+                    .catch(err => {
+                        commit('AUTH_ERROR', err);
+                        localStorage.removeItem('user-token');
+                        reject(err)
+                    })
+            })
+        },
+        AUTH_LOGOUT: ({commit}) => {
+            return new Promise((resolve, /*reject*/) => {
+                commit('AUTH_LOGOUT');
+                localStorage.removeItem('user-token');
+                delete HTTP.defaults.headers.common['Authorization']
+                resolve()
+            })
+        },
         GET_TRANSACTIONS: async (context) => {
-            let {data} = await HTTP.get('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value');
+            let noneTransactions = [];
+            context.commit('SET_TRANSACTIONS', noneTransactions);
+            let {data} = await HTTP.get('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + store.state.currUser.id);
+            window.console.log('????', store.state.currUser.id);
             context.commit('SET_TRANSACTIONS', data.data)
         },
         ADD_USER_W_AVATAR: async (context, {userData, file}) => {
@@ -319,36 +364,7 @@ export const store = new Vuex.Store({
             });
             // Vue.set(data.data.relations, messages, )
             context.commit('ADD_TRANSACTION', data.data)
-        },
-        AUTH_REQUEST: ({commit}, user) => {
-            return new Promise((resolve, reject) => {
-                commit('AUTH_REQUEST');
-                HTTP({url: 'login?include=avatar_file,boss,position', data: user, method: 'POST'})
-                    .then(resp => {
-                        window.console.log('здесь где то токен', resp);
-                        commit('SET_CURRUSER', resp.data.data);
-                        const token = 'Bearer ' + resp.data.data.api_token;
-                        localStorage.setItem('user-token', token);
-                        window.localStorage.setItem('user', JSON.stringify(resp.data.data));
-                        // Add the following line:
-                        HTTP.defaults.headers.common['Authorization'] = token;
-                        commit('AUTH_SUCCESS', resp);
-                        resolve(resp)
-                    })
-                    .catch(err => {
-                        commit('AUTH_ERROR', err);
-                        localStorage.removeItem('user-token');
-                        reject(err)
-                    })
-            })
-        },
-        AUTH_LOGOUT: ({commit}) => {
-            return new Promise((resolve, /*reject*/) => {
-                commit('AUTH_LOGOUT');
-                localStorage.removeItem('user-token');
-                delete HTTP.defaults.headers.common['Authorization']
-                resolve()
-            })
-        },
-    }
-})
+        }
+    },
+    plugins: [watchChangedCurrUser]
+});
