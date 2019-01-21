@@ -1,6 +1,9 @@
 <template>
     <div>
-        <NavBar></NavBar>
+        <!--<NavBar></NavBar>-->
+
+        <!--<sideBar/>-->
+
         <b-card no-body class="col-6 ml-auto mr-auto">
             <b-tabs pills card>
                 <b-tab title="+ Users" active>
@@ -23,17 +26,19 @@
 <script>
     import UserList from "./UserList";
     import initiateButton from '../tabs/wallposts/initiateNewTransaction';
-    import NavBar from "../NavBar"
+    // import NavBar from "../NavBar"
     import Shoplist from "./shoplist";
     import transactionList from "./test transaction/wallposts-listTest";
+    // import SideBar from "./SideBar";
 
     export default {
         name: "mainAdmin",
         components: {
+            // SideBar,
             Shoplist,
             UserList,
             initiateButton,
-            NavBar,
+            // NavBar,
             transactionList
         }
     }

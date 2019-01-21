@@ -78,7 +78,7 @@
                 seen: false,
                 placeholder: "Добавить комментарий",
                 authUser: null,
-                route_params: this.$route.params.userId,
+                route_params_userId: this.$route.params.userId,
                 search: ''
             };
         },
@@ -196,6 +196,8 @@
     .transaction-item {
         box-shadow: 0 5px 40px -5px rgba(0, 64, 128, 0.2);
         border-radius: 10px;
+        background-color: white;
+        overflow: hidden;
     }
 
     .sum {
@@ -294,4 +296,9 @@
         background: #ececec;
         cursor: pointer;
     }
+</style>
+<style lang="stylus">
+#add-answer {
+    transition: all 0.4s ease
+}
 </style>

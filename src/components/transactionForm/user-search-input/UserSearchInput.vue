@@ -1,5 +1,5 @@
 <template>
-    <v-autocomplete label="first_name" v-model="user" :filterable="false" @input="setUser" :options="options" placeholder="Кому?" @search="onSearch">
+    <v-autocomplete label="first_name" v-model="user" :filterable="false" @input="setUser" :options="options" placeholder="Поиск коллег" @search="onSearch">
         <template slot="no-options">
             поиск по сотрудникам ASD
         </template>
@@ -69,7 +69,7 @@
     }
 
     .v-select {
-        width: 260px;
+        width: 250px;
         appearance: none;
     }
     .v-select .dropdown-toggle {
@@ -77,7 +77,11 @@
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        box-shadow: 0 0px 40px -5px rgba(0,64,128,.2);
+        /*box-shadow: 0 0px 40px -5px rgba(0,64,128,.2);*/
+        border: solid 1px #eee
+    }
+    .v-select .open-indicator {
+        display: none;
     }
     .v-select .dropdown-menu  {
         border: none;

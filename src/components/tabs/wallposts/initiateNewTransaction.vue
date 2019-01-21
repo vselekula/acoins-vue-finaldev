@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-button size="md" class="btn-primary addTransaction mb-4" @click="modalShow = !modalShow">Отправить спасибо
+        <b-button :class="{ 'sidebar_newTrans_view': sbView, 'uc-view': usercardView }" class="btn-outline-light" @click="modalShow = !modalShow"> {{ buttonText }}
         </b-button>
         <b-modal @ok="addTransaction" v-model="modalShow" size="lg">
             <img :src="'http://192.168.99.100:8000' + reciever.relations.avatar_file.data.full_path" center rounded="circle"
@@ -55,9 +55,11 @@
                 user: null,
                 reciever: '',
                 modalShow: false,
-                showReciever: false
+                showReciever: false,
             }
         },
+        props: ['buttonText', 'sb-view', 'usercardView'],
+
         components: {
             sumInput,
             valueInput,
@@ -81,11 +83,38 @@
     }
 
 </style>
-<style>
+<style lang="stylus">
+    .sidebar_newTrans_view {
+        opacity: 1;
+        position: absolute;
+        right: 11px;
+        border-radius: 3px;
+        padding: 4px 14px;
+        background-color: transparent;
+        border: solid 1px white;
+        display: flex;
+        align-self: center;
+        color: white;
+        top: 9px;
+        transition: all 0.4s ease;
+        &:hover {
+            background-color: white;
+            color: #2db3ff;
+            border: solid 1px white;
+            cursor: pointer;
+            border-radius: 30px;
+        }
+        &:active {
+            -webkit-transform: scale(0.8)
+        }
+    }
     .dropdown-toggle::after {
         visibility: hidden;
     }
-
+    .uc-view {
+        background-color: limegreen;
+        border: none
+    }
     .addTransaction {
         width: 100%;
     }

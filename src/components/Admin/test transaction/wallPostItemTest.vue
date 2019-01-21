@@ -51,7 +51,7 @@
                 seen: false,
                 placeholder: "Добавить комментарий",
                 authUser: null,
-                route_params: this.$route.params.userId
+                route_params_userId: this.$route.params.userId
             };
         },
         components: {

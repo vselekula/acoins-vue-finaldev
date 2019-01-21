@@ -1,9 +1,20 @@
 import UserPage from "./UserPage";
-// import SomeUserPage from "./SomeUserPage";
+import SomeUserPage from "./SomeUserPage";
 import mainAdmin from "./components/Admin/mainAdmin";
 import loginPage from "./components/login/login"
+import shop from "./components/tabs/Shop/tab-shop-list"
+import HAF from "./components/tabs/Best/TabBest"
+
 
 export const routes = [
+    {
+        path: '/'+JSON.parse(localStorage.getItem('user')).id,
+        component: UserPage,
+        name: 'my',
+        meta: {
+            requiresAuth: true
+        }
+    },
     {
         path: '/login',
         component: loginPage,
@@ -18,8 +29,24 @@ export const routes = [
         }
     },
     {
+        path: '/HAF',
+        component: HAF,
+        name: 'haf',
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/shop',
+        component: shop,
+        name: 'shop',
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
         path: '/:userId',
-        component: UserPage,
+        component: SomeUserPage,
         name: 'user',
         meta: {
             requiresAuth: true

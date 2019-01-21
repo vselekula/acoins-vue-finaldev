@@ -6,7 +6,7 @@
     </div>
 </template>
 <script>
-    import tabwallposts from '../tabs/wallposts/wallposts-list.vue'
+    import tabwallposts from '../tabs/wallposts/wallposts-list-someotheruser'
 
     export default {
         components: {

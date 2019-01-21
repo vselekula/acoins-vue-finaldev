@@ -1,18 +1,19 @@
 <template>
     <div>
-        <NavBar></NavBar>
+        <sideBar/>
+        <!--<NavBar></NavBar>-->
         <profile></profile>
         <Tabs></Tabs>
     </div>
 </template>
 <script>
     import Profile from "./components/profile/profile.vue"
-    import Tabs from "./components/tabs/tabs.vue"
-    import NavBar from "./components/NavBar"
+    import Tabs from "./components/tabs/tabs-someotheruser"
+    import sideBar from "./SideBar"
 
     export default {
         name: 'userPage',
-        components: {Profile, Tabs, NavBar}
+        components: {sideBar, Profile, Tabs},
     }
 </script>
 <style>
