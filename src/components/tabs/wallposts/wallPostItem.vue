@@ -22,8 +22,8 @@
                 </div>
             </div>
             <div class="row m-0 my-3">
-                <b style="cursor: pointer" @click="goToUserFrom">{{ transaction.relations.from_user.data.first_name
-                    }}:</b>{{ transaction.title }}
+                <b style="cursor: pointer" @click="goToUserFrom">
+                    {{ transaction.relations.from_user.data.first_name}}:</b>{{ transaction.title }}
             </div>
         </div>
         <transition-group name="fade" mode="out-in">

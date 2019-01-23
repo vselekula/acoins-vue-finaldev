@@ -1,5 +1,5 @@
 <template>
-    <div class="col-6 ml-auto mr-auto tabs">
+    <div class="container ml-auto mr-auto tabs">
         <b-card no-body>
             <tabwallposts/>
         </b-card>

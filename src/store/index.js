@@ -3,11 +3,12 @@ import Vuex from 'vuex';
 import {HTTP} from '../data/common'
 
 Vue.use(Vuex);
+
+
 const watchChangedCurrUser = store => {
     store.subscribe((mutation) => {
         if (mutation.type === "SET_CURRUSER") {
             store.dispatch('GET_TRANSACTIONS');
-            window.console.log('!!!!')
         }
     })
 };
@@ -88,11 +89,11 @@ export const store = new Vuex.Store({
             state.goods = payload;
         },
         ADD_USERS: (state, userData) => {
-            window.console.log('прям вот щас добавится в основной массив', userData);
+            // window.console.log('прям вот щас добавится в основной массив', userData);
             state.users.push(userData)
         },
         ADD_GOODS: (state, productData) => {
-            window.console.log('прям вот щас добавится в основной массив', productData);
+            // window.console.log('прям вот щас добавится в основной массив', productData);
             state.goods.push(productData)
         },
         DEL_USER: (state, userId) => {
@@ -104,18 +105,18 @@ export const store = new Vuex.Store({
             state.goods.splice(productIndex, 1)
         },
         PATCH_USER: (state, userPatchData) => {
-            window.console.log('вот это', userPatchData);
+            // window.console.log('вот это', userPatchData);
             let i = state.users.findIndex(obj => obj.id === userPatchData.id);
-            window.console.log('нужный объект', state.users[i]);
+            // window.console.log('нужный объект', state.users[i]);
             Vue.set(state.users[i], userPatchData);
-            window.console.log('слитый объект', state.users[i]);
+            // window.console.log('слитый объект', state.users[i]);
         },
         PATCH_GOODS: (state, goodsPatchData) => {
-            window.console.log('мутирует хранилище товаров', goodsPatchData);
+            // window.console.log('мутирует хранилище товаров', goodsPatchData);
             let i = state.goods.findIndex(obj => obj.id === goodsPatchData.id);
-            window.console.log('будет мутировать вооот этот товар', state.goods[i]);
+            // window.console.log('будет мутировать вооот этот товар', state.goods[i]);
             Vue.set(state.goods[i], goodsPatchData);
-            window.console.log('ну вот он и мутировал', state.goods[i]);
+            // window.console.log('ну вот он и мутировал', state.goods[i]);
         },
         PATCH_USER_AVATAR: (state, {userId, fileUploadResponse}) => {
             let avatarObject = fileUploadResponse;
@@ -124,9 +125,9 @@ export const store = new Vuex.Store({
         },
         PATCH_GOODS_IMG: (state, {productId, fileUploadResponse}) => {
             let imgObject = fileUploadResponse;
-            window.console.log(imgObject);
+            // window.console.log(imgObject);
             let i = state.goods.findIndex(obj => obj.id === productId);
-            window.console.log('найден объект', state.goods[i]);
+            // window.console.log('найден объект', state.goods[i]);
             Vue.set(state.goods[i].relations, 'image_file', imgObject.relations.image_file);
         },
         SET_POSITIONS: (state, payload) => {
@@ -151,19 +152,19 @@ export const store = new Vuex.Store({
             state.transactions[i].relations.messages.data.push(postMessageResponse);
         },
         ADD_TRANSACTION: (state, transactionData) => {
-            window.console.log('добавляется транзакция', transactionData);
+            // window.console.log('добавляется транзакция', transactionData);
             state.transactions.push(transactionData)
         }
     },
     actions: {
         GET_USERS: async (context) => {
             let {data} = await HTTP.get('users?include=position,avatar_file,boss,group');
-            window.console.log('полетели', data);
+            // window.console.log('полетели', data);
             context.commit('SET_USERS', data.data)
         },
         SET_CURRUSER: async (context, userId) => {
             if (userId.hasOwnProperty('userId')) {
-                window.console.log('щас пойдет ГЕТ, по юзер айди', userId);
+                // window.console.log('щас пойдет ГЕТ, по юзер айди', userId);
                 await HTTP.get('users/' + userId.userId + '?include=position,avatar_file,boss,group')
                     .then(response => {
                         let resp = response.data.data;

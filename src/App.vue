@@ -47,7 +47,7 @@
             });
             this.$router.afterEach(() => {
                 this.$insProgress.finish()
-            })
+            });
         }
     };
 

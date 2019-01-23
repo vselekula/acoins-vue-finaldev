@@ -2,7 +2,7 @@
     <div class="transactionsWrapper">
         <!--<add-transaction></add-transaction>-->
         <transition-group name="list" mode="out-in">
-            <transactionItem v-if="transactions !== []" v-for="(transaction, index) in transactions"
+            <transactionItem v-if="transactions !== []" v-for="(transaction, index) in transactions.slice().reverse()"
                              :key="index"
                              :transaction="transaction"></transactionItem>
         </transition-group>
@@ -15,7 +15,7 @@
         data() {
             return {
                 route_params_userId: Number(this.$route.params.userId),
-                transactions: null
+                transactions: []
             }
         },
         components: {

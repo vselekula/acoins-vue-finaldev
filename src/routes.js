@@ -7,19 +7,20 @@ import HAF from "./components/tabs/Best/TabBest"
 
 
 export const routes = [
-    {
-        path: '/'+JSON.parse(localStorage.getItem('user')).id,
-        component: UserPage,
-        name: 'my',
-        meta: {
-            requiresAuth: true
-        }
-    },
+
     {
         path: '/login',
         component: loginPage,
         name: 'login'
     },
+    // {
+    //     path: '/' + JSON.parse(localStorage.getItem('user')).id,
+    //     component: UserPage,
+    //     name: 'my',
+    //     meta: {
+    //         requiresAuth: true
+    //     }
+    // },
     {
         path: '/home',
         component: UserPage,
@@ -51,10 +52,23 @@ export const routes = [
         meta: {
             requiresAuth: true
         },
-        // beforeRouteUpdate(to, from, next) {
-        //     this.$store.dispatch('SET_CURRUSER', {userId: to.params.userId});
-        //     next();
-        // }
+        beforeEnter: (to, from, next) => {
+            window.console.log(to, from);
+            window.console.log(JSON.parse(window.localStorage.getItem('user')).id);
+            if (typeof(window.localStorage.getItem('user')) === 'undefined') {
+                window.console.log('yes1');
+                next();
+            }
+            if (to.params.userId === JSON.parse(window.localStorage.getItem('user')).id){
+                window.console.log('yes2');
+                next({name: 'home'});
+            }
+            // if (to.params.userId === JSON.parse(window.localStorage.getItem('user')).id && from.name === 'home'){
+            //     window.console.log('yes3');
+            //     next({name: 'home'});
+            // }
+            next();
+        }
     },
     {
         path: '*',

@@ -119,7 +119,7 @@
         width: 81px;
     }
     .name-title{
-        position: absolute;
+        position: fixed;
         top: 145px;
         left: 50%;
         -webkit-transform: translateX(-40px);

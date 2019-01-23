@@ -105,7 +105,7 @@
             border-radius: 30px;
         }
         &:active {
-            -webkit-transform: scale(0.8)
+             -webkit-transform: scale(0.8)
         }
     }
     .dropdown-toggle::after {

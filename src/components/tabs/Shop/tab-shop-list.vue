@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex flex-wrap">
+    <div class="d-flex flex-wrap container">
         <shopItem v-for="product in goodsList" :key="product.id" :product="product"></shopItem>
     </div>
 </template>
