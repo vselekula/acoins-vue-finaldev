@@ -1,6 +1,7 @@
 <template>
     <div>
-        <b-button :class="{ 'sidebar_newTrans_view': sbView, 'uc-view': usercardView }" class="btn-outline-light" @click="modalShow = !modalShow"> {{ buttonText }}
+        <b-button :class="{ 'sidebar_newTrans_view': sbView, 'uc-view': usercardView }" class="btn-outline-light" @click="modalShow = !modalShow">
+            <send-heart v-if="heartIcon"/>{{buttonText}}
         </b-button>
         <b-modal @ok="addTransaction" v-model="modalShow" size="lg">
             <img :src="'http://192.168.99.100:8000' + reciever.relations.avatar_file.data.full_path" center rounded="circle"
@@ -22,6 +23,7 @@
     import sumInput from '../../transactionForm/AmountDropdown'
     import valueInput from '../../transactionForm/CennostDropdown'
     import userSearchInput from '../../transactionForm/user-search-input/UserSearchInput'
+    import SendHeart from "./SendHeart";
 
     export default {
         name: "initiateNewTransaction",
@@ -58,15 +60,16 @@
                 showReciever: false,
             }
         },
-        props: ['buttonText', 'sb-view', 'usercardView'],
+        props: ['buttonText', 'sb-view', 'usercardView', 'heartIcon'],
 
         components: {
+            SendHeart,
             sumInput,
             valueInput,
             userSearchInput
         },
         mounted: function () {
-                this.user = JSON.parse(window.localStorage.getItem('user'));
+                // this.user = JSON.parse(window.localStorage.getItem('user'));
                 this.transactionData.from_user_id = this.user.id
         }
     }
@@ -113,7 +116,11 @@
     }
     .uc-view {
         background-color: limegreen;
-        border: none
+        border: none;
+        height: 60px;
+        &:hover {
+            background-color: darken(limegreen, 20%);
+        }
     }
     .addTransaction {
         width: 100%;

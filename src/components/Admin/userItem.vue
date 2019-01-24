@@ -259,7 +259,6 @@
     .profile-wrapper {
         height: 180px;
         position: relative;
-        border-radius: 10px;
         display: flex;
     }
 

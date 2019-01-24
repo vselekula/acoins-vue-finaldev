@@ -191,14 +191,7 @@
     .profile-wrapper {
         height: 180px;
         position: relative;
-        border-radius: 10px;
         display: flex;
-    }
-
-    .avatar {
-        box-shadow: 0 0px 40px -5px rgba(0, 64, 128, .2);
-        width: 150px;
-        height: 150px
     }
 
     .profile {

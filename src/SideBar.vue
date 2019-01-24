@@ -10,9 +10,8 @@
                     <img :src="'http://192.168.99.100:8000' + currentUser.relations.avatar_file.data.full_path"
                          blank blank-color="#fff" class="avatar_sidebar"/></a>
                 </div>
-                <div size="sm" class="name-title">
+                <div class="name-title">
                     <h4 class="mb-0 px-0 pb-1">{{currentUser.first_name }} {{ currentUser.last_name }}</h4>
-
                 </div>
             </header>
             <nav role="navigation">
@@ -23,7 +22,7 @@
                                 <i class="Sidebar-menuIcon-balance fa fa-heart fa-lg"></i>
                                 <a href="">{{ currentUser.donation_balance }}</a>
                                 <!--<button class="btn-outline-light btn float-right btn-sm nav-btn mr-2">подарить</button>-->
-                                <addTransaction button-text="подарить" sb-view="true"></addTransaction>
+                                <addTransaction button-text="подарить" :heart-icon="false" sb-view="true"></addTransaction>
                             </div>
                         </li>
                         <li class="Sidebar-navItem-main balance d-flex">
@@ -119,7 +118,7 @@
         width: 81px;
     }
     .name-title{
-        position: fixed;
+        position: relative;
         top: 145px;
         left: 50%;
         -webkit-transform: translateX(-40px);
@@ -165,7 +164,7 @@
     }
 
     .Sidebar {
-        position: absolute;
+        position: fixed;
         display: table-cell;
         min-width: SIDEBAR.width;
         // needs a max-width in order to overflow menu items
@@ -177,8 +176,8 @@
         box-shadow: 0 5px 40px -5px rgba(0, 64, 128, 0.2);
 
         &.is-collapsed {
-            max-width: 80px;
-            min-width: 80px;
+            max-width: 100px;
+            min-width: 100px;
             transition: SIDEBAR.collapseTransition;
             .Sidebar-header {
                 margin-bottom: 0;
@@ -196,7 +195,7 @@
                 }
             }
             .Sidebar-navItem {
-                padding-left: 30px;
+                padding-left: 40px;
                 transition: padding-left 0.4s ease;
                 color: white;
                 a {
