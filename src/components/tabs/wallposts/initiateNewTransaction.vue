@@ -3,17 +3,19 @@
         <b-button :class="{ 'sidebar_newTrans_view': sbView, 'uc-view': usercardView }" class="btn-outline-light" @click="modalShow = !modalShow">
             <send-heart v-if="heartIcon"/>{{buttonText}}
         </b-button>
-        <b-modal @ok="addTransaction" v-model="modalShow" size="lg">
-            <img :src="'http://192.168.99.100:8000' + reciever.relations.avatar_file.data.full_path" center rounded="circle"
-                 v-if="this.reciever !== ''" blank width="100" height="100"
-                 blank-color="#eee" alt="img"
-                 class="mx-auto mb-4">
+        <b-modal ok-only class="trans_modal" @ok="addTransaction" v-model="modalShow" size="lg">
+            <div class="mx-auto">
+                <img :src="'http://192.168.99.100:8000' + reciever.relations.avatar_file.data.full_path" center rounded="circle"
+                     v-if="this.reciever !== ''" blank width="100" height="100"
+                     blank-color="#eee" alt="img"
+                     class="mx-auto mb-4">
+            </div>
             <b-form inline>
-                <user-search-input :user="user" @input="userIsSelected"></user-search-input>
-                <sum-input :user="user" @pickedAmount="sumIsSelected"></sum-input>
-                <value-input :user="user" @pickedCennost="valueIsSelected"></value-input>
+                <user-search-input class="mr-2" :user="user" @input="userIsSelected"></user-search-input>
+                <sum-input class="mr-2" :user="user" @pickedAmount="sumIsSelected"></sum-input>
+                <value-input class="mr-2" :user="user" @pickedCennost="valueIsSelected"></value-input>
                 <textarea-autosize v-model="transactionData.title"
-                                   placeholder="Введите текст благодарности для получателя"
+                                   placeholder="Спасибо, за... "
                                    class="message mt-3 px-3 py-2"></textarea-autosize>
             </b-form>
         </b-modal>
@@ -24,9 +26,16 @@
     import valueInput from '../../transactionForm/CennostDropdown'
     import userSearchInput from '../../transactionForm/user-search-input/UserSearchInput'
     import SendHeart from "./SendHeart";
+    import {HTTP} from '../../../data/common'
 
     export default {
         name: "initiateNewTransaction",
+        // mounted: function () {
+        //     HTTP.get('me_transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + this.user.id)
+        //         .then(response => {
+        //             this.me_transactions = response.data.data
+        //         });
+        // },
         methods: {
             userIsSelected(userItem) {
                 window.console.log('выбран получатель', userItem);
@@ -42,13 +51,27 @@
                 this.transactionData.value_id = value.id
             },
             addTransaction() {
-                this.$store.dispatch('ADD_TRANSACTION', this.transactionData)
+                this.$store.dispatch('ADD_ME_TRANSACTION', this.transactionData);
+                // this.$store.dispatch('ADD_CURRUSER_TRANSACTION', this.transactionData)
+                // HTTP.post('me_transactions?include=from_user.avatar_file,to_user.avatar_file,value', {
+                //     sum: this.transactionData.sum,
+                //     from_user_id: this.transactionData.from_user_id,
+                //     to_user_id: this.transactionData.to_user_id,
+                //     title: this.transactionData.title,
+                //     value_id: this.transactionData.value_id
+                // })
+                //     .then(response => {
+                //         window.console.log(response);
+                //         this.me_transactions.push(response.data.data);
+                        // this.$emit('addTransaction', response.data.data)
+                    // })
             }
         },
         data() {
             return {
+                me_transactions: null,
                 transactionData: {
-                    from_user_id: null,
+                    from_user_id: this.$store.state.me.id,
                     to_user_id: '',
                     sum: '',
                     value_id: '',
@@ -68,10 +91,6 @@
             valueInput,
             userSearchInput
         },
-        mounted: function () {
-                // this.user = JSON.parse(window.localStorage.getItem('user'));
-                this.transactionData.from_user_id = this.user.id
-        }
     }
 
 </script>
@@ -87,6 +106,12 @@
 
 </style>
 <style lang="stylus">
+    .modal-header {
+        display: none;
+    }
+    .modal-footer {
+        border-top: none;
+    }
     .sidebar_newTrans_view {
         opacity: 1;
         position: absolute;
@@ -124,5 +149,7 @@
     }
     .addTransaction {
         width: 100%;
+    }
+    .trans_modal{
     }
 </style>

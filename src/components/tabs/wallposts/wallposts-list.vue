@@ -22,14 +22,14 @@
         },
         mounted() {
             this.$insProgress.finish();
-            this.$store.dispatch('GET_TRANSACTIONS', this.$store.state.me.id);
         },
         created() {
-            this.$insProgress.start()
+            this.$insProgress.start();
+            this.$store.dispatch('GET_ME_TRANSACTIONS', this.$store.state.me.id);
         },
         computed: {
             transactionsList() {
-                return this.$store.getters.TRANSACTIONS
+                return this.$store.getters.ME_TRANSACTIONS
             }
         }
     }

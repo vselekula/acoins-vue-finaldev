@@ -1,15 +1,15 @@
 <template>
     <div class="row m-0">
         <div class="reply px-4 py-3 flex-grow-1">
-            <div class="flex-row" style="cursor: pointer" @click="goToUserFrom">
-                <div class="d-flex">
-                    <b>{{ message.relations.user.data.first_name }}</b>
+            <div class="row px-3">
+                <div class="d-flex"  style="cursor: pointer" @click="goToUserFrom">
+                    <b>{{ message.relations.user.data.first_name }}: </b>
                 </div>
-                <div class="d-flex">
+                <div class="d-flex flex-grow-1">
                     {{ message.message }}
                 </div>
             </div>
-            <Del @click.native="deleteComment()"
+            <Del v-if="message.user_id === this.$store.state.me.id" @click.native="deleteComment()"
                  fillColor="rgba(209, 209, 208, 0.5)" class="delMessage"/>
         </div>
     </div>

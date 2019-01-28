@@ -17,7 +17,7 @@
         },
         data() {
             return {
-                selectedSum: 'Сумма',
+                selectedSum: null,
                 sums: sums,
                 sum: '',
             }

@@ -12,7 +12,7 @@
         },
         data() {
             return {
-                selectedValue: '',
+                selectedValue: null,
             }
         },
         methods: {

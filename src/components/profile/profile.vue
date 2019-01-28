@@ -24,7 +24,7 @@
                             <Phone fillColor="#2db3ff"/>
                             +7{{ currentUser.phone }}
                         </div>
-                        <div class="user_mail">
+                        <div class="user_mail pt-1">
                             <Email fillColor="#2db3ff"/>
                             {{ currentUser.email }}
                         </div>
@@ -34,7 +34,7 @@
                             <avito-logo/>
                             {{ employment_date_formatted }}
                         </div>
-                        <div class="user_HB">
+                        <div class="user_HB pt-1">
                             <Cake fillColor="#2db3ff"/>
                             {{ birth_date_formatted }}
                         </div>
@@ -57,60 +57,74 @@
         data() {
             return {
                 route_params_userId: Number(this.$route.params.userId),
-                currentUser: null,
-                me: JSON.parse(localStorage.getItem('user')),
+                me: this.$store.state.me,
                 employment_date_formatted: '',
-                birth_date_formatted: ''
+                birth_date_formatted: '',
             }
         },
-        created: function () {
-            // this.$store.dispatch('GET_TRANSACTIONS', this.route_params_userId);
-            HTTP.get('users/' + this.route_params_userId + '?include=position,avatar_file,boss,group')
-                .then(response => {
+        methods: {
+            // addTransaction(transactionItem) {
+            //     this.thisUserTransactions.push(transactionItem)
+            // }
+            },
+            created: function () {
+                this.$store.dispatch('SET_CURRUSER', this.route_params_userId);
+                // this.$store.dispatch('GET_CURRUSER_TRANSACTIONS', this.route_params_userId);
+                // HTTP.get('users/' + this.route_params_userId + '?include=position,avatar_file,boss,group')
+                //     .then(response => {
+                //
+                //         let resp = response.data.data;
+                //         Object.keys(resp).forEach(function (key) {
+                //             if (resp[key] === null || resp[key] === undefined) {
+                //                 window.console.log('у юзера есть пустые значения', key, resp[key]);
+                //                 resp[key] = '';
+                //             }
+                //         });
 
-                    let resp = response.data.data;
-                    Object.keys(resp).forEach(function (key) {
-                        if (resp[key] === null || resp[key] === undefined) {
-                            window.console.log('у юзера есть пустые значения', key, resp[key]);
-                            resp[key] = '';
+                // function formatDDMMM(s) {
+                //     let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
+                //     let d = s.split(/\D/);
+                //     return d[2] + ' ' + months[d[1] - 1];
+                // }
+                //
+                // function formatDDMMMyear(s) {
+                //     let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
+                //     let d = s.split(/\D/);
+                //     return 'c ' + d[2] + ' ' + months[d[1] - 1] + ' ' + d[0];
+                // }
+
+                // this.currentUser = resp;
+                // this.employment_date_formatted = formatDDMMMyear(this.me.employment_date);
+                // this.birth_date_formatted = formatDDMMM(this.me.birth_date);
+                // });
+
+                // HTTP.get('me_transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + this.route_params_userId)
+                //     .then(response => {
+                //         this.thisUserTransactions = response.data.data
+                //     });
+
+            },
+            watch: {
+                    '$route'(to, from) {
+                        window.console.log('to', to);
+                        window.console.log('from', from);
+                        if (to.params.userId === this.me.id) {
+                            this.$router.push('/home')
                         }
-                    });
-
-                    function formatDDMMM(s){
-                        let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
-                        let d = s.split(/\D/);
-                        return d[2] + ' ' + months[d[1]-1];
+                        if (from.name === 'home' && to.params.userId === this.me.id) {
+                            this.$router.push('/home')
+                        }
                     }
-                    function formatDDMMMyear(s){
-                        let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
-                        let d = s.split(/\D/);
-                        return 'c ' + d[2] + ' ' + months[d[1]-1] + ' ' + d[0];
-                    }
-
-                    this.currentUser = resp;
-                    window.console.log(this.currentUser.employment_date);
-                    this.employment_date_formatted = formatDDMMMyear(this.currentUser.employment_date);
-                    this.birth_date_formatted = formatDDMMM(this.currentUser.birth_date);
-                });
-
-
-        },
-        beforeMount: function() {
-            window.console.log(this.currentUser.employment_date)
-        },
-        watch:
-            {
-                '$route'(to, from) {
-                    window.console.log('to', to);
-                    window.console.log('from', from);
-                    if (to.params.userId === this.me.id) {
-                        this.$router.push('/home')
-                    }
-                    if (from.name === 'home' && to.params.userId === this.me.id) {
-                        this.$router.push('/home')
-                    }
-                }
+                },
+            computed: {
+                currentUser() {
+                    return this.$store.getters.CURRUSER
+                },
+                // currUserTransactions() {
+                //     return this.$store.getters.CURRUSER_TRANSACTIONS
+                // }
             }
+
     }
 
 </script>

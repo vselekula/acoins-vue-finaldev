@@ -66,7 +66,7 @@
         name: "loginPage",
         data() {
             return {
-                email: 'glen14@yahoo.com',
+                email: 'admin@avito.ru',
                 password: 'password',
                 token: null,
                 show: true,

@@ -106,7 +106,7 @@
                     return this.transaction.relations.messages.data;
                 }
             },
-            currentUser: function () {
+            me: function () {
                 return this.$store.getters.CURRUSER
             },
             changedDateFormat: function () {

@@ -91,7 +91,7 @@
             }
         },
         created: function () {
-            this.authUser = JSON.parse(window.localStorage.getItem('user'));
+            // this.authUser = JSON.parse(window.localStorage.getItem('user'));
             this.transaction_date = this.transaction.created_at;
         },
         methods: {
@@ -100,20 +100,27 @@
             },
             goToUser() {
                 // this.$store.dispatch('SET_CURRUSER', this.transaction.relations.to_user.data);
+                window.console.log('ААА');
                 this.$router.push({name: 'user', params: {userId: this.transaction.relations.to_user.data.id}})
             },
             goToUserFrom() {
                 // this.$store.dispatch('SET_CURRUSER', this.transaction.relations.from_user.data);
                 // window.console.log('user', this.transaction.relations.to_user.data);
+                window.console.log('АААF');
                 this.$router.push({name: 'user', params: {userId: this.transaction.relations.from_user.data.id}})
             },
             postMessage() {
                 let transactionData = {
                     message: this.newMessage,
-                    user_id: this.authUser.id,
+                    user_id: this.$store.state.me.id,
                     transaction_id: this.transaction.id
                 };
-                this.$store.dispatch('ADD_MESSAGE', transactionData);
+                if (this.$route.name === 'home'){
+                    this.$store.dispatch('ADD_ME_MESSAGE', transactionData);
+                } else {
+                    this.$store.dispatch('ADD_CURRUSER_MESSAGE', transactionData);
+                }
+
                 this.newMessage = '';
                 this.seen = false;
             },
@@ -142,9 +149,9 @@
                     return this.transaction.relations.messages.data;
                 }
             },
-            currentUser: function () {
-                return this.$store.getters.CURRUSER
-            },
+            // me: function () {
+            //     return this.$store.getters.CURRUSER
+            // },
             changedDateFormat: function () {
                 return this.transaction_date.substring(5, 10).replace("-", ".");
             },

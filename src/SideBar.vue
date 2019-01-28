@@ -7,11 +7,11 @@
             <header class="Sidebar-header">
                 <div class="Sidebar-logo">
                     <a href="/home">
-                    <img :src="'http://192.168.99.100:8000' + currentUser.relations.avatar_file.data.full_path"
+                    <img :src="'http://192.168.99.100:8000' + me.relations.avatar_file.data.full_path"
                          blank blank-color="#fff" class="avatar_sidebar"/></a>
                 </div>
                 <div class="name-title">
-                    <h4 class="mb-0 px-0 pb-1">{{currentUser.first_name }} {{ currentUser.last_name }}</h4>
+                    <h4 class="mb-0 px-0 pb-1">{{me.first_name }} {{ me.last_name }}</h4>
                 </div>
             </header>
             <nav role="navigation">
@@ -20,15 +20,15 @@
                         <li class="Sidebar-navItem-main balance d-flex">
                             <div class="balanceAndActionWrapper d-flex align-items-center">
                                 <i class="Sidebar-menuIcon-balance fa fa-heart fa-lg"></i>
-                                <a href="">{{ currentUser.donation_balance }}</a>
+                                <a href="">{{ me.donation_balance }}</a>
                                 <!--<button class="btn-outline-light btn float-right btn-sm nav-btn mr-2">подарить</button>-->
-                                <addTransaction button-text="подарить" :heart-icon="false" sb-view="true"></addTransaction>
+                                <addTransaction button-text="подарить" sb-view="true"></addTransaction>
                             </div>
                         </li>
                         <li class="Sidebar-navItem-main balance d-flex">
                             <div class="balanceAndActionWrapper d-flex align-items-center align-self-center">
                                 <i class="Sidebar-menuIcon-balance fa fa-wallet fa-lg"></i>
-                                <a href="">{{ currentUser.purchase_balance }}</a>
+                                <a href="">{{ me.purchase_balance }}</a>
                                 <button @click="shop"  class="sidebar_newTrans_view ">купить</button>
                             </div>
                         </li>
@@ -67,14 +67,14 @@
         data() {
             return {
                 boolie: true,
-                currentUser: ''
+                // me: ''
             }
         },
         components: {
           addTransaction
         },
         // computed: {
-        //     currentUser: function () {
+        //     me: function () {
         //         return this.$store.getters.CURRUSER
         //     }
         // },
@@ -91,7 +91,7 @@
             this.$router.push({name: 'admin'})
         },
         home() {
-            this.$store.dispatch('SET_CURRUSER', JSON.parse(window.localStorage.getItem('user')));
+            // this.$store.dispatch('SET_CURRUSER', JSON.parse(window.localStorage.getItem('user')));
             this.$router.push({name: 'home'})
         },
         shop() {
@@ -101,9 +101,14 @@
             this.$router.push({name: 'haf'})
         }
     },
-        beforeMount: function () {
-            this.currentUser = JSON.parse(window.localStorage.getItem('user'));
-        },
+        // beforeMount: function () {
+        //     this.me = JSON.parse(window.localStorage.getItem('user'));
+        // },
+        computed: {
+            me(){
+                return this.$store.state.me
+            }
+        }
     }
 
 </script>
@@ -115,7 +120,7 @@
     mediaQuery: 500px
 }
     .avatar_sidebar {
-        width: 81px;
+        width: 100px;
     }
     .name-title{
         position: relative;
@@ -130,7 +135,7 @@
     }
     .balances {
         background: linear-gradient(359.43deg, rgba(0, 170, 255, 0.67) 0.76%, #00AAFF 98.81%);
-
+        margin-top: 70px;
         a {
             color: white
             padding-left: 10px
@@ -186,7 +191,7 @@
                 }
             }
             .Sidebar-logo {
-                transform:  translate(-40px, -50px);
+                transform:  translate(-40px, 0px);
                 transition: transform 0.4s ease;
             }
             .Sidebar-navItem-main{
@@ -243,11 +248,11 @@
     .Sidebar-logo {
         position: absolute;
         bottom: 0;
-        left: 50%;
-        transform: translateX(-40px);
+        left: 40%;
+        transform: translateX(-30px);
         display: inline-block;
-        width: 80px;
-        height: 80px;
+        width: 100px;
+        height: 100px;
         transition: transform 0.4s ease,
                 height 0.4s ease,
                 width 0.4s ease;

@@ -31,7 +31,7 @@
         components: {Slide, userSearch},
         name: 'sidebar',
         computed: {
-            currentUser: function () {
+            me: function () {
                 return this.$store.getters.CURRUSER
             }
         },

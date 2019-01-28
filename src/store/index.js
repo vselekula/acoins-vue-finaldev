@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import {HTTP} from '../data/common'
+import {router} from '../router'
 
 Vue.use(Vuex);
-
 
 const watchChangedCurrUser = store => {
     store.subscribe((mutation) => {
         if (mutation.type === "SET_CURRUSER") {
-            store.dispatch('GET_TRANSACTIONS');
+            store.dispatch('GET_CURRUSER_TRANSACTIONS', router.currentRoute.params.userId);
         }
     })
 };
@@ -17,23 +17,26 @@ export const store = new Vuex.Store({
         users: {},
         groups: {},
         positions: {},
-        transactions: [],
+        me_transactions: [],
         token: localStorage.getItem('user-token') || '',
         status: '',
         values: [],
         sums: [],
         goods: {},
-        me: JSON.parse(localStorage.getItem('user')),
+        me: JSON.parse(window.localStorage.getItem('user')),
         currUser: null,
-        currTransactions: []
+        currUserTransactions: []
     },
     getters: {
-        // CURRUSER: state => {
-        //     return state.currUser
-        // },
-        // CURRENT_TRANSACTIONS: state => {
-        //     return state.currTransactions
-        // },
+        CURRUSER: state => {
+            return state.currUser
+        },
+        ME: state => {
+            return state.me
+        },
+        CURRUSER_TRANSACTIONS: state => {
+            return state.currUserTransactions
+        },
         isAuthenticated: state => !!state.token,
         authStatus: state => state.status,
         USERS: state => {
@@ -51,8 +54,8 @@ export const store = new Vuex.Store({
         GROUPS: state => {
             return state.groups;
         },
-        TRANSACTIONS: state => {
-            return state.transactions
+        ME_TRANSACTIONS: state => {
+            return state.me_transactions
         }
     },
     mutations: {
@@ -133,28 +136,45 @@ export const store = new Vuex.Store({
         SET_POSITIONS: (state, payload) => {
             state.positions = payload;
         },
-        // SET_CURRUSER: (state, payload) => {
-        //     state.currUser = payload;
-        //     window.console.log('currUser', state.currUser)
-        // },
+        SET_CURRUSER: (state, payload) => {
+            state.currUser = payload;
+            window.console.log('currUser', state.currUser)
+        },
         SET_GROUPS: (state, payload) => {
             state.groups = payload;
         },
         SET_VALUES: (state, payload) => {
             state.values = payload;
         },
-        SET_TRANSACTIONS: (state, payload) => {
+        SET_ME_TRANSACTIONS: (state, payload) => {
             window.console.log(payload);
-            state.transactions = payload;
+            state.me_transactions = payload;
         },
-        ADD_MESSAGE: (state, {postMessageResponse, transactionId}) => {
-            let i = state.transactions.findIndex(obj => obj.id === transactionId);
-            state.transactions[i].relations.messages.data.push(postMessageResponse);
+        SET_CURRUSER_TRANSACTIONS: (state, payload) => {
+            window.console.log(payload);
+            state.currUserTransactions = payload;
         },
-        ADD_TRANSACTION: (state, transactionData) => {
-            // window.console.log('добавляется транзакция', transactionData);
-            state.transactions.push(transactionData)
+        ADD_ME_MESSAGE: (state, {postMessageResponse, transactionId}) => {
+            let i = state.me_transactions.findIndex(obj => obj.id === transactionId);
+            state.me_transactions[i].relations.messages.data.push(postMessageResponse);
+        },
+        ADD_CURRUSER_MESSAGE: (state, {postMessageResponse, transactionId}) => {
+            let i = state.currUserTransactions.findIndex(obj => obj.id === transactionId);
+            state.currUserTransactions[i].relations.messages.data.push(postMessageResponse);
+        },
+        ADD_ME_TRANSACTION: (state, transactionData) => {
+            window.console.log('добавляется транзакция', transactionData);
+            state.me_transactions.push(transactionData)
+        },
+        ADD_CURRUSER_TRANSACTION: (state, transactionData) => {
+            window.console.log('добавляется транзакция', transactionData);
+            state.currUserTransactions.push(transactionData)
+        },
+        SET_ME: (state, meObj) => {
+            window.console.log(meObj);
+            state.me = meObj;
         }
+
     },
     actions: {
         GET_USERS: async (context) => {
@@ -163,9 +183,9 @@ export const store = new Vuex.Store({
             context.commit('SET_USERS', data.data)
         },
         SET_CURRUSER: async (context, userId) => {
-            if (userId.hasOwnProperty('userId')) {
+            // if (userId.hasOwnProperty('userId')) {
                 // window.console.log('щас пойдет ГЕТ, по юзер айди', userId);
-                await HTTP.get('users/' + userId.userId + '?include=position,avatar_file,boss,group')
+                await HTTP.get('users/' + userId + '?include=position,avatar_file,boss,group')
                     .then(response => {
                         let resp = response.data.data;
                         Object.keys(resp).forEach(function (key) {
@@ -176,9 +196,6 @@ export const store = new Vuex.Store({
                         });
                         context.commit('SET_CURRUSER', resp);
                     });
-            } else {
-                context.commit('SET_CURRUSER', userId);
-            }
         },
         GET_GOODS: async (context) => {
             let {data} = await HTTP.get('goods?include=image_file');
@@ -283,7 +300,8 @@ export const store = new Vuex.Store({
                 HTTP({url: 'login?include=avatar_file,boss,position', data: user, method: 'POST'})
                     .then(resp => {
                         window.console.log('здесь где то токен', resp);
-                        commit('SET_CURRUSER', resp.data.data);
+                        // commit('SET_CURRUSER', resp.data.data);
+                        commit('SET_ME', resp.data.data);
                         const token = 'Bearer ' + resp.data.data.api_token;
                         localStorage.setItem('user-token', token);
                         window.localStorage.setItem('user', JSON.stringify(resp.data.data));
@@ -307,12 +325,19 @@ export const store = new Vuex.Store({
                 resolve()
             })
         },
-        GET_TRANSACTIONS: async (context, userId) => {
+        GET_ME_TRANSACTIONS: async (context, userId) => {
             // let noneTransactions = [];
             // context.commit('SET_TRANSACTIONS', noneTransactions);
             let {data} = await HTTP.get('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + userId);
             window.console.log('????', userId);
-            context.commit('SET_TRANSACTIONS', data.data)
+            context.commit('SET_ME_TRANSACTIONS', data.data)
+        },
+        GET_CURRUSER_TRANSACTIONS: async (context, userId) => {
+            // let noneTransactions = [];
+            // context.commit('SET_TRANSACTIONS', noneTransactions);
+            let {data} = await HTTP.get('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + userId);
+            window.console.log('????', userId);
+            context.commit('SET_CURRUSER_TRANSACTIONS', data.data)
         },
         ADD_USER_W_AVATAR: async (context, {userData, file}) => {
             HTTP.post('files', file,
@@ -345,18 +370,29 @@ export const store = new Vuex.Store({
                         })
                 });
         },
-        ADD_MESSAGE: async (context, transactionData) => {
+        ADD_ME_MESSAGE: async (context, transactionData) => {
             let {data} = await HTTP.post(`transactions/` + transactionData.user_id + `/messages?include=user`, {
                 transaction_id: transactionData.transaction_id,
                 user_id: transactionData.user_id,
                 message: transactionData.message,
             });
-            context.commit('ADD_MESSAGE', {
+            context.commit('ADD_ME_MESSAGE', {
                 postMessageResponse: data.data,
                 transactionId: transactionData.transaction_id
             })
         },
-        ADD_TRANSACTION: async (context, transactionData) => {
+        ADD_CURRUSER_MESSAGE: async (context, transactionData) => {
+            let {data} = await HTTP.post(`transactions/` + transactionData.user_id + `/messages?include=user`, {
+                transaction_id: transactionData.transaction_id,
+                user_id: transactionData.user_id,
+                message: transactionData.message,
+            });
+            context.commit('ADD_CURRUSER_MESSAGE', {
+                postMessageResponse: data.data,
+                transactionId: transactionData.transaction_id
+            })
+        },
+        ADD_ME_TRANSACTION: async (context, transactionData) => {
             let {data} = await HTTP.post('transactions?include=from_user.avatar_file,to_user.avatar_file,value', {
                 sum: transactionData.sum,
                 from_user_id: transactionData.from_user_id,
@@ -365,7 +401,18 @@ export const store = new Vuex.Store({
                 value_id: transactionData.value_id
             });
             // Vue.set(data.data.relations, messages, )
-            context.commit('ADD_TRANSACTION', data.data)
+            context.commit('ADD_ME_TRANSACTION', data.data)
+        },
+        ADD_CURRUSER_TRANSACTION: async (context, transactionData) => {
+            let {data} = await HTTP.post('transactions?include=from_user.avatar_file,to_user.avatar_file,value', {
+                sum: transactionData.sum,
+                from_user_id: transactionData.from_user_id,
+                to_user_id: transactionData.to_user_id,
+                title: transactionData.title,
+                value_id: transactionData.value_id
+            });
+            // Vue.set(data.data.relations, messages, )
+            context.commit('ADD_CURRUSER_TRANSACTION', data.data)
         }
     },
     plugins: [watchChangedCurrUser]
