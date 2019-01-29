@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
     import shopItem from '../Shop/shopItem';
 
     export default {
@@ -33,7 +32,9 @@
         display: flex;
         flex-wrap: wrap;
     }
-
+    .card {
+        background: white;
+    }
     #shop-tab {
         padding: none;
     }

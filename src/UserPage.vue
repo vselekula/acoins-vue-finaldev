@@ -1,6 +1,7 @@
 <template>
     <div>
-        <sideBar/>
+        <!--<sideBar/>-->
+        <top_cta/>
         <!--<NavBar></NavBar>-->
         <!--<profile></profile>-->
         <Tabs></Tabs>
@@ -9,11 +10,12 @@
 <script>
     // import Profile from "./components/profile/profile.vue"
     import Tabs from "./components/tabs/tabs.vue"
-    import sideBar from "./SideBar"
+    // import sideBar from "./SideBar"
+    import Top_cta from "./Top_cta";
 
     export default {
         name: 'userPage',
-        components: {sideBar, Tabs},
+        components: {Top_cta, Tabs},
     }
 </script>
 <style>

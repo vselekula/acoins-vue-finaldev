@@ -44,8 +44,7 @@
         transform: translateY(50px);
     }
     .transactionsWrapper {
-        background-color: #eee;
-        padding-top: 100px
+        background-color: transparent;
     }
     .list-enter-to {
         opacity: 1;

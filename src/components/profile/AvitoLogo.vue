@@ -25,10 +25,10 @@
     }
 </script>
 <style>
-    .st00{fill:rgb(45, 179, 255);;}
-    .st11{fill:rgb(45, 179, 255);;}
-    .st22{fill:rgb(45, 179, 255);;}
-    .st33{fill:rgb(45, 179, 255);;}
+    .st00{fill:white}
+    .st11{fill:white}
+    .st22{fill:white}
+    .st33{fill:white}
 
 
     /*.st0{fill:#47A2DA;}*/

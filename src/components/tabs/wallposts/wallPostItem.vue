@@ -11,7 +11,7 @@
                 <div class="sum d-flex flex-grow-1 flex-row ml-3">
                     <div class="d-flex flex-column">
                         <div>
-                            <span class="badge badge-pill badge-primary">
+                            <span class="badge value-pill badge-pill badge-primary">
                                 <font-awesome-icon icon="heart" size="lg"/> + {{ transaction.sum }}</span>
                         </div>
                         <div class="mt-1">
@@ -166,7 +166,9 @@
     textarea:focus {
         outline: none;
     }
-
+    .value-pill {
+        background-color: #2db3ff;
+    }
     /*.fade-enter-active, .fade-leave-active {*/
     /*transition: opacity .5s;*/
     /*}*/

@@ -51,7 +51,7 @@
         transform: translateY(50px);
     }
     .transactionsWrapper {
-        background-color: #eee;
+        background-color: transparent;
     }
     .list-enter-to {
         opacity: 1;

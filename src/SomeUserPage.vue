@@ -1,6 +1,6 @@
 <template>
     <div>
-        <sideBar/>
+        <!--<sideBar/>-->
         <!--<NavBar></NavBar>-->
         <profile></profile>
         <Tabs></Tabs>
@@ -9,11 +9,11 @@
 <script>
     import Profile from "./components/profile/profile.vue"
     import Tabs from "./components/tabs/tabs-someotheruser"
-    import sideBar from "./SideBar"
+    // import sideBar from "./SideBar"
 
     export default {
         name: 'userPage',
-        components: {sideBar, Profile, Tabs},
+        components: {Profile, Tabs},
     }
 </script>
 <style>

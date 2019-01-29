@@ -1,7 +1,7 @@
 <template>
     <div>
-        <b-button :class="{ 'sidebar_newTrans_view': sbView, 'uc-view': usercardView }" class="btn-outline-light" @click="modalShow = !modalShow">
-            <send-heart v-if="heartIcon"/>{{buttonText}}
+        <b-button :class="{ 'sidebar_newTrans_view': sbView, 'uc-view': usercardView, 'head-view': headerView }" class="btn-outline-light px-4" @click="modalShow = !modalShow">
+            {{buttonText }}  <send-heart v-if="heartIcon" class=""/>
         </b-button>
         <b-modal ok-only class="trans_modal" @ok="addTransaction" v-model="modalShow" size="lg">
             <div class="mx-auto">
@@ -26,7 +26,7 @@
     import valueInput from '../../transactionForm/CennostDropdown'
     import userSearchInput from '../../transactionForm/user-search-input/UserSearchInput'
     import SendHeart from "./SendHeart";
-    import {HTTP} from '../../../data/common'
+    // import {HTTP} from '../../../data/common'
 
     export default {
         name: "initiateNewTransaction",
@@ -83,7 +83,7 @@
                 showReciever: false,
             }
         },
-        props: ['buttonText', 'sb-view', 'usercardView', 'heartIcon'],
+        props: ['buttonText', 'sb-view', 'usercardView', 'heartIcon', 'headerView'],
 
         components: {
             SendHeart,
@@ -145,7 +145,23 @@
         height: 60px;
         &:hover {
             background-color: darken(limegreen, 20%);
+            color: white
         }
+    }
+    .head-view{
+        border: none
+        padding: 0 4px !important
+        background: white
+        color: #2db3ff
+        position: relative
+        top: -1px
+        -webkit-border-radius: 0 0 5px 5px
+        -moz-border-radius: 0 0 5px 5px
+        border-radius: 0 0 0 0
+        height: 49px
+        width: 150px
+        box-shadow: 0px 10px 25px rgba(3, 134, 255, 0.41);
+        text-decoration: underline
     }
     .addTransaction {
         width: 100%;

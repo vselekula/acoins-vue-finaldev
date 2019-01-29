@@ -5,13 +5,15 @@
               crossorigin="anonymous">
         <div class="Sidebar" :class="boolie ? 'is-collapsed' : ''" @mouseover="boolie = false" @mouseleave="boolie = true">
             <header class="Sidebar-header">
-                <div class="Sidebar-logo">
-                    <a href="/home">
-                    <img :src="'http://192.168.99.100:8000' + me.relations.avatar_file.data.full_path"
-                         blank blank-color="#fff" class="avatar_sidebar"/></a>
-                </div>
-                <div class="name-title">
-                    <h4 class="mb-0 px-0 pb-1">{{me.first_name }} {{ me.last_name }}</h4>
+                <div class="header-wrapper d-flex">
+                    <div class="Sidebar-logo">
+                        <a href="/home">
+                            <img :src="'http://192.168.99.100:8000' + me.relations.avatar_file.data.full_path"
+                                 blank blank-color="#fff" class="avatar_sidebar"/></a>
+                    </div>
+                    <div class="name-title">
+                        <h4>{{me.first_name }} {{ me.last_name }}</h4>
+                    </div>
                 </div>
             </header>
             <nav role="navigation">
@@ -121,9 +123,13 @@
 }
     .avatar_sidebar {
         width: 100px;
+
+        background: #2db3ff;
     }
     .name-title{
-        position: relative;
+        background: #2db3ff;
+        color: white;
+        position: absolute;
         top: 145px;
         left: 50%;
         -webkit-transform: translateX(-40px);
@@ -134,8 +140,11 @@
         transition: all 0.4s ease;
     }
     .balances {
-        background: linear-gradient(359.43deg, rgba(0, 170, 255, 0.67) 0.76%, #00AAFF 98.81%);
-        margin-top: 70px;
+        background: #2db3ff;
+        margin-top: 50px;
+        position: relative;
+        top: -10px;
+        /*padding-bottom: 20px;*/
         a {
             color: white
             padding-left: 10px
@@ -167,11 +176,15 @@
         width: 100%;
         height: 100%;
     }
-
+    .header-wrapper{
+        background: #2db3ff;
+        height: 300px;
+    }
     .Sidebar {
         position: fixed;
         display: table-cell;
         min-width: SIDEBAR.width;
+        z-index 10000;
         // needs a max-width in order to overflow menu items
         max-width: SIDEBAR.width;
         min-height: 100%;
@@ -185,7 +198,7 @@
             min-width: 100px;
             transition: SIDEBAR.collapseTransition;
             .Sidebar-header {
-                margin-bottom: 0;
+                /*margin-bottom: 0;*/
                 .name-title {
                     opacity: 0;
                 }
@@ -241,11 +254,13 @@
         height: 130px;
         margin-bottom: 70px;
         text-align: center;
-        transition: margin-bottom 0.4s ease
+        transition: margin-bottom 0.4s ease;
+        background: #2db3ff;
     }
 
 
     .Sidebar-logo {
+        background: #2db3ff;
         position: absolute;
         bottom: 0;
         left: 40%;

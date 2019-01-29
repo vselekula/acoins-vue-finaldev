@@ -1,6 +1,9 @@
 <template>
     <div id="app">
         <!--<transition-group name="fade">-->
+        <div class="container-fluid main-head"></div>
+        <sideBar></sideBar>
+
             <router-view />
             <vue-ins-progress-bar></vue-ins-progress-bar>
         <!--</transition-group>-->
@@ -19,7 +22,7 @@
     import {faBirthdayCake, faEnvelope, faHeart, faPhone, faUsers, faWallet} from '@fortawesome/free-solid-svg-icons'
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
     import {HTTP} from './data/common'
-
+    import sideBar from './SideBar'
     let item = window.localStorage.getItem('user');
     if (item) {
         let json = JSON.parse(item);
@@ -39,7 +42,7 @@
     Vue.config.productionTip = false;
     export default {
         name: "app",
-        components: {},
+        components: {sideBar},
         created () {
             this.$router.beforeEach((to, from, next) => {
                 this.$insProgress.start();
@@ -66,7 +69,11 @@
     ::-webkit-scrollbar {
         width: 0 !important
     }
-
+    .main-head{
+        height: 300px;
+        background-color: #2db3ff;
+        position: fixed;
+    }
     .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
         box-shadow: 0 5px 40px -5px rgba(1, 123, 251, 0.6);
     }

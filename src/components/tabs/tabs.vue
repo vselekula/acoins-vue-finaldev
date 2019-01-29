@@ -23,5 +23,6 @@
     .card {
         border: none;
         height: 100%;
+        background: transparent;
     }
 </style>

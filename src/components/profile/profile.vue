@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto profile-wrapper mb-4 px-3">
+    <div class="container mx-auto profile-wrapper my-1 px-3">
         <div class="d-flex align-items-center">
             <div class="mr-3">
                 <img v-if="currentUser !== null"
@@ -21,11 +21,11 @@
                 <div class="row">
                     <div class="flex-column mx-3">
                         <div class="user_phone">
-                            <Phone fillColor="#2db3ff"/>
+                            <Phone fillColor="white"/>
                             +7{{ currentUser.phone }}
                         </div>
                         <div class="user_mail pt-1">
-                            <Email fillColor="#2db3ff"/>
+                            <Email fillColor="white"/>
                             {{ currentUser.email }}
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                             {{ employment_date_formatted }}
                         </div>
                         <div class="user_HB pt-1">
-                            <Cake fillColor="#2db3ff"/>
+                            <Cake fillColor="white"/>
                             {{ birth_date_formatted }}
                         </div>
                     </div>
@@ -46,7 +46,7 @@
 </template>
 <script>
     import addTransaction from '../tabs/wallposts/initiateNewTransaction'
-    import {HTTP} from '../../data/common'
+    // import {HTTP} from '../../data/common'
     import AvitoLogo from "./AvitoLogo";
 
     export default {
@@ -81,22 +81,21 @@
                 //             }
                 //         });
 
-                // function formatDDMMM(s) {
-                //     let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
-                //     let d = s.split(/\D/);
-                //     return d[2] + ' ' + months[d[1] - 1];
-                // }
-                //
-                // function formatDDMMMyear(s) {
-                //     let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
-                //     let d = s.split(/\D/);
-                //     return 'c ' + d[2] + ' ' + months[d[1] - 1] + ' ' + d[0];
-                // }
+                function formatDDMMM(s) {
+                    let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
+                    let d = s.split(/\D/);
+                    return d[2] + ' ' + months[d[1] - 1];
+                }
+
+                function formatDDMMMyear(s) {
+                    let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
+                    let d = s.split(/\D/);
+                    return 'c ' + d[2] + ' ' + months[d[1] - 1] + ' ' + d[0];
+                }
 
                 // this.currentUser = resp;
-                // this.employment_date_formatted = formatDDMMMyear(this.me.employment_date);
-                // this.birth_date_formatted = formatDDMMM(this.me.birth_date);
-                // });
+                this.employment_date_formatted = formatDDMMMyear(this.me.employment_date);
+                this.birth_date_formatted = formatDDMMM(this.me.birth_date);
 
                 // HTTP.get('me_transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + this.route_params_userId)
                 //     .then(response => {
@@ -129,29 +128,34 @@
 
 </script>
 
-<style>
-    .profile-wrapper {
-        height: 215px;
-        position: relative;
-        border-radius: 0 0 10px 10px;
-        display: flex;
-        /*background-color: white;*/
-        /*box-shadow: 0 5px 40px -5px rgba(0, 64, 128, 0.2)*/
-    }
+<style lang="stylus">
+    .profile-wrapper
+        height: 215px
+        position: relative
+        border-radius: 0 0 10px 10px
+        display: flex
+        color: white
 
-    .avatar {
-        width: 140px;
+    .avatar
+        width: 140px
         height: 140px
-    }
 
-    .profile {
+    .user_position
+        color: powderblue
+
+    .user_mail
+    .user_inAvito
+    .user_phone
+    .user_HB
+        color: white
+
+    .profile
         width: 100%
-    }
 
-    .user_moneyAmount, .user_likesAmount {
+    .user_moneyAmount, .user_likesAmount
         display: flex;
         flex-direction: row;
         align-items: center;
-    }
+
 
 </style>
