@@ -65,14 +65,18 @@
         color: #2c3e50;
 
     }
-
-    ::-webkit-scrollbar {
-        width: 0 !important
-    }
+    .container {
+            max-width: 850px;
+        min-width: 500px;
+        }
+    /*::-webkit-scrollbar {*/
+        /*width: 0 !important*/
+    /*}*/
     .main-head{
         height: 300px;
         background-color: #2db3ff;
-        position: fixed;
+        position: absolute;
+        top: 0px;
     }
     .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
         box-shadow: 0 5px 40px -5px rgba(1, 123, 251, 0.6);

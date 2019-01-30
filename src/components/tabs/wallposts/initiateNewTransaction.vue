@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-button :class="{ 'sidebar_newTrans_view': sbView, 'uc-view': usercardView, 'head-view': headerView }" class="btn-outline-light px-4" @click="modalShow = !modalShow">
+        <b-button :class="{ 'sidebar_newTrans_view': sbView, 'uc-view': usercardView, 'head-view': headerView }" class="btn-outline-light" @click="modalShow = !modalShow">
             {{buttonText }}  <send-heart v-if="heartIcon" class=""/>
         </b-button>
         <b-modal ok-only class="trans_modal" @ok="addTransaction" v-model="modalShow" size="lg">
@@ -150,18 +150,24 @@
     }
     .head-view{
         border: none
-        padding: 0 4px !important
-        background: white
+        padding: 0 14px !important
+        background: linear-gradient(179.71deg, #FFFFFF 1.34%, #D6E8FF 98.67%);
         color: #2db3ff
         position: relative
         top: -1px
         -webkit-border-radius: 0 0 5px 5px
         -moz-border-radius: 0 0 5px 5px
-        border-radius: 0 0 0 0
+        border-radius: 25px
         height: 49px
-        width: 150px
-        box-shadow: 0px 10px 25px rgba(3, 134, 255, 0.41);
-        text-decoration: underline
+        width: fit-content
+        box-shadow: 0px 10px 25px rgba(3, 134, 255, 0.41)
+        transition: all 0.4s ease
+        &:hover{
+            box-shadow: 0 0 15px rgba(3, 134, 255, 0.41)
+            transform: scale(0.99)
+            color: #2db3ff
+            background: linear-gradient(179.71deg, #FFFFFF 1.34%, #CBE1FF 98.67%);
+        }
     }
     .addTransaction {
         width: 100%;

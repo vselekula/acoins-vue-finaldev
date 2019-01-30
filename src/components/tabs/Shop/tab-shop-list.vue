@@ -1,12 +1,13 @@
 <template>
-    <div class="d-flex flex-wrap container">
+    <div class="d-flex flex-wrap container justify-content-between">
+        <CTA></CTA>
         <shopItem v-for="product in goodsList" :key="product.id" :product="product"></shopItem>
     </div>
 </template>
 
 <script>
     import shopItem from '../Shop/shopItem';
-
+    import CTA from './Top_cta_shop'
     export default {
         data() {
             return {
@@ -14,7 +15,8 @@
             }
         },
         components: {
-            shopItem
+            shopItem,
+            CTA
         },
         computed: {
             goodsList() {

@@ -122,8 +122,7 @@
     mediaQuery: 500px
 }
     .avatar_sidebar {
-        width: 100px;
-
+        width: 100%;
         background: #2db3ff;
     }
     .name-title{
@@ -204,8 +203,12 @@
                 }
             }
             .Sidebar-logo {
-                transform:  translate(-40px, 0px);
-                transition: transform 0.4s ease;
+                width: 70px;
+                height: 70px;
+                border-radius: 50%;
+                overflow: hidden;
+                transform:  translate(-35px, 0px);
+                transition: all 0.4s ease;
             }
             .Sidebar-navItem-main{
                 .sidebar_newTrans_view{
@@ -263,19 +266,21 @@
         background: #2db3ff;
         position: absolute;
         bottom: 0;
-        left: 40%;
-        transform: translateX(-30px);
+        left: 50%;
+        transform: translateX(-50px);
         display: inline-block;
         width: 100px;
         height: 100px;
+        border-radius: 50%;
+        overflow: hidden;
         transition: transform 0.4s ease,
                 height 0.4s ease,
                 width 0.4s ease;
 
         @media (max-width: SIDEBAR.mediaQUery) {
             transform: translate(-24px, -80px);
-            width: 50px;
-            height: 50px;
+            width: 100px;
+            height: 100px;
         }
     }
 

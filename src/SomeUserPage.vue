@@ -17,7 +17,7 @@
     }
 </script>
 <style>
-    ::-webkit-scrollbar {
-        width: 0 !important
-    }
+    /*::-webkit-scrollbar {*/
+        /*width: 0 !important*/
+    /*}*/
 </style>
