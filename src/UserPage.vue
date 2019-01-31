@@ -16,6 +16,7 @@
     export default {
         name: 'userPage',
         components: {Top_cta, Tabs},
+
     }
 </script>
 <style>

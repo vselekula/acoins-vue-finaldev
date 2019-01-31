@@ -214,7 +214,7 @@
     }
 
     .add-answer_wrapper {
-        background-color: #f6f7f9;
+        background-color: #ededed7d !important;
         border-top: solid 1px rgb(220, 220, 220);
         overflow: hidden;
         position: relative;
@@ -226,7 +226,7 @@
         overflow-wrap: break-word;
         width: 96%;
         border: none;
-        background-color: #f6f7f9;
+        background-color: transparent !important;
         font-size: 18px;
     }
 

@@ -32,8 +32,8 @@
 </script>
 <style>
     .reply {
-        background-color: #f6f7f9;
-        border-top: solid 1px rgb(220, 220, 220);
+        background-color: #ededed7d;
+        border-top: solid 1px rgb(224, 224, 224) !important;
         position: relative;
     }
 

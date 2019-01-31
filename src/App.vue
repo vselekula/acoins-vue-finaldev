@@ -5,7 +5,7 @@
         <sideBar></sideBar>
 
             <router-view />
-            <vue-ins-progress-bar></vue-ins-progress-bar>
+            <vue-ins-progress-bar ></vue-ins-progress-bar>
         <!--</transition-group>-->
     </div>
 </template>
@@ -22,6 +22,7 @@
     import {faBirthdayCake, faEnvelope, faHeart, faPhone, faUsers, faWallet} from '@fortawesome/free-solid-svg-icons'
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
     import {HTTP} from './data/common'
+
     import sideBar from './SideBar'
     let item = window.localStorage.getItem('user');
     if (item) {
@@ -30,6 +31,7 @@
     }
 
     library.add(faUsers, faBirthdayCake, faEnvelope, faPhone, faHeart, faWallet);
+    Vue.component('add-transaction', require('./components/tabs/wallposts/initiateNewTransaction'));
     Vue.component('font-awesome-icon', FontAwesomeIcon);
     Vue.component("Account-Circle", AccountCircle);
     Vue.component("Cake", Cake);
@@ -51,6 +53,11 @@
             this.$router.afterEach(() => {
                 this.$insProgress.finish()
             });
+        },
+        computed: {
+            auth() {
+                return this.$store.getters.isAuthenticated
+            }
         }
     };
 

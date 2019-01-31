@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="d-flex align-self-center mx-auto col">
         <b-button :class="{ 'sidebar_newTrans_view': sbView, 'uc-view': usercardView, 'head-view': headerView }" class="btn-outline-light" @click="modalShow = !modalShow">
             {{buttonText }}  <send-heart v-if="heartIcon" class=""/>
         </b-button>
@@ -22,11 +22,11 @@
     </div>
 </template>
 <script>
-    import sumInput from '../../transactionForm/AmountDropdown'
-    import valueInput from '../../transactionForm/CennostDropdown'
-    import userSearchInput from '../../transactionForm/user-search-input/UserSearchInput'
+    import sumInput from './AmountDropdown'
+    import valueInput from './CennostDropdown'
+    import userSearchInput from './user-search-input/UserSearchInput'
     import SendHeart from "./SendHeart";
-    import {router} from '../../../router'
+    import {router} from '../../router'
     // import {HTTP} from '../../../data/common'
 
     export default {
@@ -155,6 +155,18 @@
     }
     .dropdown-toggle::after {
         visibility: hidden;
+    }
+    .uc-view {
+        background-color: limegreen;
+        border: none;
+        height: 49px;
+        border-radius: 25px
+        width: fit-content
+        padding: 0 14px !important
+        &:hover {
+            background-color: darken(limegreen, 20%);
+            color: white
+        }
     }
     .head-view{
         border: none

@@ -14,8 +14,8 @@
                             <h2 class="mb-0"><b>{{currentUser.first_name }} {{ currentUser.last_name }}</b></h2></div>
                         <div class="user_position"><h4>{{ currentUser.relations.position.data.name }}</h4></div>
                     </div>
-                    <div class="align-self-start">
-                        <add-transaction button-text="" :heart-icon="true" usercardView="true"/>
+                    <div class="d-flex align-self-stretch">
+                        <addTransaction  button-text="сказать спасибо" :recieverObj="currentUser" headerView="true"></addTransaction>
                     </div>
                 </div>
                 <div class="row">
@@ -45,14 +45,15 @@
     </div>
 </template>
 <script>
-    import addTransaction from '../tabs/wallposts/initiateNewTransaction'
+    import addTransaction from '../transactionForm/initiateNewTransactionv2';
     // import {HTTP} from '../../data/common'
     import AvitoLogo from "./AvitoLogo";
 
     export default {
+        name: 'profile',
         components: {
             AvitoLogo,
-            addTransaction
+            'addTransaction': addTransaction
         },
         data() {
             return {

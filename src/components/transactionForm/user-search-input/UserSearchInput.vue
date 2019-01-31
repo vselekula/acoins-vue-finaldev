@@ -30,12 +30,13 @@
         components: {
             'v-autocomplete': Autocomplete
         },
+        props: ['user'],
         data() {
             return {
                 // itemsApi: '',
                 options: [],
                 errors: [],
-                user: null
+                // user: null
             }
         },
         methods: {

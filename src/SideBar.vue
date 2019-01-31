@@ -84,6 +84,7 @@
         logout: function () {
             this.$store.dispatch('AUTH_LOGOUT')
                 .then(() => {
+                    // this.$store.commit('ME_LOGOUT');
                     localStorage.removeItem("user-token");
                     localStorage.removeItem("user");
                     this.$router.push('/login')
@@ -108,7 +109,7 @@
         // },
         computed: {
             me(){
-                return this.$store.state.me
+                return this.$store.getters.ME
             }
         }
     }

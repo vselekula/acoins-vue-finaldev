@@ -10,6 +10,7 @@
                     у тебя {{ $store.state.me.donation_balance }} <HeartIcon width="15px" height="15px" class="pl-1 pb-2" fillColor="white" />
                 </div>
                 <div class="d-flex justify-content-center">
+                    <!--<addTransaction head-view="true" button-text="отправить спасибо"></addTransaction>-->
                     <add-transaction button-text="отправить спасибо" headerView="true"></add-transaction>
                 </div>
             </div>
@@ -27,12 +28,16 @@
     </div>
 </template>
 <script>
-    import addTransaction from './components/tabs/wallposts/initiateNewTransaction'
+    import addTransaction from './components/transactionForm/initiateNewTransactionv2'
     import HeartBoxIcon from "vue-material-design-icons/HeartBox";
     import HeartIcon from "vue-material-design-icons/Heart";
     export default {
         name: 'top_cta',
-        components: {HeartIcon, HeartBoxIcon, addTransaction}
+        components: {
+            HeartIcon,
+            HeartBoxIcon,
+            'addTransaction': addTransaction
+        }
     }
 </script>
 <style>

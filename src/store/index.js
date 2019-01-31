@@ -23,7 +23,7 @@ export const store = new Vuex.Store({
         values: [],
         sums: [],
         goods: {},
-        me: JSON.parse(window.localStorage.getItem('user')),
+        me: {},
         currUser: null,
         currUserTransactions: []
     },
@@ -66,11 +66,15 @@ export const store = new Vuex.Store({
             state.status = 'success';
             Vue.set(state, 'profile', resp)
         },
+        // ME_LOGOUT: (state) => {
+        //   state.me = {}
+        // },
         USER_ERROR: (state) => {
             state.status = 'error'
         },
         AUTH_LOGOUT: (state) => {
-            state.profile = {}
+            state.profile = {};
+            // state.me = {}
         },
         AUTH_REQUEST: (state) => {
             state.status = 'loading'
@@ -173,13 +177,15 @@ export const store = new Vuex.Store({
         SET_ME: (state, meObj) => {
             window.console.log(meObj);
             state.me = meObj;
+        },
+        REFRESH_DONATION_BALANCE: (state, refreshedBalance) => {
+            state.me.donation_balance = refreshedBalance
         }
 
     },
     actions: {
         GET_USERS: async (context) => {
             let {data} = await HTTP.get('users?include=position,avatar_file,boss,group');
-            // window.console.log('полетели', data);
             context.commit('SET_USERS', data.data)
         },
         SET_CURRUSER: async (context, userId) => {
@@ -400,6 +406,7 @@ export const store = new Vuex.Store({
                 title: transactionData.title,
                 value_id: transactionData.value_id
             });
+            context.commit('REFRESH_DONATION_BALANCE', data.user_data.donation_balance);
             // Vue.set(data.data.relations, messages, )
             context.commit('ADD_ME_TRANSACTION', data.data)
         },

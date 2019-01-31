@@ -6,10 +6,12 @@
             <b>ЦЕНА: {{ product.price }} </b>
         </p>
         <b-button v-b-modal="'modalfor' + product.id" href="#" variant="primary" ref="btnShow">Купить</b-button>
-        <b-modal size="sm" title="Small Modal" :id="'modalfor' + product.id">
-            <b>Вы покупаете:</b>
+        <b-modal size="md" cancel-title="Не, передумал(а)" ok-title="Купить" title="Small Modal" :id="'modalfor' + product.id">
+            <b>Хочешь купить? <br> <br>
+            <img :src="'http://192.168.99.100:8000' + product.relations.image_file.data.full_path" alt="" style="width: 100%">
+             <br><br> {{ product.name }} </b> <br>
             {{ product.description }} <br><br>
-            <b>С вашего счета вычтется:</b>
+            <b>Цена:</b>
             {{ product.price }}
         </b-modal>
     </b-card>

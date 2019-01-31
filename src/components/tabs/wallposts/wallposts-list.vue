@@ -1,11 +1,14 @@
 <template>
     <div class="transactionsWrapper">
         <!--<add-transaction></add-transaction>-->
-        <transition-group name="list" mode="out-in">
+        <!--<transition-group name="list" mode="out-in">-->
+        <!--<transition-group name="list">-->
             <transactionItem v-if="transactionsList !== []" v-for="transaction in transactionsList.slice().reverse()"
                              :key="transaction.id"
                              :transaction="transaction"></transactionItem>
-        </transition-group>
+        <!--</transition-group>-->
+
+        <!--</transition-group>-->
     </div>
 </template>
 <script>
