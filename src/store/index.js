@@ -12,6 +12,13 @@ const watchChangedCurrUser = store => {
         }
     })
 };
+const watchChangedMe = store => {
+    store.subscribe((mutation) => {
+        if (mutation.type === "SET_ME") {
+            store.dispatch('GET_ME_TRANSACTIONS', store.state.me.id);
+        }
+    })
+};
 export const store = new Vuex.Store({
     state: {
         users: {},
@@ -203,6 +210,15 @@ export const store = new Vuex.Store({
                         context.commit('SET_CURRUSER', resp);
                     });
         },
+        GET_ME: async (context) => {
+            // let myId = JSON.parse(window.localStorage.getItem('user')).id;
+            // window.console.log('мой айди', myId);
+            HTTP.get('/user?include=position,avatar_file,boss,group')
+                .then(response => {
+                    window.console.log('мои данные: ',response);
+                    context.commit('SET_ME', response.data.data)
+                })
+        },
         GET_GOODS: async (context) => {
             let {data} = await HTTP.get('goods?include=image_file');
             context.commit('SET_GOODS', data.data)
@@ -335,9 +351,10 @@ export const store = new Vuex.Store({
             // let noneTransactions = [];
             // context.commit('SET_TRANSACTIONS', noneTransactions);
             let {data} = await HTTP.get('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + userId);
-            window.console.log('????', userId);
+            window.console.log('мой адйи при получнеии транзакций ', userId);
             context.commit('SET_ME_TRANSACTIONS', data.data)
         },
+
         GET_CURRUSER_TRANSACTIONS: async (context, userId) => {
             // let noneTransactions = [];
             // context.commit('SET_TRANSACTIONS', noneTransactions);
@@ -399,7 +416,7 @@ export const store = new Vuex.Store({
             })
         },
         ADD_ME_TRANSACTION: async (context, transactionData) => {
-            let {data} = await HTTP.post('transactions?include=from_user.avatar_file,to_user.avatar_file,value', {
+            let {data} = await HTTP.post('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,value,messages.user', {
                 sum: transactionData.sum,
                 from_user_id: transactionData.from_user_id,
                 to_user_id: transactionData.to_user_id,
@@ -422,5 +439,5 @@ export const store = new Vuex.Store({
             context.commit('ADD_CURRUSER_TRANSACTION', data.data)
         }
     },
-    plugins: [watchChangedCurrUser]
+    plugins: [watchChangedCurrUser, watchChangedMe]
 });

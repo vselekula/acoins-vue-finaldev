@@ -1,5 +1,10 @@
 <template>
     <div class="transactionsWrapper">
+        <b-form-group label="" class="transaction_filters">
+            <b-form-radio-group v-model="selected"
+                                :options="options"
+                                stacked/>
+        </b-form-group>
         <!--<add-transaction></add-transaction>-->
         <transition-group name="list" mode="out-in">
             <transactionItem v-if="transactionsList !== []" v-for="(transaction, index) in transactionsList.slice().reverse()"
@@ -16,11 +21,26 @@
             return {
                 route_params_userId: Number(this.$route.params.userId),
                 // me_transactions: []
+                options: [
+                    { text: 'Входящие', value: 'first' },
+                    { text: 'Исходящие', value: 'second' },
+                    { text: 'Все', value: 'third' }
+                ],
+                selected: 'third'
             }
+
         },
         components: {
             transactionItem,
             // addTransaction,
+        },
+        methods: {
+            inbox(transactions) {
+                return transactions.filter(x => x.to_user_id === this.route_params_userId);
+            },
+            outbox(transactions) {
+                return transactions.filter(x => x.from_user_id === this.route_params_userId);
+            }
         },
         beforeMount() {
             // this.$store.dispatch('GET_CURRUSER_TRANSACTIONS', this.route_params_userId);
@@ -31,17 +51,22 @@
             //         this.transactions = response.data.data
             //     })
         },
-        created() {
-            this.$insProgress.start()
-        },
         computed: {
             transactionsList() {
-                return this.$store.getters.CURRUSER_TRANSACTIONS
+                if(this.selected === 'third'){
+                    return this.$store.getters.CURRUSER_TRANSACTIONS;
+                }
+                if(this.selected === 'second'){
+                    return this.outbox(this.$store.getters.CURRUSER_TRANSACTIONS);
+                }
+                if(this.selected === 'first'){
+                    return this.inbox(this.$store.getters.CURRUSER_TRANSACTIONS);
+                }
             }
         }
     }
 </script>
-<style>
+<style scoped>
     .list-enter-active, .list-leave-active {
         transition: 500ms cubic-bezier(0.59, 0.12, 0.34, 0.95);
         transition-property: opacity, transform;
@@ -49,6 +74,12 @@
     .list-enter {
         opacity: 0;
         transform: translateY(50px);
+    }
+
+    .transaction_filters {
+        position: absolute;
+        right: -130px;
+        color: white
     }
     .transactionsWrapper {
         background-color: transparent;

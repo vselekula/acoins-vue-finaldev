@@ -1,5 +1,11 @@
 <template>
     <div class="transactionsWrapper">
+        <b-form-group label="" class="transaction_filters">
+            <b-form-radio-group v-model="selected"
+                                :options="options"
+                                stacked
+                                name="plainStacked"/>
+        </b-form-group>
         <!--<add-transaction></add-transaction>-->
         <!--<transition-group name="list" mode="out-in">-->
         <!--<transition-group name="list">-->
@@ -13,26 +19,46 @@
 </template>
 <script>
     import transactionItem from '../wallposts/wallPostItem';
+    // import TransactionFilters from "./TransactionFilters";
     // import addTransaction from '../wallposts/initiateNewTransaction'
 
     export default {
         data() {
-            return {}
+            return {
+                options: [
+                    { text: 'Входящие', value: 'first' },
+                    { text: 'Исходящие', value: 'second' },
+                    { text: 'Все', value: 'third' }
+                ],
+                selected: 'third'
+            }
+        },
+        methods: {
+            inbox(transactions) {
+                return transactions.filter(x => x.to_user_id === this.$store.state.me.id);
+            },
+            outbox(transactions) {
+                return transactions.filter(x => x.from_user_id === this.$store.state.me.id);
+            }
         },
         components: {
             transactionItem,
             // addTransaction,
         },
-        mounted() {
-            this.$insProgress.finish();
-        },
-        created() {
-            this.$insProgress.start();
-            this.$store.dispatch('GET_ME_TRANSACTIONS', this.$store.state.me.id);
-        },
+        // mounted() {
+        //     this.$store.dispatch('GET_ME_TRANSACTIONS', this.$store.state.me.id);
+        // },
         computed: {
             transactionsList() {
-                return this.$store.getters.ME_TRANSACTIONS
+                if(this.selected === 'third'){
+                    return this.$store.getters.ME_TRANSACTIONS;
+                }
+                if(this.selected === 'second'){
+                    return this.outbox(this.$store.getters.ME_TRANSACTIONS);
+                }
+                if(this.selected === 'first'){
+                    return this.inbox(this.$store.getters.ME_TRANSACTIONS);
+                }
             }
         }
     }
@@ -45,6 +71,12 @@
     .list-enter {
         opacity: 0;
         transform: translateY(50px);
+    }
+
+    .transaction_filters {
+        position: absolute;
+        right: -130px;
+        color: white
     }
     .transactionsWrapper {
         background-color: transparent;
