@@ -1,9 +1,11 @@
 <template>
-    <div class=" profile-wrapper mb-4">
-        <div class="row d-flex align-items-center profile">
-            <div>
-                <b-img-lazy v-if="'avatar_file' in user.relations" :src="'http://192.168.99.100:8000' + user.relations.avatar_file.data.full_path" rounded="circle" blank blank-color="#fff" alt="left img"
-                     class="rounded-circle avatar"/>
+    <div class=" profile-wrapper mb-2">
+        <div class=" d-flex align-items-center profile">
+            <div class="d-flex flex-column">
+                <a @click="modalAvaShow = !modalAvaShow" style="cursor: pointer"><b-img-lazy  v-if="'avatar_file' in user.relations" :src="'http://192.168.99.100:8000' + user.relations.avatar_file.data.full_path" rounded="circle" blank blank-color="#fff" alt="left img"
+                     class="rounded-circle avatar"/></a>
+
+                <button class="btn btn-link" @click="userInfo = !userInfo">info</button>
             </div>
             <div class="col">
                 <div class="mb-4">
@@ -11,7 +13,7 @@
                     </div>
                     <div class="user_position">{{ user.relations.position.data.name }}</div>
                 </div>
-                <div class="row">
+                <div v-if="userInfo === true" class="row user_info">
                     <div class="col flex-column">
                         <div class="user_phone">
                             <Phone fillColor="rgba(0, 123, 255, 0.9)"/>
@@ -34,18 +36,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col flex-column">
-                <div class="row">
-                    <div class="col user_moneyAmount">
-                        <font-awesome-icon icon="wallet" size="sm"/>
-                        <p>1300</p>
+                    <div class="col-3 user_moneyAmount">
                         <font-awesome-icon icon="heart" size="sm"/>
-                        <p>100</p></div>
-                    <button @click="DEL_USER(user.id)" class="btn btn-danger">X</button>
-                    <button @click="modalShow = !modalShow" class="btn btn-warning">/</button>
-                    <button @click="modalAvaShow = !modalAvaShow" class="btn btn-light">0</button>
+                        {{ user.donation_balance }}	&nbsp;
+                        <font-awesome-icon icon="wallet" size="sm"/>
+                        {{ user.purchase_balance }}
+                    </div>
+                <div class="adminUserActions">
+                    <button @click="DEL_USER(user.id)" class="btn btn-light"><i class="fas fa-user-minus minusUser"></i></button>
+                    <button @click="modalShow = !modalShow" class="btn btn-light"><i class="fas fa-user-edit editUser"></i></button>
                 </div>
-            </div>
+
         </div>
         <b-modal @ok="sendEditedUser" v-model="modalShow" size="lg">
             <b-card bg-variant="light">
@@ -125,6 +126,7 @@
         },
         data() {
             return {
+                userInfo: false,
                 modalAvaShow: false,
                 avatar: null,
                 modalShow: false,
@@ -187,21 +189,37 @@
     }
 </script>
 
-<style>
+<style scoped>
+    .aminUserActions{
+        max-width: 20%}
+    .editUser{ color: darkorange}
+    .editAva {color: lightseagreen}
+    .minusUser{color: crimson}
+    .avatar {
+        width: 50px;
+        height: 50px;
+    }
     .profile-wrapper {
-        height: 180px;
+        height: fit-content;
         position: relative;
         display: flex;
+
     }
 
     .profile {
-        width: 100%
+        width: 100%;
+        color: black
     }
-
+    .user_info{
+     color: black
+    }
     .user_moneyAmount, .user_likesAmount {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
+        color: black
     }
-
+    .user_mail, .user_inAvito, .user_phone, .user_HB {
+        color: #000;
+    }
 </style>

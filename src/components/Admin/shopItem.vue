@@ -9,9 +9,9 @@
             <br>
             <b> {{ product.price }} </b>
         </p>
-        <b-button v-b-modal="'modalfor' + product.id + 'editImage'" href="#" variant="light" ref="btnShow">O</b-button>
-        <b-button v-b-modal="'modalfor' + product.id + 'edit'" href="#" variant="warning" ref="btnShow">/</b-button>
-        <b-button v-b-modal="'modalfor' + product.id + 'delete'" href="#" variant="danger" ref="btnShow">X</b-button>
+        <b-button v-b-modal="'modalfor' + product.id + 'editImage'" href="#" variant="light" ref="btnShow"><i class="far fa-image"></i></b-button>
+        <b-button v-b-modal="'modalfor' + product.id + 'edit'" href="#" variant="warning" ref="btnShow"><i class="fas fa-edit"></i></b-button>
+        <b-button v-b-modal="'modalfor' + product.id + 'delete'" href="#" variant="danger" ref="btnShow"><i class="far fa-trash-alt"></i></b-button>
         <b-modal @ok="sendEditedGoodImg" size="lg" title="Редактировать изображение"
                  :id="'modalfor' + product.id + 'editImage'">
             <b-form-group label="изображение"

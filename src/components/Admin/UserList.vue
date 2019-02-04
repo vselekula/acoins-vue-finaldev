@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <add-user :positionOptions="positionList" :groupOptions="groupsList"/>
+    <div class="admin_users_wrapper">
+        <add-user :positionOptions="positionList" :groupOptions="groupsList" class="mb-3"/>
         <userItem v-for="user in userList" :key="user.id"
                   :user="user" :positionOptions="positionList" :groupOptions="groupsList"
                   @deletedUser="deleteUser" @editedUser="editUser"></userItem>
@@ -53,3 +53,9 @@
         }
     }
 </script>
+<style lang="stylus">
+    .admin_users_wrapper {
+        background: white
+    }
+
+</style>

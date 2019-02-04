@@ -4,7 +4,7 @@
 
         <!--<sideBar/>-->
 
-        <b-card no-body class="col-6 ml-auto mr-auto">
+        <b-card no-body class="col-6 ml-auto mr-auto wrapper_admin">
             <b-tabs pills card>
                 <b-tab title="+ Users" active>
                     <userList/>
@@ -43,4 +43,9 @@
         }
     }
 </script>
+<style>
+    .wrapper_admin{
+        background: white;
+    }
+</style>
 
