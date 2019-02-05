@@ -6,7 +6,7 @@
             <b>ЦЕНА: {{ product.price }} </b>
         </p>
         <b-button v-b-modal="'modalfor' + product.id" href="#" variant="primary" ref="btnShow">Купить</b-button>
-        <b-modal size="md" cancel-title="Не, передумал(а)" ok-title="Купить" title="Small Modal" :id="'modalfor' + product.id">
+        <b-modal size="md" cancel-title="Не, передумал(а)" ok-title="Купить" title="Small Modal" :id="'modalfor' + product.id" @ok="buy_good">
             <b>Хочешь купить? <br> <br>
             <img :src="'http://192.168.99.100:8000' + product.relations.image_file.data.full_path" alt="" style="width: 100%">
              <br><br> {{ product.name }} </b> <br>
@@ -24,6 +24,11 @@
                 required: true
             },
             index: Number
+        },
+        methods: {
+            buy_good() {
+                this.$store.dispatch('BUY_GOOD', this.product.id);
+            }
         }
     }
 </script>

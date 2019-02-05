@@ -1,4 +1,5 @@
 import UserPage from "./UserPage";
+import allTransactions from "./components/tabs/wallposts/wallposts-list-all-transactions";
 import SomeUserPage from "./SomeUserPage";
 import mainAdmin from "./components/Admin/mainAdmin";
 import loginPage from "./components/login/login"
@@ -25,6 +26,14 @@ export const routes = [
         path: '/home',
         component: UserPage,
         name: 'home',
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/all',
+        component: allTransactions,
+        name: 'all',
         meta: {
             requiresAuth: true
         }

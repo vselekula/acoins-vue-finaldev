@@ -37,13 +37,17 @@
                     </div>
 
                     <br>
-                    <li @click="home" class="Sidebar-navItem">
+                    <li @click="all" class="Sidebar-navItem">
                         <i class="Sidebar-menuIcon fa fa-home"></i>
                         Домой
                     </li>
                     <li @click="shop" class="Sidebar-navItem">
                         <i class="Sidebar-menuIcon fa fa-shopping-cart"></i>
                         Магазин
+                    </li>
+                    <li @click="my_purchases" class="Sidebar-navItem">
+                        <i class="fas fa-cart-arrow-down"></i>
+                        Мои покупки
                     </li>
                     <li @click="HAF" class="Sidebar-navItem">
                         <i class="Sidebar-menuIcon fa fa-medal"></i>
@@ -90,6 +94,9 @@
                     this.$router.push('/login')
                 })
         },
+            all() {
+                this.$router.push({name: 'all'})
+            },
         admin() {
             this.$router.push({name: 'admin'})
         },
@@ -102,8 +109,11 @@
         },
         HAF() {
             this.$router.push({name: 'haf'})
+        },
+        my_purchases() {
+            this.$router.push({name: 'my_purchases'})
         }
-    },
+        },
         // beforeMount: function () {
         //     this.me = JSON.parse(window.localStorage.getItem('user'));
         // },

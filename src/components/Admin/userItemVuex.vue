@@ -190,8 +190,7 @@
 </script>
 
 <style scoped>
-    .aminUserActions{
-        max-width: 20%}
+    .adminUserActions{max-width: 20%}
     .editUser{ color: darkorange}
     .editAva {color: lightseagreen}
     .minusUser{color: crimson}

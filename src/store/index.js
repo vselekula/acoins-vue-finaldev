@@ -25,6 +25,7 @@ export const store = new Vuex.Store({
         groups: {},
         positions: {},
         me_transactions: [],
+        all_transactions: [],
         token: localStorage.getItem('user-token') || '',
         status: '',
         values: [],
@@ -43,6 +44,9 @@ export const store = new Vuex.Store({
         },
         CURRUSER_TRANSACTIONS: state => {
             return state.currUserTransactions
+        },
+        ALL_TRANSACTIONS: state => {
+            return state.all_transactions
         },
         isAuthenticated: state => !!state.token,
         authStatus: state => state.status,
@@ -161,6 +165,9 @@ export const store = new Vuex.Store({
             window.console.log(payload);
             state.me_transactions = payload;
         },
+        SET_ALL_TRANSACTIONS: (state, payload) => {
+            state.all_transactions = payload;
+        },
         SET_CURRUSER_TRANSACTIONS: (state, payload) => {
             window.console.log(payload);
             state.currUserTransactions = payload;
@@ -187,6 +194,10 @@ export const store = new Vuex.Store({
         },
         REFRESH_DONATION_BALANCE: (state, refreshedBalance) => {
             state.me.donation_balance = refreshedBalance
+        },
+        REFRESH_PURCHASES_BALANCE: (state, refreshedBalance) => {
+            state.me.purchase_balance = refreshedBalance;
+            window.console.log('стало:', state.me.purchase_balance );
         }
 
     },
@@ -323,7 +334,7 @@ export const store = new Vuex.Store({
                     .then(resp => {
                         window.console.log('здесь где то токен', resp);
                         // commit('SET_CURRUSER', resp.data.data);
-                        commit('SET_ME', resp.data.data);
+                        // commit('SET_ME', resp.data.data);
                         const token = 'Bearer ' + resp.data.data.api_token;
                         localStorage.setItem('user-token', token);
                         window.localStorage.setItem('user', JSON.stringify(resp.data.data));
@@ -350,15 +361,18 @@ export const store = new Vuex.Store({
         GET_ME_TRANSACTIONS: async (context, userId) => {
             // let noneTransactions = [];
             // context.commit('SET_TRANSACTIONS', noneTransactions);
-            let {data} = await HTTP.get('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + userId);
+            let {data} = await HTTP.get('users/' + userId + '/transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value');
             window.console.log('мой адйи при получнеии транзакций ', userId);
             context.commit('SET_ME_TRANSACTIONS', data.data)
         },
-
+        GET_ALL_TRANSACTIONS: async(context) => {
+            let {data} = await HTTP.get('/transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value');
+            context.commit('SET_ALL_TRANSACTIONS', data.data)
+        },
         GET_CURRUSER_TRANSACTIONS: async (context, userId) => {
             // let noneTransactions = [];
             // context.commit('SET_TRANSACTIONS', noneTransactions);
-            let {data} = await HTTP.get('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + userId);
+            let {data} = await HTTP.get('users/' + userId + '/transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value');
             window.console.log('????', userId);
             context.commit('SET_CURRUSER_TRANSACTIONS', data.data)
         },
@@ -437,6 +451,18 @@ export const store = new Vuex.Store({
             });
             // Vue.set(data.data.relations, messages, )
             context.commit('ADD_CURRUSER_TRANSACTION', data.data)
+        },
+        BUY_GOOD: async (context, goodId) => {
+            window.console.log('айди товара', goodId);
+            let {data} = await HTTP.post('purchases', {
+                good_id: goodId
+            });
+            // context.commit('BUY_GOOD', data.data);
+
+            window.console.log('ответ', data);
+            window.console.log('обновляю твой баланс, было:', store.state.me.purchase_balance );
+            window.console.log('обновляю твой баланс, будет:', data.user_data.purchase_balance );
+            context.commit('REFRESH_PURCHASES_BALANCE', data.user_data.purchase_balance )
         }
     },
     plugins: [watchChangedCurrUser, watchChangedMe]
