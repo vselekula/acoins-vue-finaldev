@@ -2,7 +2,7 @@
     <div id="app">
         <!--<transition-group name="fade">-->
         <div class="container-fluid main-head"></div>
-        <sideBar></sideBar>
+        <sideBar v-if="auth === 'success'"></sideBar>
 
             <router-view />
             <vue-ins-progress-bar ></vue-ins-progress-bar>
@@ -22,6 +22,7 @@
     import {faBirthdayCake, faEnvelope, faHeart, faPhone, faUsers, faWallet} from '@fortawesome/free-solid-svg-icons'
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
     import {HTTP} from './data/common'
+    // import vueCustomScrollbar from 'vue-custom-scrollbar'
 
     import sideBar from './SideBar'
     let item = window.localStorage.getItem('user');
@@ -40,7 +41,6 @@
     Vue.component("Del", Del);
     Vue.use(VueTextareaAutosize);
 
-
     Vue.config.productionTip = false;
     export default {
         name: "app",
@@ -56,7 +56,7 @@
         },
         computed: {
             auth() {
-                return this.$store.getters.isAuthenticated
+                return this.$store.getters.authStatus
             }
         }
     };
@@ -76,9 +76,15 @@
             max-width: 850px;
         min-width: 500px;
         }
-    /*::-webkit-scrollbar {*/
-        /*width: 0 !important*/
-    /*}*/
+    ::-webkit-scrollbar {
+        width: 0 !important
+    }
+    .scroll-area {
+        position: relative;
+        margin: auto;
+        width: 100%;
+        height: 100%;
+    }
     .main-head{
         height: 300px;
         background-color: #2db3ff;

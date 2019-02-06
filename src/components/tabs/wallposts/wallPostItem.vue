@@ -99,14 +99,12 @@
                 this.newMessage += emoji
             },
             goToUser() {
-                // this.$store.dispatch('SET_CURRUSER', this.transaction.relations.to_user.data);
-                window.console.log('ААА');
+                this.$store.dispatch('SET_CURRUSER', this.transaction.relations.to_user.data.id);
                 this.$router.push({name: 'user', params: {userId: this.transaction.relations.to_user.data.id}})
             },
             goToUserFrom() {
-                // this.$store.dispatch('SET_CURRUSER', this.transaction.relations.from_user.data);
+                this.$store.dispatch('SET_CURRUSER', this.transaction.relations.from_user.data.id);
                 // window.console.log('user', this.transaction.relations.to_user.data);
-                window.console.log('АААF');
                 this.$router.push({name: 'user', params: {userId: this.transaction.relations.from_user.data.id}})
             },
             postMessage() {
@@ -203,7 +201,7 @@
     }
 
     .transaction-item {
-        box-shadow: 0 5px 40px -5px rgba(0, 64, 128, 0.2);
+        box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2);
         border-radius: 10px;
         background-color: white;
         overflow: hidden;

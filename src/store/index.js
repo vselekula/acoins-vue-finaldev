@@ -26,7 +26,7 @@ export const store = new Vuex.Store({
         positions: {},
         me_transactions: [],
         all_transactions: [],
-        token: localStorage.getItem('user-token') || '',
+        token: '',
         status: '',
         values: [],
         sums: [],
@@ -85,6 +85,7 @@ export const store = new Vuex.Store({
         },
         AUTH_LOGOUT: (state) => {
             state.profile = {};
+            state.status = 'logouted';
             // state.me = {}
         },
         AUTH_REQUEST: (state) => {

@@ -133,10 +133,11 @@
         opacity: 1;
         position: absolute;
         right: 11px;
+        width: fit-content;
         border-radius: 3px;
         padding: 4px 14px;
         background-color: transparent;
-        border: solid 1px white;
+        border: solid 1px transparent;
         display: flex;
         align-self: center;
         color: white;

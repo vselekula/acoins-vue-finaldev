@@ -1,5 +1,5 @@
 <template>
-    <div v-if="me.relations !== undefined" class="Wrapper">
+    <div v-if="me.relations !== undefined " class="Wrapper">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
               integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
               crossorigin="anonymous">
@@ -25,14 +25,14 @@
                                 <i class="Sidebar-menuIcon-balance fa fa-heart fa-lg"></i>
                                 <a href="">{{ me.donation_balance }}</a>
                                 <!--<button class="btn-outline-light btn float-right btn-sm nav-btn mr-2">подарить</button>-->
-                                <addTransaction button-text="подарить" sb-view="true"></addTransaction>
+                                <addTransaction button-text="спасибо" sb-view="true"></addTransaction>
                             </div>
                         </li>
                         <li class="Sidebar-navItem-main balance d-flex">
                             <div class="balanceAndActionWrapper d-flex align-items-center align-self-center">
                                 <i class="Sidebar-menuIcon-balance fa fa-wallet fa-lg"></i>
                                 <a href="">{{ me.purchase_balance }}</a>
-                                <button @click="shop" class="sidebar_newTrans_view">&nbsp;&nbsp; купить</button>
+                                <button @click="shop" class="sidebar_newTrans_view">магазин</button>
                             </div>
                         </li>
                     </div>
@@ -40,7 +40,7 @@
                     <br>
                     <li @click="all" class="Sidebar-navItem">
                         <i class="Sidebar-menuIcon fa fa-home"></i>
-                        Домой
+                        Лента ASD
                     </li>
                     <li @click="shop" class="Sidebar-navItem">
                         <i class="Sidebar-menuIcon fa fa-shopping-cart"></i>
@@ -69,7 +69,7 @@
 </template>
 <script>
     import addTransaction from './components/tabs/wallposts/initiateNewTransaction'
-
+    // import {router} from './router'
     export default {
         name: 'sideBar',
         data() {
@@ -125,6 +125,9 @@
         computed: {
             me() {
                 return this.$store.getters.ME
+            },
+            auth() {
+                return this.$store.getters.isAuthenticated
             }
         },
         mounted: function () {
@@ -214,8 +217,7 @@
         background-color: #f1ffff;
         transition: SIDEBAR.collapseTransition;
         user-select: none;
-        box-shadow: 0 5px 40px -5px rgba(0, 64, 128, 0.2);
-
+        box-shadow: 0 0px 25px -5px rgba(0,64,128,0.2);
         &.is-collapsed {
             max-width: 100px;
             min-width: 100px;

@@ -150,7 +150,7 @@
     }
 
     .transaction-item {
-        box-shadow: 0 5px 40px -5px rgba(0, 64, 128, 0.2);
+        box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2);
         border-radius: 10px;
         padding-top: 10px !important;
     }
