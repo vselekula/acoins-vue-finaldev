@@ -131,12 +131,13 @@
     }
     .sidebar_newTrans_view {
         opacity: 1;
+        width: 100px
         position: absolute;
         right: 11px;
         border-radius: 3px;
         padding: 4px 14px;
         background-color: transparent;
-        border: solid 1px white;
+        /*border: solid 1px white;*/
         display: flex;
         align-self: center;
         color: white;

@@ -2,7 +2,7 @@
     <b-card no-body>
         <div class="transactionsWrapper container">
             <CTA></CTA>
-            <b-form-group label="" class="transaction_filters">
+            <b-form-group label="" class="all_transaction_filters">
                 <b-form-radio-group v-model="selected"
                                     :options="options"
                                     stacked
@@ -51,7 +51,7 @@
         },
         mounted() {
             this.$store.dispatch('GET_ALL_TRANSACTIONS');
-            this.$store.dispatch('GET_ME');
+            // this.$store.dispatch('GET_ME');
         },
         computed: {
             transactionsList() {
@@ -78,13 +78,14 @@
         transform: translateY(50px);
     }
 
-    .transaction_filters {
+    .all_transaction_filters {
         position: absolute;
-        right: -130px;
+        right: -80px;
         color: white
     }
     .transactionsWrapper {
         background-color: transparent;
+        position: relative;
     }
     .list-enter-to {
         opacity: 1;

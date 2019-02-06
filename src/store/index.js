@@ -192,6 +192,9 @@ export const store = new Vuex.Store({
             window.console.log(meObj);
             state.me = meObj;
         },
+        DEL_ME: (state) => {
+            state.me = {};
+        },
         REFRESH_DONATION_BALANCE: (state, refreshedBalance) => {
             state.me.donation_balance = refreshedBalance
         },

@@ -15,7 +15,8 @@
                         <div class="user_position"><h4>{{ currentUser.relations.position.data.name }}</h4></div>
                     </div>
                     <div class="d-flex align-self-stretch">
-                        <addTransaction  button-text="сказать спасибо" :recieverObj="currentUser" headerView="true"></addTransaction>
+                        <addTransaction button-text="сказать спасибо" :recieverObj="currentUser"
+                                        headerView="true"></addTransaction>
                     </div>
                 </div>
                 <div class="row">
@@ -67,63 +68,64 @@
             // addTransaction(transactionItem) {
             //     this.thisUserTransactions.push(transactionItem)
             // }
+            formatDDMMM(s) {
+                let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
+                let d = s.split(/\D/);
+                return d[2] + ' ' + months[d[1] - 1];
             },
-            created: function () {
-                this.$store.dispatch('SET_CURRUSER', this.route_params_userId);
-                // this.$store.dispatch('GET_CURRUSER_TRANSACTIONS', this.route_params_userId);
-                // HTTP.get('users/' + this.route_params_userId + '?include=position,avatar_file,boss,group')
-                //     .then(response => {
-                //
-                //         let resp = response.data.data;
-                //         Object.keys(resp).forEach(function (key) {
-                //             if (resp[key] === null || resp[key] === undefined) {
-                //                 window.console.log('у юзера есть пустые значения', key, resp[key]);
-                //                 resp[key] = '';
-                //             }
-                //         });
-
-                function formatDDMMM(s) {
-                    let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
-                    let d = s.split(/\D/);
-                    return d[2] + ' ' + months[d[1] - 1];
-                }
-
-                function formatDDMMMyear(s) {
-                    let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
-                    let d = s.split(/\D/);
-                    return 'c ' + d[2] + ' ' + months[d[1] - 1] + ' ' + d[0];
-                }
-
-                // this.currentUser = resp;
-                this.employment_date_formatted = formatDDMMMyear(this.me.employment_date);
-                this.birth_date_formatted = formatDDMMM(this.me.birth_date);
-
-                // HTTP.get('me_transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + this.route_params_userId)
-                //     .then(response => {
-                //         this.thisUserTransactions = response.data.data
-                //     });
-
-            },
-            watch: {
-                    '$route'(to, from) {
-                        window.console.log('to', to);
-                        window.console.log('from', from);
-                        if (to.params.userId === this.me.id) {
-                            this.$router.push('/home')
-                        }
-                        if (from.name === 'home' && to.params.userId === this.me.id) {
-                            this.$router.push('/home')
-                        }
-                    }
-                },
-            computed: {
-                currentUser() {
-                    return this.$store.getters.CURRUSER
-                },
-                // currUserTransactions() {
-                //     return this.$store.getters.CURRUSER_TRANSACTIONS
-                // }
+            formatDDMMMyear(s) {
+                let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
+                let d = s.split(/\D/);
+                return 'c ' + d[2] + ' ' + months[d[1] - 1] + ' ' + d[0];
             }
+        },
+        created: function () {
+            this.$store.dispatch('SET_CURRUSER', this.route_params_userId)
+                .then(() => {
+                    this.employment_date_formatted = this.formatDDMMMyear(this.me.employment_date);
+                    this.birth_date_formatted = this.formatDDMMM(this.me.birth_date);
+                })
+            // this.$store.dispatch('GET_CURRUSER_TRANSACTIONS', this.route_params_userId);
+            // HTTP.get('users/' + this.route_params_userId + '?include=position,avatar_file,boss,group')
+            //     .then(response => {
+            //
+            //         let resp = response.data.data;
+            //         Object.keys(resp).forEach(function (key) {
+            //             if (resp[key] === null || resp[key] === undefined) {
+            //                 window.console.log('у юзера есть пустые значения', key, resp[key]);
+            //                 resp[key] = '';
+            //             }
+            //         });
+
+
+            // this.currentUser = resp;
+
+            // HTTP.get('me_transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + this.route_params_userId)
+            //     .then(response => {
+            //         this.thisUserTransactions = response.data.data
+            //     });
+
+        },
+        watch: {
+            '$route'(to, from) {
+                window.console.log('to', to);
+                window.console.log('from', from);
+                if (to.params.userId === this.me.id) {
+                    this.$router.push('/home')
+                }
+                if (from.name === 'home' && to.params.userId === this.me.id) {
+                    this.$router.push('/home')
+                }
+            }
+        },
+        computed: {
+            currentUser() {
+                return this.$store.getters.CURRUSER
+            },
+            // currUserTransactions() {
+            //     return this.$store.getters.CURRUSER_TRANSACTIONS
+            // }
+        }
 
     }
 

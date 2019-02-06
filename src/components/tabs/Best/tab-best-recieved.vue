@@ -1,35 +1,36 @@
 <template>
-  <div  class="top_recieved">
-  <b-table striped hover :items="items" :fields="fields" :sort-by.sync="sortBy"></b-table>
+  <div v-if="items !== null" class="top_recieved">
+  <b-table striped hover :items="items" :fields="fields" :sort-by="sortBy" :sort-direction="sortDirection"></b-table>
   </div>
 </template>
 
 <script>
 
-import People from '../../../data/People.js'
-
+import {HTTP} from '../../../data/common'
 export default {
+  mounted: function () {
+    HTTP.get('tops/receivers?include=user')
+            .then(response => {
+              this.items = response.data.data
+            })
+  },
   data () {
     return {
-        sortBy: 'total_recieved',
+        sortBy: 'sum',
         fields: [
         {
-          key: 'name',
+          key: 'relations.user.data.first_name',
           label: 'Имя',
           sortable: true
         },
         {
-          key: 'total_recieved',
+          key: 'sum',
           label: 'Получил',
           sortable: true
         },
-        {
-          key: 'total_sended',
-          label: 'Отдал',
-          sortable: true,
-        }
       ],
-      items: People,
+      items: null,
+      sortDirection: 'desc'
     }
   }
 }

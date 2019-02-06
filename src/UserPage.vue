@@ -17,9 +17,9 @@
     export default {
         name: 'userPage',
         components: {Top_cta, Tabs},
-        created: function () {
-            this.$store.dispatch('GET_ME');
-        }
+        // created: function () {
+        //     this.$store.dispatch('GET_ME');
+        // }
     }
 </script>
 <style>

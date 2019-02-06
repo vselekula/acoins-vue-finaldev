@@ -5,6 +5,7 @@ import mainAdmin from "./components/Admin/mainAdmin";
 import loginPage from "./components/login/login"
 import shop from "./components/tabs/Shop/tab-shop-list"
 import HAF from "./components/tabs/Best/TabBest"
+import myPurchases from "./components/tabs/Shop/my_purchases"
 
 
 export const routes = [
@@ -42,6 +43,14 @@ export const routes = [
         path: '/HAF',
         component: HAF,
         name: 'haf',
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/purchases',
+        component: myPurchases,
+        name: 'my_purchases',
         meta: {
             requiresAuth: true
         }

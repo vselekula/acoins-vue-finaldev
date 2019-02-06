@@ -1,9 +1,10 @@
 <template>
-    <div class="Wrapper">
+    <div v-if="me.relations !== undefined" class="Wrapper">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
               integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
               crossorigin="anonymous">
-        <div class="Sidebar" :class="boolie ? 'is-collapsed' : ''" @mouseover="boolie = false" @mouseleave="boolie = true">
+        <div class="Sidebar" :class="boolie ? 'is-collapsed' : ''" @mouseover="boolie = false"
+             @mouseleave="boolie = true">
             <header class="Sidebar-header">
                 <div class="header-wrapper d-flex">
                     <div class="Sidebar-logo">
@@ -31,7 +32,7 @@
                             <div class="balanceAndActionWrapper d-flex align-items-center align-self-center">
                                 <i class="Sidebar-menuIcon-balance fa fa-wallet fa-lg"></i>
                                 <a href="">{{ me.purchase_balance }}</a>
-                                <button @click="shop"  class="sidebar_newTrans_view ">купить</button>
+                                <button @click="shop" class="sidebar_newTrans_view">&nbsp;&nbsp; купить</button>
                             </div>
                         </li>
                     </div>
@@ -46,7 +47,7 @@
                         Магазин
                     </li>
                     <li @click="my_purchases" class="Sidebar-navItem">
-                        <i class="fas fa-cart-arrow-down"></i>
+                        <i class="Sidebar-menuIcon fas fa-cart-arrow-down"></i>
                         Мои покупки
                     </li>
                     <li @click="HAF" class="Sidebar-navItem">
@@ -57,7 +58,7 @@
                         <i class="Sidebar-menuIcon fa fa-user-astronaut"></i>
                         Админ
                     </li>
-                    <li @click="logout"  class="Sidebar-navItem">
+                    <li @click="logout" class="Sidebar-navItem">
                         <i class="Sidebar-menuIcon fa fa-sign-out-alt"></i>
                         Log out
                     </li>
@@ -68,6 +69,7 @@
 </template>
 <script>
     import addTransaction from './components/tabs/wallposts/initiateNewTransaction'
+
     export default {
         name: 'sideBar',
         data() {
@@ -77,7 +79,7 @@
             }
         },
         components: {
-          addTransaction
+            addTransaction
         },
         // computed: {
         //     me: function () {
@@ -85,42 +87,48 @@
         //     }
         // },
         methods: {
-        logout: function () {
-            this.$store.dispatch('AUTH_LOGOUT')
-                .then(() => {
-                    // this.$store.commit('ME_LOGOUT');
-                    localStorage.removeItem("user-token");
-                    localStorage.removeItem("user");
-                    this.$router.push('/login')
-                })
-        },
+            logout: function () {
+
+                // this.$store.commit('DEL_ME');
+                this.$store.dispatch('AUTH_LOGOUT')
+                    .then(() => {
+                        // this.$store.commit('ME_LOGOUT');
+
+                        localStorage.removeItem("user-token");
+                        localStorage.removeItem("user");
+                        this.$router.push('/login')
+                    })
+            },
             all() {
                 this.$router.push({name: 'all'})
             },
-        admin() {
-            this.$router.push({name: 'admin'})
-        },
-        home() {
-            // this.$store.dispatch('SET_CURRUSER', JSON.parse(window.localStorage.getItem('user')));
-            this.$router.push({name: 'home'})
-        },
-        shop() {
-            this.$router.push({name: 'shop'})
-        },
-        HAF() {
-            this.$router.push({name: 'haf'})
-        },
-        my_purchases() {
-            this.$router.push({name: 'my_purchases'})
-        }
+            admin() {
+                this.$router.push({name: 'admin'})
+            },
+            home() {
+                // this.$store.dispatch('SET_CURRUSER', JSON.parse(window.localStorage.getItem('user')));
+                this.$router.push({name: 'home'})
+            },
+            shop() {
+                this.$router.push({name: 'shop'})
+            },
+            HAF() {
+                this.$router.push({name: 'haf'})
+            },
+            my_purchases() {
+                this.$router.push({name: 'my_purchases'})
+            }
         },
         // beforeMount: function () {
         //     this.me = JSON.parse(window.localStorage.getItem('user'));
         // },
         computed: {
-            me(){
+            me() {
                 return this.$store.getters.ME
             }
+        },
+        mounted: function () {
+            this.$store.dispatch('GET_ME');
         }
     }
 
@@ -136,7 +144,8 @@
         width: 100%;
         background: #2db3ff;
     }
-    .name-title{
+
+    .name-title {
         background: #2db3ff;
         color: white;
         position: absolute;
@@ -149,12 +158,14 @@
         opacity: 1;
         transition: all 0.4s ease;
     }
+
     .balances {
         background: #2db3ff;
         margin-top: 50px;
         position: relative;
         top: -10px;
         /*padding-bottom: 20px;*/
+
         a {
             color: white
             padding-left: 10px
@@ -186,10 +197,12 @@
         width: 100%;
         height: 100%;
     }
-    .header-wrapper{
+
+    .header-wrapper {
         background: #2db3ff;
         height: 300px;
     }
+
     .Sidebar {
         position: fixed;
         display: table-cell;
@@ -207,36 +220,44 @@
             max-width: 100px;
             min-width: 100px;
             transition: SIDEBAR.collapseTransition;
+
             .Sidebar-header {
                 /*margin-bottom: 0;*/
+
                 .name-title {
                     opacity: 0;
                 }
             }
+
             .Sidebar-logo {
                 width: 70px;
                 height: 70px;
                 border-radius: 50%;
                 overflow: hidden;
-                transform:  translate(-35px, 0px);
+                transform: translate(-35px, 0px);
                 transition: all 0.4s ease;
             }
-            .Sidebar-navItem-main{
-                .sidebar_newTrans_view{
+
+            .Sidebar-navItem-main {
+                .sidebar_newTrans_view {
                     opacity: 0;
                 }
             }
+
             .Sidebar-navItem {
                 padding-left: 40px;
                 transition: padding-left 0.4s ease;
                 color: white;
+
                 a {
                     opacity: 0;
                 }
+
                 .nav-btn {
                     opacity: 0;
                 }
-             }
+            }
+
             .Sidebar-toggleText {
                 display: none;
             }
@@ -300,7 +321,7 @@
         white-space: nowrap;
         overflow: hidden;
         transition: padding-left 0.4s ease;
-        height:50px;
+        height: 50px;
         position: relative
 
         @media (max-width: SIDEBAR.mediaQUery) {
@@ -308,6 +329,7 @@
         }
 
     }
+
     .Sidebar-navItem {
         padding: 10px 0 10px 40px;
         white-space: nowrap;
@@ -322,26 +344,25 @@
             cursor: pointer;
             background-color: rgba(60, 174, 255, 0.28);
         }
+
         /*.nav-btn {*/
-            /*opacity: 1;*/
-            /*transition: opacity 0.4s ease;*/
+        /*opacity: 1;*/
+        /*transition: opacity 0.4s ease;*/
 
-            @media (max-width: SIDEBAR.mediaQUery) {
-                display: none;
-            }
+        @media (max-width: SIDEBAR.mediaQUery) {
+            display: none;
         }
-
-        a {
-            opacity: 1;
-            transition: opacity 0.4s ease;
-
-            @media (max-width: SIDEBAR.mediaQUery) {
-                display: none;
-            }
-
     }
 
+    a {
+        opacity: 1;
+        transition: opacity 0.4s ease;
 
+        @media (max-width: SIDEBAR.mediaQUery) {
+            display: none;
+        }
+
+    }
 
 
     .Sidebar-toggleText {

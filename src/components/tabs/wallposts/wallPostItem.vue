@@ -1,5 +1,5 @@
 <template>
-    <div v-if="transaction.title !== 'Автоматическое начисление'" class="transaction-item pt-4 mb-4">
+    <div v-if="transaction.title !== 'Автоматическое начисление' && transaction.title !== 'Покупка товара'" class="transaction-item pt-4 mb-4">
         <div class="transaction-item_info mx-4">
             <div class="transactionHeadline row m-0 my-2">
                 <div style="cursor: pointer" @click="goToUser">
