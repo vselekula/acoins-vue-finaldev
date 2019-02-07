@@ -33,11 +33,11 @@
                     <div class="flex-column">
                         <div class="user_inAvito">
                             <avito-logo/>
-                            {{ employment_date_formatted }}
+                            {{ employment_date_new }}
                         </div>
                         <div class="user_HB pt-1">
                             <Cake fillColor="white"/>
-                            {{ birth_date_formatted }}
+                            {{ birth_date_new }}
                         </div>
                     </div>
                 </div>
@@ -47,7 +47,6 @@
 </template>
 <script>
     import addTransaction from '../transactionForm/initiateNewTransactionv2';
-    // import {HTTP} from '../../data/common'
     import AvitoLogo from "./AvitoLogo";
 
     export default {
@@ -61,13 +60,10 @@
                 route_params_userId: Number(this.$route.params.userId),
                 me: this.$store.state.me,
                 employment_date_formatted: '',
-                birth_date_formatted: '',
+                birth_date_formatted: ''
             }
         },
         methods: {
-            // addTransaction(transactionItem) {
-            //     this.thisUserTransactions.push(transactionItem)
-            // }
             formatDDMMM(s) {
                 let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
                 let d = s.split(/\D/);
@@ -79,41 +75,18 @@
                 return 'c ' + d[2] + ' ' + months[d[1] - 1] + ' ' + d[0];
             }
         },
-        created: function () {
-            this.$store.dispatch('SET_CURRUSER', this.route_params_userId)
-                .then(() => {
-                    this.employment_date_formatted = this.formatDDMMMyear(this.me.employment_date);
-                    this.birth_date_formatted = this.formatDDMMM(this.me.birth_date);
-                })
-            // this.$store.dispatch('GET_CURRUSER_TRANSACTIONS', this.route_params_userId);
-            // HTTP.get('users/' + this.route_params_userId + '?include=position,avatar_file,boss,group')
-            //     .then(response => {
-            //
-            //         let resp = response.data.data;
-            //         Object.keys(resp).forEach(function (key) {
-            //             if (resp[key] === null || resp[key] === undefined) {
-            //                 window.console.log('у юзера есть пустые значения', key, resp[key]);
-            //                 resp[key] = '';
-            //             }
-            //         });
-
-
-            // this.currentUser = resp;
-
-            // HTTP.get('me_transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + this.route_params_userId)
-            //     .then(response => {
-            //         this.thisUserTransactions = response.data.data
-            //     });
-
-        },
+        // mounted: function () {
+        //     this.employment_date_formatted = this.formatDDMMMyear(this.me.employment_date);
+        //     this.birth_date_formatted = this.formatDDMMM(this.me.birth_date);
+        // },
         watch: {
             '$route'(to, from) {
-                window.console.log('to', to);
-                window.console.log('from', from);
                 if (to.params.userId === this.me.id) {
+                    window.console.log('watch in profile, идем домооой');
                     this.$router.push('/home')
                 }
-                if (from.name === 'home' && to.params.userId === this.me.id) {
+                if (from.name === 'home' && to.params.userId === this.$store.state.me.id) {
+                    window.console.log('watch in profile, идем домооой');
                     this.$router.push('/home')
                 }
             }
@@ -122,10 +95,16 @@
             currentUser() {
                 return this.$store.getters.CURRUSER
             },
-            // currUserTransactions() {
-            //     return this.$store.getters.CURRUSER_TRANSACTIONS
-            // }
-        }
+            employment_date_new() {
+                return this.formatDDMMMyear(this.me.employment_date)
+            },
+            birth_date_new() {
+                return this.formatDDMMM(this.me.birth_date);
+            }
+        },
+        // beforeDestroy() {
+        //     this.$store.commit('DEL_CURRUSER')
+        // }
 
     }
 

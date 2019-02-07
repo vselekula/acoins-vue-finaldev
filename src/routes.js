@@ -6,7 +6,7 @@ import loginPage from "./components/login/login"
 import shop from "./components/tabs/Shop/tab-shop-list"
 import HAF from "./components/tabs/Best/TabBest"
 import myPurchases from "./components/tabs/Shop/my_purchases"
-
+import {store} from './store/index'
 
 export const routes = [
 
@@ -15,20 +15,21 @@ export const routes = [
         component: loginPage,
         name: 'login'
     },
-    // {
-    //     path: '/' + JSON.parse(localStorage.getItem('user')).id,
-    //     component: UserPage,
-    //     name: 'my',
-    //     meta: {
-    //         requiresAuth: true
-    //     }
-    // },
     {
         path: '/home',
         component: UserPage,
         name: 'home',
         meta: {
             requiresAuth: true
+        },
+        beforeEnter: (to, from, next) => {
+            window.console.log('{beforeEnter} in rotes.js, сейчас будет GET_ME');
+            store.dispatch('GET_ME')
+                .then(()=>{
+                    window.console.log('{beforeEnter} in rotes.js, а сейчас будет GET_ME_TRANSACTIONS');
+                    store.dispatch('GET_ME_TRANSACTIONS');
+                });
+            next();
         }
     },
     {
@@ -71,26 +72,23 @@ export const routes = [
             requiresAuth: true
         },
         beforeEnter: (to, from, next) => {
-            window.console.log(to, from);
-            window.console.log(JSON.parse(window.localStorage.getItem('user')).id);
-            if (typeof(window.localStorage.getItem('user')) === 'undefined') {
-                window.console.log('yes1');
-                next();
-            }
+            window.console.log('{beforeEnter}, сейчас будет SET_CURRUSER');
+            store.dispatch('SET_CURRUSER', to.params.userId)
+                .then(()=> {
+                    window.console.log('{beforeEnter}, сейчас будет GET_CURRUSER_TRANSACTIONS');
+                    store.dispatch('GET_CURRUSER_TRANSACTIONS', to.params.userId)
+                });
             if (to.params.userId === JSON.parse(window.localStorage.getItem('user')).id){
-                window.console.log('yes2');
+                window.console.log('{beforeEnter} in rotes.js идем домой');
                 next({name: 'home'});
             }
-            // if (to.params.userId === JSON.parse(window.localStorage.getItem('user')).id && from.name === 'home'){
-            //     window.console.log('yes3');
-            //     next({name: 'home'});
-            // }
             next();
         }
     },
     {
         path: '*',
         component: UserPage,
+        redirect: '/home',
         meta: {
             requiresAuth: true
         }

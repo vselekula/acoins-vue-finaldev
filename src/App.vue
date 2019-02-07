@@ -2,10 +2,10 @@
     <div id="app">
         <!--<transition-group name="fade">-->
         <div class="container-fluid main-head"></div>
-        <sideBar v-if="auth === 'success'"></sideBar>
+        <sideBar></sideBar>
 
-            <router-view />
-            <vue-ins-progress-bar ></vue-ins-progress-bar>
+        <router-view/>
+        <vue-ins-progress-bar></vue-ins-progress-bar>
         <!--</transition-group>-->
     </div>
 </template>
@@ -25,6 +25,7 @@
     // import vueCustomScrollbar from 'vue-custom-scrollbar'
 
     import sideBar from './SideBar'
+
     let item = window.localStorage.getItem('user');
     if (item) {
         let json = JSON.parse(item);
@@ -45,7 +46,7 @@
     export default {
         name: "app",
         components: {sideBar},
-        created () {
+        created() {
             this.$router.beforeEach((to, from, next) => {
                 this.$insProgress.start();
                 next()
@@ -72,25 +73,30 @@
         color: #2c3e50;
 
     }
+
     .container {
-            max-width: 850px;
+        max-width: 850px;
         min-width: 500px;
-        }
+    }
+
     ::-webkit-scrollbar {
         width: 0 !important
     }
+
     .scroll-area {
         position: relative;
         margin: auto;
         width: 100%;
         height: 100%;
     }
-    .main-head{
+
+    .main-head {
         height: 300px;
         background-color: #2db3ff;
         position: absolute;
         top: 0px;
     }
+
     .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
         box-shadow: 0 5px 40px -5px rgba(1, 123, 251, 0.6);
     }

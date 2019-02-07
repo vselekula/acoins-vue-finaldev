@@ -25,7 +25,6 @@
         },
         mounted: function () {
             this.$store.dispatch('GET_GOODS');
-            this.$store.dispatch('GET_ME');
         },
     }
 

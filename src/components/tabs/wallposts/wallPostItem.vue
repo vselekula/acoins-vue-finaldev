@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </emoji-picker>
-            <button v-if="seen" type="button" @click="postMessage()" class="btn btn-primary ml-4 mb-4">
+            <button v-if="seen" type="button" @click="postMessage()" class="btn btn-success ml-4 mb-4">
                 Отправить
             </button>
         </div>

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="me.relations !== undefined " class="Wrapper">
+    <div v-if="me !== null " class="Wrapper">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
               integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
               crossorigin="anonymous">
@@ -69,7 +69,6 @@
 </template>
 <script>
     import addTransaction from './components/tabs/wallposts/initiateNewTransaction'
-    // import {router} from './router'
     export default {
         name: 'sideBar',
         data() {
@@ -81,19 +80,10 @@
         components: {
             addTransaction
         },
-        // computed: {
-        //     me: function () {
-        //         return this.$store.getters.CURRUSER
-        //     }
-        // },
         methods: {
             logout: function () {
-
-                // this.$store.commit('DEL_ME');
                 this.$store.dispatch('AUTH_LOGOUT')
                     .then(() => {
-                        // this.$store.commit('ME_LOGOUT');
-
                         localStorage.removeItem("user-token");
                         localStorage.removeItem("user");
                         this.$router.push('/login')
@@ -106,7 +96,6 @@
                 this.$router.push({name: 'admin'})
             },
             home() {
-                // this.$store.dispatch('SET_CURRUSER', JSON.parse(window.localStorage.getItem('user')));
                 this.$router.push({name: 'home'})
             },
             shop() {
@@ -119,19 +108,14 @@
                 this.$router.push({name: 'my_purchases'})
             }
         },
-        // beforeMount: function () {
-        //     this.me = JSON.parse(window.localStorage.getItem('user'));
-        // },
         computed: {
             me() {
+                if (this.$store.state.me === null) {
+                    window.console.log('в store отсутствует me, запрашиваю GET_ME');
+                    this.$store.dispatch('GET_ME');
+                }
                 return this.$store.getters.ME
-            },
-            auth() {
-                return this.$store.getters.isAuthenticated
             }
-        },
-        mounted: function () {
-            this.$store.dispatch('GET_ME');
         }
     }
 
@@ -217,7 +201,8 @@
         background-color: #f1ffff;
         transition: SIDEBAR.collapseTransition;
         user-select: none;
-        box-shadow: 0 0px 25px -5px rgba(0,64,128,0.2);
+        box-shadow: 0 0px 25px -5px rgba(0, 64, 128, 0.2);
+
         &.is-collapsed {
             max-width: 100px;
             min-width: 100px;

@@ -33,10 +33,8 @@
         props: ['user'],
         data() {
             return {
-                // itemsApi: '',
                 options: [],
                 errors: [],
-                // user: null
             }
         },
         methods: {
@@ -57,9 +55,6 @@
                         window.console.log(e)
                     });
             }, 350),
-            // changeUser(val){
-            //  this.$emit('input', val);
-            // }
         }
     }
 </script>

@@ -1,8 +1,9 @@
 <template>
-    <div class="container me_top_cta d-flex align-items-center">
+    <div class="container me_top_cta d-flex align-items-center" v-if="$store.state.me !== null">
         <div class="row align-items-center flex-fill">
             <div class="col py-4">
-                <h3 class="mt-2">Ты чего <br>такой неблагодарный, {{ $store.state.me.first_name }}?💩</h3>
+                <h3 class="mt-2">ASD благодарит. <br>
+                    Присоединяйся, {{ $store.state.me.first_name }}!</h3>
                 </div>
 
             <div class="col-3 d-flex flex-column flex-shrink-1 flex-grow-0 px-0">
@@ -10,20 +11,9 @@
                     у тебя {{ $store.state.me.donation_balance }} <HeartIcon width="15px" height="15px" class="pl-1 pb-2" fillColor="white" />
                 </div>
                 <div class="d-flex justify-content-center">
-                    <!--<addTransaction head-view="true" button-text="отправить спасибо"></addTransaction>-->
                     <add-transaction button-text="отправить спасибо" headerView="true"></add-transaction>
                 </div>
             </div>
-
-            <!--<div class="col d-flex flex-column flex-shrink-1 flex-grow-0 px-0">-->
-                <!--<h4>У тебя есть</h4>-->
-                <!--<div class="amount_cta align-items-center d-flex py-auto ">-->
-                    <!--<div class="number pb-1">-->
-                        <!--{{ $store.state.me.donation_balance }}-->
-                    <!--</div> <HeartIcon width="35px" height="35px" class="pl-1 pb-2" fillColor="white"/>-->
-                <!--</div>-->
-                <!--<add-transaction button-text="сказать спасибо" headerView="true"></add-transaction>-->
-            <!--</div>-->
         </div>
     </div>
 </template>
@@ -63,8 +53,5 @@
         color: white;
 
     }
-    /*::-webkit-scrollbar {*/
-        /*width: 0 !important*/
-    /*}*/
 
 </style>

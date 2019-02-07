@@ -14,6 +14,9 @@
     export default {
         name: 'userPage',
         components: {Profile, Tabs},
+        mounted: function () {
+            // this.$store.dispatch('SET_CURRUSER');
+        }
     }
 </script>
 <style>
