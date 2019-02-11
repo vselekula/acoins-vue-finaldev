@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import {HTTP} from '../data/common'
-import {router} from '../router'
+// import {router} from '../router'
 
 Vue.use(Vuex);
 
@@ -157,7 +157,10 @@ export const store = new Vuex.Store({
             window.console.log('Mutation SET_CURRUSER, user object is:', state.currUser)
         },
         DEL_CURRUSER: (state) => {
-            state.currUser = {}
+            state.currUser = null;
+        },
+        DEL_CURRUSER_TRANSACTIONS: (state) => {
+            state.currUserTransactions = []
         },
         SET_GROUPS: (state, payload) => {
             state.groups = payload;
@@ -197,7 +200,7 @@ export const store = new Vuex.Store({
             state.me = meObj;
         },
         DEL_ME: (state) => {
-            state.me = {};
+            state.me = null;
         },
         REFRESH_DONATION_BALANCE: (state, refreshedBalance) => {
             state.me.donation_balance = refreshedBalance
@@ -213,7 +216,7 @@ export const store = new Vuex.Store({
             let {data} = await HTTP.get('users?include=position,avatar_file,boss,group');
             context.commit('SET_USERS', data.data)
         },
-        SET_CURRUSER: async (context, userId, state) => {
+        SET_CURRUSER: async (context, userId) => {
             await HTTP.get('users/' + userId + '?include=position,avatar_file,boss,group')
                 .then(response => {
                     let resp = response.data.data;
@@ -357,6 +360,7 @@ export const store = new Vuex.Store({
         AUTH_LOGOUT: ({commit}) => {
             return new Promise((resolve, /*reject*/) => {
                 commit('AUTH_LOGOUT');
+                commit('DEL_ME');
                 localStorage.removeItem('user-token');
                 delete HTTP.defaults.headers.common['Authorization']
                 resolve()

@@ -1,6 +1,6 @@
 <template>
     <div class="container mx-auto profile-wrapper my-1 px-3">
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center"  v-if="show">
             <div class="mr-3">
                 <img v-if="currentUser !== null"
                      :src="'http://192.168.99.100:8000' + currentUser.relations.avatar_file.data.full_path"
@@ -33,15 +33,18 @@
                     <div class="flex-column">
                         <div class="user_inAvito">
                             <avito-logo/>
-                            {{ employment_date_new }}
+                            {{ currentUser.employment_date | toDDMMMyear }}
                         </div>
                         <div class="user_HB pt-1">
                             <Cake fillColor="white"/>
-                            {{ birth_date_new }}
+                            {{ currentUser.birth_date | toDDMMM}}
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div v-else>
+            <h1>ОЛО!</h1>
         </div>
     </div>
 </template>
@@ -58,54 +61,31 @@
         data() {
             return {
                 route_params_userId: Number(this.$route.params.userId),
-                me: this.$store.state.me,
-                employment_date_formatted: '',
-                birth_date_formatted: ''
-            }
-        },
-        methods: {
-            formatDDMMM(s) {
-                let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
-                let d = s.split(/\D/);
-                return d[2] + ' ' + months[d[1] - 1];
-            },
-            formatDDMMMyear(s) {
-                let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
-                let d = s.split(/\D/);
-                return 'c ' + d[2] + ' ' + months[d[1] - 1] + ' ' + d[0];
-            }
-        },
-        // mounted: function () {
-        //     this.employment_date_formatted = this.formatDDMMMyear(this.me.employment_date);
-        //     this.birth_date_formatted = this.formatDDMMM(this.me.birth_date);
-        // },
-        watch: {
-            '$route'(to, from) {
-                if (to.params.userId === this.me.id) {
-                    window.console.log('watch in profile, идем домооой');
-                    this.$router.push('/home')
-                }
-                if (from.name === 'home' && to.params.userId === this.$store.state.me.id) {
-                    window.console.log('watch in profile, идем домооой');
-                    this.$router.push('/home')
-                }
+                me: JSON.parse(window.localStorage.getItem('user')),
+                show: false
             }
         },
         computed: {
             currentUser() {
                 return this.$store.getters.CURRUSER
             },
-            employment_date_new() {
-                return this.formatDDMMMyear(this.me.employment_date)
-            },
-            birth_date_new() {
-                return this.formatDDMMM(this.me.birth_date);
-            }
         },
-        // beforeDestroy() {
-        //     this.$store.commit('DEL_CURRUSER')
-        // }
-
+        filters: {
+            toDDMMMyear: function (value) {
+                window.console.log(value)
+                let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
+                let d = value.split(/\D/);
+                return 'c ' + d[2] + ' ' + months[d[1] - 1] + ' ' + d[0];
+            },
+            toDDMMM: function (value) {
+                let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
+                let d = value.split(/\D/);
+                return d[2] + ' ' + months[d[1] - 1];
+            },
+        },
+        mounted() {
+            this.show = true;
+        },
     }
 
 </script>

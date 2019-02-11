@@ -74,7 +74,7 @@
         data() {
             return {
                 boolie: true,
-                // me: ''
+                loggedOut: true,
             }
         },
         components: {
@@ -82,6 +82,7 @@
         },
         methods: {
             logout: function () {
+                this.loggedOut = true;
                 this.$store.dispatch('AUTH_LOGOUT')
                     .then(() => {
                         localStorage.removeItem("user-token");
@@ -108,9 +109,15 @@
                 this.$router.push({name: 'my_purchases'})
             }
         },
+        beforeUpdate() {
+            this.loggedOut = false;
+        },
+        updated() {
+            this.loggedOut = false;
+        },
         computed: {
             me() {
-                if (this.$store.state.me === null) {
+                if (this.$store.state.me === null && this.loggedOut !== true) {
                     window.console.log('в store отсутствует me, запрашиваю GET_ME');
                     this.$store.dispatch('GET_ME');
                 }

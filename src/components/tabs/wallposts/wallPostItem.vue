@@ -99,13 +99,16 @@
                 this.newMessage += emoji
             },
             goToUser() {
-                this.$store.dispatch('SET_CURRUSER', this.transaction.relations.to_user.data.id);
-                this.$router.push({name: 'user', params: {userId: this.transaction.relations.to_user.data.id}})
+                // this.$store.dispatch('SET_CURRUSER', this.transaction.relations.to_user.data.id);
+                // this.$router.push({name: 'user', params: {userId: this.transaction.relations.to_user.data.id}})
+                this.$router.push('/' + this.transaction.relations.to_user.data.id);
+                window.console.log('полетели id: ', this.transaction.relations.to_user.data.id)
             },
             goToUserFrom() {
-                this.$store.dispatch('SET_CURRUSER', this.transaction.relations.from_user.data.id);
+                // this.$store.dispatch('SET_CURRUSER', this.transaction.relations.from_user.data.id);
                 // window.console.log('user', this.transaction.relations.to_user.data);
-                this.$router.push({name: 'user', params: {userId: this.transaction.relations.from_user.data.id}})
+                this.$router.push('/' + this.transaction.relations.from_user.data.id);
+                window.console.log('полетели id: ', this.transaction.relations.from_user.data.id)
             },
             postMessage() {
                 let transactionData = {

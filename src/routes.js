@@ -25,7 +25,7 @@ export const routes = [
         beforeEnter: (to, from, next) => {
             window.console.log('{beforeEnter} in rotes.js, сейчас будет GET_ME');
             store.dispatch('GET_ME')
-                .then(()=>{
+                .then(() => {
                     window.console.log('{beforeEnter} in rotes.js, а сейчас будет GET_ME_TRANSACTIONS');
                     store.dispatch('GET_ME_TRANSACTIONS');
                 });
@@ -72,33 +72,44 @@ export const routes = [
             requiresAuth: true
         },
         beforeEnter: (to, from, next) => {
-            window.console.log('{beforeEnter}, сейчас будет SET_CURRUSER');
-            store.dispatch('SET_CURRUSER', to.params.userId)
-                .then(()=> {
-                    window.console.log('{beforeEnter}, сейчас будет GET_CURRUSER_TRANSACTIONS');
-                    store.dispatch('GET_CURRUSER_TRANSACTIONS', to.params.userId)
-                });
-            if (to.params.userId === JSON.parse(window.localStorage.getItem('user')).id){
-                window.console.log('{beforeEnter} in rotes.js идем домой');
+            window.console.log('внимание', store.state.me);
+
+            window.console.log(store.getters.ME);
+            if (to.params.userId === JSON.parse(window.localStorage.getItem('user')).id) {
+                window.console.log('ой йой, идем ка домой', 'мой id: ', JSON.parse(window.localStorage.getItem('user')).id);
                 next({name: 'home'});
             }
+            if (store.getters.ME === null) {
+                store.dispatch('GET_ME');
+            }
+            store.dispatch('SET_CURRUSER', to.params.userId)
+                .then(() => {
+                    store.dispatch('GET_CURRUSER_TRANSACTIONS', to.params.userId)
+                });
             next();
         }
     },
     {
         path: '*',
-        component: UserPage,
-        redirect: '/home',
-        meta: {
-            requiresAuth: true
-        }
-    },
+        component:
+        UserPage,
+        redirect:
+            '/home',
+        meta:
+            {
+                requiresAuth: true
+            }
+    }
+    ,
     {
         path: '/admin',
-        component: mainAdmin,
-        name: 'admin',
-        meta: {
-            requiresAuth: true
-        }
+        component:
+        mainAdmin,
+        name:
+            'admin',
+        meta:
+            {
+                requiresAuth: true
+            }
     }
 ]

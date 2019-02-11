@@ -50,7 +50,7 @@
             return {
                 me_transactions: null,
                 transactionData: {
-                    from_user_id: this.$store.state.me.id,
+                    from_user_id: JSON.parse(window.localStorage.getItem('user')).id,
                     to_user_id: '',
                     sum: '',
                     value_id: '',

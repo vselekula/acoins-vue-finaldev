@@ -1,17 +1,19 @@
 <template>
     <div class="transactionsWrapper">
-        <b-form-group label="" class="transaction_filters">
-            <b-form-radio-group v-model="selected"
-                                :options="options"
-                                stacked
-                                name="plainStacked"/>
+        <b-form-group v-if="transactionsList !== []" label="" class="transaction_filters">
+            <b-form-radio-group
+                    v-if="transactionsList !== []"
+                    v-model="selected"
+                    :options="options"
+                    stacked
+                    name="plainStacked"/>
         </b-form-group>
         <!--<add-transaction></add-transaction>-->
         <!--<transition-group name="list" mode="out-in">-->
         <!--<transition-group name="list">-->
-            <transactionItem v-if="transactionsList !== []" v-for="transaction in transactionsList.slice().reverse()"
-                             :key="transaction.id"
-                             :transaction="transaction"></transactionItem>
+        <transactionItem v-if="transactionsList !== []" v-for="transaction in transactionsList.slice().reverse()"
+                         :key="transaction.id"
+                         :transaction="transaction"></transactionItem>
         <!--</transition-group>-->
 
         <!--</transition-group>-->
@@ -26,9 +28,9 @@
         data() {
             return {
                 options: [
-                    { text: 'Входящие', value: 'first' },
-                    { text: 'Исходящие', value: 'second' },
-                    { text: 'Все', value: 'third' }
+                    {text: 'Входящие', value: 'first'},
+                    {text: 'Исходящие', value: 'second'},
+                    {text: 'Все', value: 'third'}
                 ],
                 selected: 'third'
             }
@@ -50,13 +52,13 @@
         // },
         computed: {
             transactionsList() {
-                if(this.selected === 'third'){
+                if (this.selected === 'third') {
                     return this.$store.getters.ME_TRANSACTIONS;
                 }
-                if(this.selected === 'second'){
+                if (this.selected === 'second') {
                     return this.outbox(this.$store.getters.ME_TRANSACTIONS);
                 }
-                if(this.selected === 'first'){
+                if (this.selected === 'first') {
                     return this.inbox(this.$store.getters.ME_TRANSACTIONS);
                 }
             }
@@ -68,6 +70,7 @@
         transition: 500ms cubic-bezier(0.59, 0.12, 0.34, 0.95);
         transition-property: opacity, transform;
     }
+
     .list-enter {
         opacity: 0;
         transform: translateY(50px);
@@ -78,11 +81,13 @@
         right: -130px;
         color: white
     }
+
     .transactionsWrapper {
         background-color: transparent;
     }
+
     .list-enter-to {
         opacity: 1;
-        transform: translateX(0) ;
+        transform: translateX(0);
     }
 </style>

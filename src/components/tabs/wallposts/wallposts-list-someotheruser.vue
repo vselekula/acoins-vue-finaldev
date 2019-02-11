@@ -1,6 +1,6 @@
 <template>
     <div class="transactionsWrapper">
-        <b-form-group label="" class="transaction_filters">
+        <b-form-group label="" class="transaction_filters" v-if="loaded">
             <b-form-radio-group v-model="selected"
                                 :options="options"
                                 stacked/>
@@ -21,6 +21,7 @@
             return {
                 route_params_userId: Number(this.$route.params.userId),
                 // me_transactions: []
+                loaded: false,
                 options: [
                     { text: 'Входящие', value: 'first' },
                     { text: 'Исходящие', value: 'second' },
@@ -42,6 +43,9 @@
             outbox(transactions) {
                 return transactions.filter(x => x.from_user_id === this.route_params_userId);
             }
+        },
+        mounted() {
+          this.loaded = true
         },
         beforeMount() {
             // this.$store.dispatch('GET_CURRUSER_TRANSACTIONS', this.route_params_userId);
