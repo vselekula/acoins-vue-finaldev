@@ -3,7 +3,7 @@
         <!--<transition-group name="fade">-->
         <div class="container-fluid main-head"></div>
         <sideBar></sideBar>
-
+        <notifications position="top center"/>
         <router-view/>
         <vue-ins-progress-bar></vue-ins-progress-bar>
         <!--</transition-group>-->

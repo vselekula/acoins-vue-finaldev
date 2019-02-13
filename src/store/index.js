@@ -2,25 +2,26 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import {HTTP} from '../data/common'
 // import {router} from '../router'
-
+import Notifications from 'vue-notification'
+Vue.use(Notifications);
 Vue.use(Vuex);
 
-// const watchChangedCurrUser = store => {
-//     store.subscribe((mutation) => {
-//         if (mutation.type === "SET_CURRUSER") {
-//             store.dispatch('GET_CURRUSER_TRANSACTIONS', router.currentRoute.params.userId);
-//         }
-//     })
-// };
-// const watchChangedMe = store => {
-//     store.subscribe((mutation) => {
-//         if (mutation.type === "SET_ME") {
-//             store.dispatch('GET_ME_TRANSACTIONS', store.state.me.id);
-//         }
-//     })
-// };
+const watchErrors = store => {
+    store.subscribe((mutation) => {
+        if (mutation.type === "SET_ERROR") {
+            window.console.log(store.state.errors);
+            Vue.prototype.$notify({
+                title: 'Ошибка',
+                text: store.state.errors,
+                type: 'error'
+            });
+            store.commit('DEL_ERRORS')
+        }
+    })
+};
 export const store = new Vuex.Store({
     state: {
+        errors: null,
         users: {},
         groups: {},
         positions: {},
@@ -155,6 +156,13 @@ export const store = new Vuex.Store({
         SET_CURRUSER: (state, payload) => {
             state.currUser = payload;
             window.console.log('Mutation SET_CURRUSER, user object is:', state.currUser)
+        },
+        SET_ERROR: (state, payload) => {
+          state.errors = payload.response.data.errors[Object.keys(payload.response.data.errors)[0]];
+          // commit('DEL_ERRORS');
+        },
+        DEL_ERRORS: (state) => {
+          state.errors = null;
         },
         DEL_CURRUSER: (state) => {
             state.currUser = null;
@@ -340,17 +348,15 @@ export const store = new Vuex.Store({
                 commit('AUTH_REQUEST');
                 HTTP({url: 'login?include=avatar_file,boss,position', data: user, method: 'POST'})
                     .then(resp => {
-                        // window.console.log('здесь где то токен', resp);
                         const token = 'Bearer ' + resp.data.data.api_token;
                         localStorage.setItem('user-token', token);
                         window.localStorage.setItem('user', JSON.stringify(resp.data.data));
-                        // Add the following line:
                         HTTP.defaults.headers.common['Authorization'] = token;
                         commit('AUTH_SUCCESS', resp);
-                        // commit('SET_ME', resp.data.data);
                         resolve(resp)
                     })
                     .catch(err => {
+                        commit('SET_ERROR', err);
                         commit('AUTH_ERROR', err);
                         localStorage.removeItem('user-token');
                         reject(err)
@@ -472,6 +478,6 @@ export const store = new Vuex.Store({
             window.console.log('обновляю твой баланс, будет:', data.user_data.purchase_balance);
             context.commit('REFRESH_PURCHASES_BALANCE', data.user_data.purchase_balance)
         }
-    }
-    // plugins: [watchChangedCurrUser]
+    },
+    plugins: [watchErrors]
 });

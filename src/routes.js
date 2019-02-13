@@ -79,9 +79,6 @@ export const routes = [
                 window.console.log('ой йой, идем ка домой', 'мой id: ', JSON.parse(window.localStorage.getItem('user')).id);
                 next({name: 'home'});
             }
-            if (store.getters.ME === null) {
-                store.dispatch('GET_ME');
-            }
             store.dispatch('SET_CURRUSER', to.params.userId)
                 .then(() => {
                     store.dispatch('GET_CURRUSER_TRANSACTIONS', to.params.userId)

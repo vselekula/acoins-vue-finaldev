@@ -1,8 +1,7 @@
 <template>
     <div class="transactionsWrapper">
-        <b-form-group v-if="transactionsList !== []" label="" class="transaction_filters">
+        <b-form-group v-if="loaded" label="" class="transaction_filters">
             <b-form-radio-group
-                    v-if="transactionsList !== []"
                     v-model="selected"
                     :options="options"
                     stacked
@@ -32,7 +31,8 @@
                     {text: 'Исходящие', value: 'second'},
                     {text: 'Все', value: 'third'}
                 ],
-                selected: 'third'
+                selected: 'third',
+                loaded: false
             }
         },
         methods: {
@@ -62,6 +62,9 @@
                     return this.inbox(this.$store.getters.ME_TRANSACTIONS);
                 }
             }
+        },
+        mounted() {
+            this.loaded = true;
         }
     }
 </script>

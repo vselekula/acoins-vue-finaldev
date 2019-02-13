@@ -44,9 +44,6 @@
                 return transactions.filter(x => x.from_user_id === this.route_params_userId);
             }
         },
-        mounted() {
-          this.loaded = true
-        },
         beforeMount() {
             // this.$store.dispatch('GET_CURRUSER_TRANSACTIONS', this.route_params_userId);
             // this.$insProgress.finish();
@@ -68,6 +65,9 @@
                     return this.inbox(this.$store.getters.CURRUSER_TRANSACTIONS);
                 }
             }
+        },
+        mounted() {
+            this.loaded = true
         }
     }
 </script>

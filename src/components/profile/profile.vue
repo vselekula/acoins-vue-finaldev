@@ -85,7 +85,7 @@
         },
         mounted() {
             this.show = true;
-        },
+        }
     }
 
 </script>
