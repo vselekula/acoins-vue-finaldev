@@ -10,14 +10,6 @@
                  class="rounded-circle avatar avatar_inTop">
             </a>
         </template>
-        <!-- A custom formatted column -->
-        <template slot="name" slot-scope="data">
-            {{data.value.first}} {{data.value.last}}
-        </template>
-        <!-- A virtual composite column -->
-        <template slot="nameage" slot-scope="data">
-            {{data.item.name.first}} is {{data.item.age}} years old
-        </template>
     </b-table>
 </template>
 

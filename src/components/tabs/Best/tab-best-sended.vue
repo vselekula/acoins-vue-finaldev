@@ -9,14 +9,6 @@
       <img :src="'http://192.168.99.100:8000' + data.item.relations.user.data.relations.avatar_file.data.full_path" alt="" rounded="circle" blank blank-color="#fff"
            class="rounded-circle avatar avatar_inTop"></a>
     </template>
-    <!-- A custom formatted column -->
-    <template slot="name" slot-scope="data">
-      {{data.value.first}} {{data.value.last}}
-    </template>
-    <!-- A virtual composite column -->
-    <template slot="nameage" slot-scope="data">
-      {{data.item.name.first}} is {{data.item.age}} years old
-    </template>
   </b-table>
 </template>
 

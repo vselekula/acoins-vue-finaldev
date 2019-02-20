@@ -22,6 +22,9 @@
     import {faBirthdayCake, faEnvelope, faHeart, faPhone, faUsers, faWallet} from '@fortawesome/free-solid-svg-icons'
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
     import {HTTP} from './data/common'
+    import VueSimpleSuggest from 'vue-simple-suggest'
+    Vue.component('vue-simple-suggest', VueSimpleSuggest)
+
     // import vueCustomScrollbar from 'vue-custom-scrollbar'
 
     import sideBar from './SideBar'

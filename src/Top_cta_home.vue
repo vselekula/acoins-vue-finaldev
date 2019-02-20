@@ -1,4 +1,5 @@
 <template>
+
     <div class="container me_top_cta d-flex align-items-center" v-if="$store.state.me !== null">
         <div class="row align-items-center flex-fill">
             <div class="col py-4">

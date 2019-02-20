@@ -1,10 +1,11 @@
 <template>
     <div class="transactionsWrapper">
-        <b-form-group label="" class="transaction_filters" v-if="loaded">
+        <b-form-group class="transaction_filters" v-if="show"  v-click-outside="hideFilters">
             <b-form-radio-group v-model="selected"
                                 :options="options"
                                 stacked/>
         </b-form-group>
+        <b-button @click="showFilters" v-if="!show" class="transaction_filters_button btn btn-link"><i class="fas fa-filter"></i></b-button>
         <!--<add-transaction></add-transaction>-->
         <!--<transition-group name="list" mode="out-in">-->
             <transactionItem v-if="transactionsList !== []" v-for="(transaction, index) in transactionsList.slice().reverse()"
@@ -15,13 +16,13 @@
 </template>
 <script>
     import transactionItem from '../wallposts/wallPostItem';
-    // import {HTTP} from '../../../data/common'
+    import ClickOutside from "vue-click-outside";
+
     export default {
         data() {
             return {
+                show: false,
                 route_params_userId: Number(this.$route.params.userId),
-                // me_transactions: []
-                loaded: false,
                 options: [
                     { text: 'Входящие', value: 'first' },
                     { text: 'Исходящие', value: 'second' },
@@ -31,9 +32,16 @@
             }
 
         },
+        directives: {
+            focus: {
+                inserted(el) {
+                    el.focus()
+                },
+            },
+            ClickOutside
+        },
         components: {
             transactionItem,
-            // addTransaction,
         },
         methods: {
             inbox(transactions) {
@@ -42,16 +50,13 @@
             },
             outbox(transactions) {
                 return transactions.filter(x => x.from_user_id === this.route_params_userId);
+            },
+            showFilters() {
+                this.show = true;
+            },
+            hideFilters() {
+                this.show = false
             }
-        },
-        beforeMount() {
-            // this.$store.dispatch('GET_CURRUSER_TRANSACTIONS', this.route_params_userId);
-            // this.$insProgress.finish();
-            // HTTP.get('me_transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + this.route_params_userId)
-            //     .then (response => {
-            //         window.console.log(response.data.data);
-            //         this.transactions = response.data.data
-            //     })
         },
         computed: {
             transactionsList() {
@@ -65,9 +70,6 @@
                     return this.inbox(this.$store.getters.CURRUSER_TRANSACTIONS);
                 }
             }
-        },
-        mounted() {
-            this.loaded = true
         }
     }
 </script>
@@ -85,6 +87,20 @@
         position: absolute;
         right: -130px;
         color: white
+    }
+    .btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle {
+        color: #fff;
+        background-color: transparent;
+        border-color: white;
+    }
+    .transaction_filters_button {
+        position: absolute;
+        right: -50px;
+        color: white;
+        border: none;
+    }
+    .transaction_filters_button:active {
+        background-color: white;
     }
     .transactionsWrapper {
         background-color: transparent;

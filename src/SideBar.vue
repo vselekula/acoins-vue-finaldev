@@ -1,9 +1,11 @@
 <template>
     <div v-if="loggedOut !== true" class="Wrapper">
+        <!--<button style="position: absolute; right: 0" @click="bool">ddd</button>-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
               integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
               crossorigin="anonymous">
-        <div class="Sidebar" :class="boolie ? 'is-collapsed' : ''" @mouseover="boolie = false"
+        <div class="Sidebar" :class="boolie ? 'is-collapsed' : ''">
+            <div class="Sidebar" :class="boolie ? 'is-collapsed' : ''" @mouseover="boolie = false"
              @mouseleave="boolie = true">
             <header class="Sidebar-header">
                 <div class="header-wrapper d-flex">
@@ -19,26 +21,33 @@
             </header>
             <nav role="navigation">
                 <ul>
-                    <div class="balances">
-                        <li class="Sidebar-navItem-main balance d-flex">
-                            <div class="balanceAndActionWrapper d-flex align-items-center">
-                                <i class="Sidebar-menuIcon-balance fa fa-heart fa-lg"></i>
-                                <a href="">{{ me.donation_balance }}</a>
+                    <div class="balances flex-row d-flex justify-content-between px-3">
+                        <div class="Sidebar-navItem-main balance d-flex">
+                            <div class="balanceAndActionWrapper d-flex align-items-center flex-column">
+                                <div class="d-flex sidebar_icons justify-content-center align-items-center">
+                                    <i class="Sidebar-menuIcon-balance fa fa-heart fa-md pr-2"></i>
+                                </div>
+                                <div class="d-flex">{{ me.donation_balance }}
+                                </div>
                                 <!--<button class="btn-outline-light btn float-right btn-sm nav-btn mr-2">подарить</button>-->
-                                <addTransaction button-text="спасибо" sb-view="true"></addTransaction>
+                                <!--<addTransaction button-text="спасибо" sb-view="true"></addTransaction>-->
                             </div>
-                        </li>
-                        <li class="Sidebar-navItem-main balance d-flex">
-                            <div class="balanceAndActionWrapper d-flex align-items-center align-self-center">
-                                <i class="Sidebar-menuIcon-balance fa fa-wallet fa-lg"></i>
-                                <a href="">{{ me.purchase_balance }}</a>
-                                <button @click="shop" class="sidebar_newTrans_view">магазин</button>
+                        </div>
+                        <div class="Sidebar-navItem-main balance d-flex">
+                            <div class="balanceAndActionWrapper d-flex align-items-center align-self-center flex-column">
+                                <div class="d-flex sidebar_icons justify-content-center align-items-center"><i class="Sidebar-menuIcon-balance fa fa-wallet fa-md pr-2"></i></div>
+                                <div class="d-flex">{{ me.purchase_balance }}</div>
+                                <!--<button @click="shop" class="sidebar_newTrans_view">магазин</button>-->
                             </div>
-                        </li>
+                        </div>
+
                     </div>
 
-                    <br>
-                    <li @click="all" class="Sidebar-navItem">
+                    <div class="Sidebar-navItem-main balance d-flex">
+                        <vSelect></vSelect>
+                    </div>
+
+                    <li @click="all" class="Sidebar-navItem first">
                         <i class="Sidebar-menuIcon fa fa-home"></i>
                         Лента ASD
                     </li>
@@ -66,9 +75,11 @@
             </nav>
         </div>
     </div>
+    </div>
 </template>
 <script>
     import addTransaction from './components/tabs/wallposts/initiateNewTransaction'
+    import vSelect from './components/Sidebar/UserSearchInput'
     export default {
         name: 'sideBar',
         data() {
@@ -78,7 +89,8 @@
             }
         },
         components: {
-            addTransaction
+            addTransaction,
+            vSelect
         },
         methods: {
             logout: function () {
@@ -89,6 +101,9 @@
                         localStorage.removeItem("user");
                         this.$router.push('/login')
                     })
+            },
+            bool() {
+              this.boolie = false
             },
             all() {
                 this.$router.push({name: 'all'})
@@ -134,11 +149,26 @@
     collapseTransition: max-width 0.4s ease\, min-width 0.4s ease,
     mediaQuery: 500px
 }
+    .sidebar_icons {
+        width: 25px
+        height: 25px
+    }
+        .first {
+            margin-top: 20px;
+        }
     .avatar_sidebar {
         width: 100%;
         background: #2db3ff;
     }
-
+    .v-select .vs__selected-options {
+        border-bottom: none;
+    }
+        .v-select {
+            border-radius: 25px
+            -webkit-box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2)
+            -moz-box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2)
+            box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2)
+        }
     .name-title {
         background: #2db3ff;
         color: white;
@@ -155,9 +185,10 @@
 
     .balances {
         background: #2db3ff;
-        margin-top: 50px;
+        margin-top: 60px;
         position: relative;
         top: -10px;
+        margin-bottom: 23px;
         /*padding-bottom: 20px;*/
 
         a {
@@ -166,7 +197,9 @@
             font-weight: bold
         }
     }
-
+    .balanceAndActionWrapper{
+        color: white
+    }
     .Sidebar-menuIcon-balance {
         color: white
     }
@@ -311,9 +344,7 @@
     }
 
     .Sidebar-navItem-main {
-        padding: 0 20px 0 20px;
         white-space: nowrap;
-        overflow: hidden;
         transition: padding-left 0.4s ease;
         height: 50px;
         position: relative
