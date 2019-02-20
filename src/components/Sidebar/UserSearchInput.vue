@@ -1,8 +1,8 @@
 <template>
-    <v-autocomplete label="first_name" :filterable="false" v-model="chosen" :onChange="onChange" :clearable="false" :options="options"
-                    placeholder="Поиск коллег" @search="onSearch">
+    <v-autocomplete ref="val" label="first_name" :filterable="false" v-model="chosen" :onChange="onChange" :clearable="false" :options="options"
+                    placeholder="🔍" @search="onSearch">
         <template slot="no-options">
-            поиск по ASD
+            поиск коллег
         </template>
         <div slot="option" slot-scope="option" style="position: relative">
             <img v-if="'avatar_file' in option.relations"
@@ -55,8 +55,8 @@
         methods: {
             onChange(val){
                 this.$emit('input', val);
-                window.console.log('!!!', val);
-                this.$router.push({name: 'user', params: {userId: val.id}})
+                this.$router.push({name: 'user', params: {userId: val.id}});
+                this.$refs.val.mutableValue = null;
             },
             onSearch(search, loading) {
                 loading(true);
@@ -77,13 +77,19 @@
     }
 </script>
 <style>
+    .open-indicator {
+        display: none
+    }
     .d-center {
         display: flex;
         position: relative;
         align-items: center;
-        background: white;
     }
-
+    .v-select input[type=search] {
+        width: 100% !important;
+        text-align: center !important;
+        height: 45px !important;
+    }
     .v-select {
         margin: 0 20px;
         width: 250px;
@@ -92,14 +98,14 @@
     }
 
     .v-select .dropdown-toggle {
-        border: none;
+        border: none !important;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
         box-shadow: 0 0px 40px -5px rgba(0,64,128,.2);
     }
     .v-select input[type=search] {
-        text-align: center;
+        text-align: center !important;
     }
     .v-select .open-indicator {
         display: none;

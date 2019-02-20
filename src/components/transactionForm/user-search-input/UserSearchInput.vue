@@ -58,7 +58,7 @@
         }
     }
 </script>
-<style>
+<style scoped>
     .d-center {
         display: flex;
         align-items: center;
