@@ -84,7 +84,9 @@
 </script>
 
 <style>
-
+    .modal-content {
+        border-radius: 20px
+    }
     .message_in_new_transaction {
         width: 100% !important;
         height: 100px !important;

@@ -1,21 +1,14 @@
 <template>
     <div>
-        <!--<NavBar></NavBar>-->
-
-        <!--<sideBar/>-->
-
-        <b-card no-body class="col-6 ml-auto mr-auto wrapper_admin">
+        <b-card no-body class="col-6 ml-auto mr-auto wrapper_admin p-0">
             <b-tabs pills card>
                 <b-tab title="+ Users" active>
                     <userList/>
                 </b-tab>
-                <b-tab title="Money">
-                    <initiate-button></initiate-button>
-                </b-tab>
                 <b-tab title="Shop">
                     <shoplist></shoplist>
                 </b-tab>
-                <b-tab title="transactionItem">
+                <b-tab ref="trans" title="transactionItem" active>
                     <transactionList></transactionList>
                 </b-tab>
             </b-tabs>
@@ -25,27 +18,27 @@
 
 <script>
     import UserList from "./UserList";
-    import initiateButton from '../tabs/wallposts/initiateNewTransaction';
-    // import NavBar from "../NavBar"
     import Shoplist from "./shoplist";
-    import transactionList from "./test transaction/wallposts-listTest";
-    // import SideBar from "./SideBar";
+    import transactionList from "./transactions/wallposts-listTest";
 
     export default {
         name: "mainAdmin",
+        data() {
+            return {
+                // temp: this.$refs.trans.localActive,
+                temp1: ''
+            }
+        },
         components: {
-            // SideBar,
             Shoplist,
             UserList,
-            initiateButton,
-            // NavBar,
             transactionList
         }
     }
 </script>
 <style>
-    .wrapper_admin{
-        background: white;
+    .wrapper_admin {
+        background: transparent;
     }
 </style>
 
