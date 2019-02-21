@@ -1,20 +1,23 @@
 <template>
     <div>
-        <b-button :class="{ 'sidebar_newTrans_view': sbView, 'uc-view': usercardView, 'head-view': headerView }" class="btn-outline-light" @click="modalShow = !modalShow">
-            {{buttonText }}  <send-heart v-if="heartIcon" class=""/>
+        <b-button :class="{ 'sidebar_newTrans_view': sbView, 'uc-view': usercardView, 'head-view': headerView }"
+                  class="btn-outline-light" @click="modalShow = !modalShow">
+            {{buttonText }}
+            <send-heart v-if="heartIcon" class=""/>
         </b-button>
         <b-modal ok-title="отправить" ok-only class="trans_modal" @ok="addTransaction" v-model="modalShow" size="lg">
             <!--<div class="mx-auto">-->
-                <!--<img :src="'http://192.168.99.100:8000' + reciever.relations.avatar_file.data.full_path" center rounded="circle"-->
-                     <!--v-if="this.reciever !== ''" blank width="100" height="100"-->
-                     <!--blank-color="#eee" alt="img"-->
-                     <!--class="mx-auto mb-4">-->
+            <!--<img :src="'http://192.168.99.100:8000' + reciever.relations.avatar_file.data.full_path" center rounded="circle"-->
+            <!--v-if="this.reciever !== ''" blank width="100" height="100"-->
+            <!--blank-color="#eee" alt="img"-->
+            <!--class="mx-auto mb-4">-->
             <!--</div>-->
             <b-form inline>
-                <user-search-input class="mr-2" :value="reciever" :user="reciever" @input="userIsSelected"></user-search-input>
-                <sum-input class="mr-2" :user="reciever" @pickedAmount="sumIsSelected"></sum-input>
-                <value-input class="mr-2" :user="reciever" @pickedCennost="valueIsSelected"></value-input>
-                <textarea-autosize v-model="transactionData.title"
+                <user-search-input class="mr-2" :value="reciever" :user="reciever"
+                                   @input="userIsSelected"></user-search-input>
+                <sum-input ref="sum" class="mr-2" :user="reciever" @pickedAmount="sumIsSelected"></sum-input>
+                <value-input ref="val" class="mr-2" :user="reciever" @pickedCennost="valueIsSelected"></value-input>
+                <textarea-autosize ref="tit" v-model="transactionData.title"
                                    placeholder="Спасибо, за... "
                                    class="message_in_new_transaction mt-3 px-3 py-2"></textarea-autosize>
             </b-form>
@@ -58,6 +61,7 @@
                 if (router.currentRoute.name === 'home') {
                     this.$store.dispatch('ADD_ME_TRANSACTION', this.transactionData);
                 }
+                this.clearData()
                 // this.$store.dispatch('ADD_CURRUSER_TRANSACTION', this.transactionData)
                 // HTTP.post('me_transactions?include=from_user.avatar_file,to_user.avatar_file,value', {
                 //     sum: this.transactionData.sum,
@@ -71,6 +75,12 @@
                 //         this.me_transactions.push(response.data.data);
                 // this.$emit('addTransaction', response.data.data)
                 // })
+            },
+            clearData() {
+                this.reciever = '';
+                this.$refs.sum.selectedSum = '';
+                this.$refs.val.selectedValue = '';
+                this.$refs.tit.val = '';
             }
         },
         data() {
@@ -120,15 +130,19 @@
         position: relative;
         border-bottom: solid 3px #2cb3fc;
     }
+
     .v-select .dropdown-toggle {
         border: none
     }
+
     .modal-header {
         display: none;
     }
+
     .modal-footer {
         border-top: none;
     }
+
     .sidebar_newTrans_view {
         opacity: 1;
         position: absolute;
@@ -143,6 +157,7 @@
         color: white;
         top: 9px;
         transition: all 0.4s ease;
+
         &:hover {
             background-color: white;
             color: #2db3ff;
@@ -150,14 +165,17 @@
             cursor: pointer;
             border-radius: 30px;
         }
+
         &:active {
-             -webkit-transform: scale(0.8)
+            -webkit-transform: scale(0.8)
         }
     }
+
     .dropdown-toggle::after {
         visibility: hidden;
     }
-    .head-view{
+
+    .head-view {
         border: none
         padding: 0 14px !important
         background: linear-gradient(179.71deg, #FFFFFF 1.34%, #D6E8FF 98.67%);
@@ -171,17 +189,20 @@
         width: fit-content
         box-shadow: 0px 10px 25px rgba(3, 134, 255, 0.41)
         transition: all 0.4s ease
-        &:hover{
+
+        &:hover {
             box-shadow: 0 0 15px rgba(3, 134, 255, 0.41)
             transform: scale(0.99)
             color: #2db3ff
             background: linear-gradient(179.71deg, #FFFFFF 1.34%, #CBE1FF 98.67%);
         }
     }
+
     .addTransaction {
         width: 100%;
     }
-    .modal-open{
+
+    .modal-open {
         overflow: scroll
     }
 </style>

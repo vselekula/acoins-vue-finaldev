@@ -58,60 +58,67 @@
         }
     }
 </script>
-<style scoped>
-    .d-center {
-        display: flex;
-        align-items: center;
-    }
+<!--<style scoped>-->
+    <!--.d-center {-->
+        <!--display: flex;-->
+        <!--align-items: center;-->
+    <!--}-->
 
-    .v-select {
-        width: 250px;
-        appearance: none;
-    }
-    .v-select .dropdown-toggle {
-        border: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        /*box-shadow: 0 0px 40px -5px rgba(0,64,128,.2);*/
-        border: solid 1px #eee
-    }
-    .v-select .open-indicator {
-        display: none;
-    }
-    .v-select .dropdown-menu  {
-        border: none;
-        box-shadow: 0 0px 40px -5px rgba(0,64,128,.2);
-    }
-    .selected img {
-        width: auto;
-        max-height: 23px;
-        margin-right: 0.5rem;
-    }
+    <!--.v-select {-->
+        <!--width: 250px;-->
+        <!--appearance: none;-->
+    <!--}-->
+    <!--.v-select .dropdown-toggle {-->
+        <!--border: none;-->
+        <!-- -webkit-appearance: none;-->
+        <!-- -moz-appearance: none;-->
+        <!--appearance: none;-->
+        <!--box-shadow: none;-->
+        <!--border: solid 1px #eee-->
+    <!--}-->
+    <!--.v-select .open-indicator {-->
+        <!--display: none;-->
+    <!--}-->
+    <!--.v-select .dropdown-menu  {-->
+        <!--border: none;-->
+        <!--box-shadow: 0 0px 40px -5px rgba(0,64,128,.2);-->
+    <!--}-->
+    <!--.selected img {-->
+        <!--width: auto;-->
+        <!--max-height: 23px;-->
+        <!--margin-right: 0.5rem;-->
+    <!--}-->
 
-    .v-select .dropdown li {
-        border-bottom: 1px solid rgba(112, 128, 144, 0.1);
-    }
+    <!--.v-select .dropdown li {-->
+        <!--border-bottom: 1px solid rgba(112, 128, 144, 0.1);-->
+    <!--}-->
 
-    .v-select .dropdown li:last-child {
-        border-bottom: none;
-    }
+    <!--.v-select .dropdown li:last-child {-->
+        <!--border-bottom: none;-->
+    <!--}-->
 
-    .v-select .dropdown li a {
-        padding: 10px 20px;
-        width: 100%;
-        font-size: 1.25em;
-        color: #3c3c3c;
-    }
+    <!--.v-select .dropdown li a {-->
+        <!--padding: 10px 20px;-->
+        <!--width: 100%;-->
+        <!--font-size: 1.25em;-->
+        <!--color: #3c3c3c;-->
+    <!--}-->
 
-    .v-select .dropdown-menu .active > a {
-        color: #fff;
-    }
-</style>
-<style scoped>
-    img {
-        height: auto;
-        max-width: 2.5rem;
-        margin-right: 1rem;
-    }
+    <!--.v-select .dropdown-menu .active > a {-->
+        <!--color: #fff;-->
+    <!--}-->
+<!--</style>-->
+<style lang="stylus" scoped>
+
+    .v-select /deep/ .open-indicator
+        display: none
+    .v-select /deep/ input[type=search]
+        text-align: center
+    img
+        height: auto
+        max-width: 2.5rem
+        margin-right: 1rem
+    .v-select .dropdown-toggle
+        box-shadow none
+
 </style>

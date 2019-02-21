@@ -35,4 +35,7 @@
         width: 340px !important;
 
     }
+    .v-select /deep/ input[type=search] {
+        text-align: center
+    }
 </style>

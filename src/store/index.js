@@ -191,6 +191,10 @@ export const store = new Vuex.Store({
             let i = state.me_transactions.findIndex(obj => obj.id === transactionId);
             state.me_transactions[i].relations.messages.data.push(postMessageResponse);
         },
+        ADD_ALL_MESSAGE: (state, {postMessageResponse, transactionId}) => {
+            let i = state.all_transactions.findIndex(obj => obj.id === transactionId);
+            state.all_transactions[i].relations.messages.data.push(postMessageResponse);
+        },
         ADD_CURRUSER_MESSAGE: (state, {postMessageResponse, transactionId}) => {
             let i = state.currUserTransactions.findIndex(obj => obj.id === transactionId);
             state.currUserTransactions[i].relations.messages.data.push(postMessageResponse);
@@ -198,6 +202,10 @@ export const store = new Vuex.Store({
         ADD_ME_TRANSACTION: (state, transactionData) => {
             window.console.log('добавляется транзакция', transactionData);
             state.me_transactions.push(transactionData)
+        },
+        ADD_ALL_TRANSACTION: (state, transactionData) => {
+            window.console.log('добавляется транзакция', transactionData);
+            state.all_transactions.push(transactionData)
         },
         ADD_CURRUSER_TRANSACTION: (state, transactionData) => {
             window.console.log('добавляется транзакция', transactionData);
@@ -432,6 +440,17 @@ export const store = new Vuex.Store({
                 transactionId: transactionData.transaction_id
             })
         },
+        ADD_ALL_MESSAGE: async (context, transactionData) => {
+            let {data} = await HTTP.post(`transactions/` + transactionData.user_id + `/messages?include=user`, {
+                transaction_id: transactionData.transaction_id,
+                user_id: transactionData.user_id,
+                message: transactionData.message,
+            });
+            context.commit('ADD_ALL_MESSAGE', {
+                postMessageResponse: data.data,
+                transactionId: transactionData.transaction_id
+            })
+        },
         ADD_CURRUSER_MESSAGE: async (context, transactionData) => {
             let {data} = await HTTP.post(`transactions/` + transactionData.user_id + `/messages?include=user`, {
                 transaction_id: transactionData.transaction_id,
@@ -454,6 +473,18 @@ export const store = new Vuex.Store({
             context.commit('REFRESH_DONATION_BALANCE', data.user_data.donation_balance);
             // Vue.set(data.data.relations, messages, )
             context.commit('ADD_ME_TRANSACTION', data.data)
+        },
+        ADD_ALL_TRANSACTION: async (context, transactionData) => {
+            let {data} = await HTTP.post('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,value,messages.user', {
+                sum: transactionData.sum,
+                from_user_id: transactionData.from_user_id,
+                to_user_id: transactionData.to_user_id,
+                title: transactionData.title,
+                value_id: transactionData.value_id
+            });
+            context.commit('REFRESH_DONATION_BALANCE', data.user_data.donation_balance);
+            // Vue.set(data.data.relations, messages, )
+            context.commit('ADD_ALL_TRANSACTION', data.data)
         },
         ADD_CURRUSER_TRANSACTION: async (context, transactionData) => {
             let {data} = await HTTP.post('transactions?include=from_user.avatar_file,to_user.avatar_file,value', {

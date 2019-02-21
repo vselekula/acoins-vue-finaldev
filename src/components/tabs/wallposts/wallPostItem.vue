@@ -116,8 +116,8 @@
                     user_id: this.$store.state.me.id,
                     transaction_id: this.transaction.id
                 };
-                if (this.$route.name === 'home'){
-                    this.$store.dispatch('ADD_ME_MESSAGE', transactionData);
+                if (this.$route.name === 'all'){
+                    this.$store.dispatch('ADD_ALL_MESSAGE', transactionData);
                 } else {
                     this.$store.dispatch('ADD_CURRUSER_MESSAGE', transactionData);
                 }

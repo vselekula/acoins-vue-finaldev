@@ -76,8 +76,8 @@
         }
     }
 </script>
-<style>
-    .open-indicator {
+<style scoped>
+    .v-select /deep/ .open-indicator {
         display: none
     }
     .d-center {
@@ -85,7 +85,7 @@
         position: relative;
         align-items: center;
     }
-    .v-select input[type=search] {
+    .v-select /deep/ input[type=search] {
         width: 100% !important;
         text-align: center !important;
         height: 45px !important;
@@ -104,17 +104,10 @@
         appearance: none;
         box-shadow: 0 0px 40px -5px rgba(0,64,128,.2);
     }
-    .v-select input[type=search] {
-        text-align: center !important;
-    }
-    .v-select .open-indicator {
-        display: none;
-    }
-    .dropdown-menu {
+    .v-select /deep/ .dropdown-menu {
         border: none;
         position: relative;
-        z-index: 10000;
-        box-shadow: 0 0px 40px -5px rgba(0, 64, 128, .2);
+        top: -7px;
     }
 
     .selected img {

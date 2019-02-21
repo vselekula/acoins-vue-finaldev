@@ -21,11 +21,11 @@
             </header>
             <nav role="navigation">
                 <ul>
-                    <div class="balances flex-row d-flex justify-content-between px-3">
+                    <div class="balances flex-row d-flex justify-content-between">
                         <div class="Sidebar-navItem-main balance d-flex">
-                            <div class="balanceAndActionWrapper d-flex align-items-center flex-column">
+                            <div class="balanceAndActionWrapper d-flex align-items-center flex-column justify-content-center">
                                 <div class="d-flex sidebar_icons justify-content-center align-items-center">
-                                    <i class="Sidebar-menuIcon-balance fa fa-heart fa-md pr-2"></i>
+                                    <i class="Sidebar-menuIcon-balance fa fa-heart fa-lg pr-2"></i>
                                 </div>
                                 <div class="d-flex">{{ me.donation_balance }}
                                 </div>
@@ -34,8 +34,8 @@
                             </div>
                         </div>
                         <div class="Sidebar-navItem-main balance d-flex">
-                            <div class="balanceAndActionWrapper d-flex align-items-center align-self-center flex-column">
-                                <div class="d-flex sidebar_icons justify-content-center align-items-center"><i class="Sidebar-menuIcon-balance fa fa-wallet fa-md pr-2"></i></div>
+                            <div class="balanceAndActionWrapper d-flex align-items-center align-self-center flex-column justify-content-center">
+                                <div class="d-flex sidebar_icons justify-content-center align-items-center"><i class="Sidebar-menuIcon-balance fa fa-wallet fa-lg pr-2"></i></div>
                                 <div class="d-flex">{{ me.purchase_balance }}</div>
                                 <!--<button @click="shop" class="sidebar_newTrans_view">магазин</button>-->
                             </div>
@@ -56,7 +56,7 @@
                         Магазин
                     </li>
                     <li @click="my_purchases" class="Sidebar-navItem">
-                        <i class="Sidebar-menuIcon fas fa-cart-arrow-down"></i>
+                        <i class="Sidebar-menuIcon fas fa-shopping-basket"></i>
                         Мои покупки
                     </li>
                     <li @click="HAF" class="Sidebar-navItem">
@@ -78,7 +78,7 @@
     </div>
 </template>
 <script>
-    import addTransaction from './components/tabs/wallposts/initiateNewTransaction'
+    // import addTransaction from './components/tabs/wallposts/initiateNewTransaction'
     import vSelect from './components/Sidebar/UserSearchInput'
     export default {
         name: 'sideBar',
@@ -89,7 +89,7 @@
             }
         },
         components: {
-            addTransaction,
+            // addTransaction,
             vSelect
         },
         methods: {
@@ -185,10 +185,11 @@
 
     .balances {
         background: #2db3ff;
-        margin-top: 60px;
+        padding: 15px 50px 0 50px;
         position: relative;
         top: -10px;
-        margin-bottom: 23px;
+        margin-bottom: 10px;
+        transition: all 0.4 ease
         /*padding-bottom: 20px;*/
 
         a {
@@ -248,6 +249,12 @@
             min-width: 100px;
             transition: SIDEBAR.collapseTransition;
 
+            nav {
+                .balances {
+                    padding: 15px 15px 0 15px
+                    margin-right: 0
+                }
+            }
             .Sidebar-header {
                 /*margin-bottom: 0;*/
 
@@ -255,7 +262,6 @@
                     opacity: 0;
                 }
             }
-
             .Sidebar-logo {
                 width: 70px;
                 height: 70px;
