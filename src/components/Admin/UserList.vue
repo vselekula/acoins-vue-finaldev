@@ -4,6 +4,7 @@
         <userItem v-for="user in userList" :key="user.id"
                   :user="user" :positionOptions="positionList" :groupOptions="groupsList"
                   @deletedUser="deleteUser" @editedUser="editUser"></userItem>
+        <!--<b-pagination size="sm" :total-rows="100" v-model="currentPage" :per-page="10" />-->
     </div>
 </template>
 <script>

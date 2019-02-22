@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import {HTTP} from '../data/common'
+import _ from 'lodash'
 // import {router} from '../router'
 import Notifications from 'vue-notification'
 Vue.use(Notifications);
@@ -27,6 +28,7 @@ export const store = new Vuex.Store({
         positions: {},
         me_transactions: [],
         all_transactions: [],
+        all_transactions_infinite: [],
         token: '',
         status: '',
         values: [],
@@ -34,7 +36,9 @@ export const store = new Vuex.Store({
         goods: {},
         me: null,
         currUser: null,
-        currUserTransactions: []
+        currUserTransactions: [],
+        all_transactions_infinite_limit: 0,
+        all_transactions_infinite_offset: 0
     },
     getters: {
         CURRUSER: state => {
@@ -48,6 +52,9 @@ export const store = new Vuex.Store({
         },
         ALL_TRANSACTIONS: state => {
             return state.all_transactions
+        },
+        ALL_TRANSACTIONS_INFINITE: state => {
+            return state.all_transactions_infinite
         },
         isAuthenticated: state => !!state.token,
         authStatus: state => state.status,
@@ -224,6 +231,13 @@ export const store = new Vuex.Store({
         REFRESH_PURCHASES_BALANCE: (state, refreshedBalance) => {
             state.me.purchase_balance = refreshedBalance;
             window.console.log('стало:', state.me.purchase_balance);
+        },
+        ADD_TO_ALL_TRANSACTIONS_INFINITE: (state, transactions) => {
+            state.all_transactions_infinite =  _.concat(state.all_transactions_infinite, transactions.data.data);
+            window.console.log('all transactions concat', state.all_transactions_infinite);
+            state.all_transactions_infinite_offset = state.all_transactions_infinite.length;
+            window.console.log('offset after concat', state.all_transactions_infinite_offset);
+            state.all_transactions_infinite_limit = transactions.data.meta.count;
         }
 
     },
@@ -390,6 +404,14 @@ export const store = new Vuex.Store({
         GET_ALL_TRANSACTIONS: async (context) => {
             let {data} = await HTTP.get('/transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value');
             context.commit('SET_ALL_TRANSACTIONS', data.data)
+        },
+        GET_ALL_TRANSACTIONS_INFINITE: async (context, limit) => {
+            window.console.log(context);
+            HTTP.get(`/transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&limit=${limit}&offset=${context.state.all_transactions_infinite_offset}`)
+                .then(response => {
+                    window.console.log('GET_ALL_TRANSACTIONS_INFINITE ответ: ', response);
+                    context.commit('ADD_TO_ALL_TRANSACTIONS_INFINITE', response);
+                });
         },
         GET_CURRUSER_TRANSACTIONS: async (context, userId) => {
             // let noneTransactions = [];
