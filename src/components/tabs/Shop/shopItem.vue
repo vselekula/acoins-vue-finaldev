@@ -36,6 +36,9 @@
     .shop-card {
         box-shadow: 0 5px 40px -5px rgba(0, 64, 128, .2);
         border-radius: 10px;
-        overflow: hidden
+        overflow: hidden;
+    }
+    .card-body {
+        padding: 20px;
     }
 </style>

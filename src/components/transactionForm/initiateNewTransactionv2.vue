@@ -39,8 +39,8 @@
                 this.transactionData.value_id = value.id
             },
             addTransaction() {
-                if (router.currentRoute.name === 'user') {
-                    this.$store.dispatch('ADD_CURRUSER_TRANSACTION', this.transactionData);
+                if (router.currentRoute.name === 'home') {
+                    this.$store.dispatch('ADD_ME_TRANSACTION', this.transactionData);
                 }
                 if (router.currentRoute.name === 'all') {
                     this.$store.dispatch('ADD_ALL_TRANSACTION', this.transactionData);

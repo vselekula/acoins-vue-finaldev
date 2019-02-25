@@ -24,6 +24,7 @@ export const store = new Vuex.Store({
     state: {
         errors: null,
         users: {},
+        totalUsersCount: null,
         groups: {},
         positions: {},
         me_transactions: [],
@@ -60,6 +61,9 @@ export const store = new Vuex.Store({
         authStatus: state => state.status,
         USERS: state => {
             return state.users;
+        },
+        USERS_COUNT: state => {
+            return state.totalUsersCount;
         },
         GOODS: state => {
             return state.goods;
@@ -109,8 +113,12 @@ export const store = new Vuex.Store({
         LOGIN_USER: (state, payload) => {
             state.loggedUser = payload
         },
-        SET_USERS: (state, payload) => {
-            state.users = payload;
+        SET_USERS: (state, users) => {
+            state.users = users;
+        },
+        SET_USERS_COUNT: (state, usersCount) => {
+            window.console.log('всего ', usersCount, 'юзеров');
+            state.totalUsersCount = usersCount;
         },
         SET_GOODS: (state, payload) => {
             state.goods = payload;
@@ -242,10 +250,20 @@ export const store = new Vuex.Store({
 
     },
     actions: {
-        GET_USERS: async (context) => {
-            let {data} = await HTTP.get('users?include=position,avatar_file,boss,group');
-            context.commit('SET_USERS', data.data)
+        GET_USERS: async (context, {limit, offset}) => {
+            let {data} = await HTTP.get(`users?include=position,avatar_file,boss,group&limit=${limit}&offset=${offset}`);
+            context.commit('SET_USERS',  data.data);
+            context.commit('SET_USERS_COUNT', data.meta.count);
         },
+        SEARCH_USERS: _.debounce((context, query) => {
+                HTTP.get(`users?q=${(query)}&include=position,avatar_file,boss,group`)
+                    .then(response => {
+                        context.commit('SET_USERS',  response.data.data);
+                    })
+                    .catch(e => {
+                        window.console.log(e)
+                    });
+            }, 350),
         SET_CURRUSER: async (context, userId) => {
             await HTTP.get('users/' + userId + '?include=position,avatar_file,boss,group')
                 .then(response => {

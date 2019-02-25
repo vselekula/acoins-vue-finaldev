@@ -56,7 +56,6 @@
             window.addEventListener('scroll', () => {
                 this.bottom = this.bottomVisible()
             });
-            // this.addTransactions();
             this.$store.dispatch('GET_ALL_TRANSACTIONS_INFINITE', 10)
         },
         computed: {

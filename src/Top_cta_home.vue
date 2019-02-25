@@ -3,7 +3,7 @@
     <div class="container me_top_cta d-flex align-items-center" v-if="$store.state.me !== null">
         <div class="row align-items-center flex-fill">
             <div class="col py-4">
-                <h3 class="mt-2">ASD благодарит. <br>
+                <h3 class="mt-2">ASD благодарит.<br>
                     Присоединяйся, {{ $store.state.me.first_name }}!</h3>
                 </div>
 

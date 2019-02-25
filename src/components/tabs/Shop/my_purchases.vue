@@ -2,10 +2,20 @@
     <div class="container">
         <CTA></CTA>
         <div v-if="items !== null" class="myPurchases">
-            <b-table hover :items="items" :fields="fields" :sort-by="sortBy" :sort-direction="sortDirection" ></b-table>
+            <b-table :fields="fields" :items="items">
+                <template slot="img" slot-scope="data">
+                        <img :src="'http://192.168.99.100:8000' + data.item.relations.good.data.relations.image_file.data.full_path" alt="" rounded="circle" blank blank-color="#fff"
+                             class="avatar avatar_inTop">
+                </template>
+                <template slot="№" slot-scope="data">
+                    {{data.index + 1}}
+                </template>
+                <template slot="status" slot-scope="data">
+                    <b-button variant="outline-secondary">{{data.item.status}}</b-button>
+                </template>
+            </b-table>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -23,36 +33,28 @@
                 fields: [
                     {
                         key: 'transaction_id',
-                        label: '# Заказа',
-                        sortable: true
-                    },
-                    {
-                        key: 'relations.good.data.price',
-                        label: 'Цена',
-                        sortable: true
+                        label: 'id заказа',
                     },
                     {
                         key: 'relations.good.data.name',
                         label: 'Название',
-                        sortable: true
                     },
+                    {label: '', key: 'img'},
                     {
-                        key: 'relations.good.data.relations.image_file.data.full_path',
-                        html: '<img :src="\'http://192.168.99.100:8000\' + relations.good.data.relations.image_file.data.full_path"/>',
-                        label: 'img',
-                        sortable: true
+                        key: 'relations.good.data.price',
+                        label: 'Цена',
                     },
+                    {label: '', key: 'status'},
                 ],
                 items: null,
                 sortDirection: 'desc'
             }
         },
         mounted: function () {
-            HTTP.get('purchases?include=good,good.image_file')
+            HTTP.get('users/' + JSON.parse(window.localStorage.getItem('user')).id + '/purchases?include=good,good.image_file')
                 .then(response => {
                     this.items = response.data.data;
                 })
-
         },
     }
 </script>

@@ -91,7 +91,6 @@
             }
         },
         created: function () {
-            // this.authUser = JSON.parse(window.localStorage.getItem('user'));
             this.transaction_date = this.transaction.created_at;
         },
         methods: {
@@ -99,14 +98,10 @@
                 this.newMessage += emoji
             },
             goToUser() {
-                // this.$store.dispatch('SET_CURRUSER', this.transaction.relations.to_user.data.id);
-                // this.$router.push({name: 'user', params: {userId: this.transaction.relations.to_user.data.id}})
                 this.$router.push('/' + this.transaction.relations.to_user.data.id);
                 window.console.log('полетели id: ', this.transaction.relations.to_user.data.id)
             },
             goToUserFrom() {
-                // this.$store.dispatch('SET_CURRUSER', this.transaction.relations.from_user.data.id);
-                // window.console.log('user', this.transaction.relations.to_user.data);
                 this.$router.push('/' + this.transaction.relations.from_user.data.id);
                 window.console.log('полетели id: ', this.transaction.relations.from_user.data.id)
             },
@@ -117,9 +112,12 @@
                     transaction_id: this.transaction.id
                 };
                 if (this.$route.name === 'all'){
+                    window.console.log('Роут', this.$route.name, 'значит делаю ADD_ALL_MESSAGES');
                     this.$store.dispatch('ADD_ALL_MESSAGE', transactionData);
-                } else {
-                    this.$store.dispatch('ADD_CURRUSER_MESSAGE', transactionData);
+                }
+                if (this.$route.name === 'home'){
+                    window.console.log('Роут', this.$route.name, 'значит делаю ADD_ME_MESSAGES');
+                    this.$store.dispatch('ADD_ME_MESSAGE', transactionData);
                 }
 
                 this.newMessage = '';

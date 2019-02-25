@@ -1,15 +1,16 @@
 <template>
     <div class="admin_users_wrapper">
         <add-user :positionOptions="positionList" :groupOptions="groupsList" class="mb-3"/>
+        <b-pagination align="center" :total-rows="100" v-model="currentPage" :per-page="10" />
         <userItem v-for="user in userList" :key="user.id"
                   :user="user" :positionOptions="positionList" :groupOptions="groupsList"
                   @deletedUser="deleteUser" @editedUser="editUser"></userItem>
-        <!--<b-pagination size="sm" :total-rows="100" v-model="currentPage" :per-page="10" />-->
+        <b-pagination align="center" :total-rows="100" v-model="currentPage" :per-page="10" />
     </div>
 </template>
 <script>
-    import UserItem from './userItemVuex'
-    import AddUser from './AddUser'
+    import UserItem from './users/userItemVuex'
+    import AddUser from './users/AddUser'
 
     export default {
         name: 'userList',
@@ -18,7 +19,9 @@
             AddUser
         },
         data() {
-            return {}
+            return {
+                currentPage: 1
+            }
         },
         methods: {
             editUser(editedUser) {
@@ -36,7 +39,7 @@
             this.$insProgress.finish()
         },
         created: function () {
-            this.$insProgress.start()
+            this.$insProgress.start();
             this.$store.dispatch('GET_USERS');
             this.$store.dispatch('GET_POSITIONS');
             this.$store.dispatch('GET_GROUPS');
