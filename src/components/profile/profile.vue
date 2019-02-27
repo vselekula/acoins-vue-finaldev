@@ -1,6 +1,6 @@
 <template>
     <div class="container mx-auto profile-wrapper my-1 px-3">
-        <div class="d-flex align-items-center"  v-if="show">
+        <div class="d-flex align-items-center flex-fill"  v-if="show">
             <div class="mr-3">
                 <img v-if="currentUser !== null"
                      :src="'http://192.168.99.100:8000' + currentUser.relations.avatar_file.data.full_path"
@@ -30,7 +30,7 @@
                             {{ currentUser.email }}
                         </div>
                     </div>
-                    <div class="flex-column">
+                    <div class="flex-column mx-3">
                         <div class="user_inAvito">
                             <avito-logo/>
                             {{ currentUser.employment_date | toDDMMMyear }}
@@ -38,6 +38,16 @@
                         <div class="user_HB pt-1">
                             <Cake fillColor="white"/>
                             {{ currentUser.birth_date | toDDMMM}}
+                        </div>
+                    </div>
+                    <div class="flex-column mx-3 ml-auto">
+                        <div class="user_inAvito">
+                            <i class="fa fa-heart fa-lg "></i>
+                            {{ currentUser.total_donated }}
+                        </div>
+                        <div class="user_HB pt-1">
+                            <i class="fa fa-wallet fa-lg"></i>
+                            {{ currentUser.total_received }}
                         </div>
                     </div>
                 </div>

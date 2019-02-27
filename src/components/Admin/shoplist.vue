@@ -1,6 +1,6 @@
 <template>
     <div>
-        <addProduct/>
+        <addProduct class="mb-3"/>
         <div class="d-flex flex-wrap">
             <shop-item v-for="product in goodsList" :key="product.id" :product="product"></shop-item>
         </div>
