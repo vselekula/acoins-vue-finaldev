@@ -425,7 +425,7 @@ export const store = new Vuex.Store({
         },
         GET_ALL_TRANSACTIONS_INFINITE: async (context, limit) => {
             window.console.log('ВО ТУТ', context.state.all_transactions_infinite_offset);
-            HTTP.get(`/transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&limit=${limit}&offset=${context.state.all_transactions_infinite_offset}`)
+            HTTP.get(`/transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&limit=${limit}&offset=${context.state.all_transactions_infinite_offset}&sort_by=created_at&order_by=desc`)
                 .then(response => {
                     window.console.log('GET_ALL_TRANSACTIONS_INFINITE ответ: ', response);
                     context.commit('ADD_TO_ALL_TRANSACTIONS_INFINITE', response);

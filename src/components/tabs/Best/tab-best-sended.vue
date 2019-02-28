@@ -22,7 +22,7 @@
           {key: 'relations.user.data.relations.position.data.name', label: 'Должность'},
           {key: 'sum', label: 'Подарил'}
         ],
-        items: null
+        items: []
       }
     },
     mounted: function () {

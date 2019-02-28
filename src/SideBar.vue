@@ -1,145 +1,166 @@
 <template>
-    <div v-if="loggedOut !== true" class="Wrapper">
+    <div v-if="me !== null" class="Wrapper">
         <!--<button style="position: absolute; right: 0" @click="bool">ddd</button>-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
               integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
               crossorigin="anonymous">
         <div class="Sidebar" :class="boolie ? 'is-collapsed' : ''">
             <div class="Sidebar" :class="boolie ? 'is-collapsed' : ''" @mouseover="boolie = false"
-             @mouseleave="boolie = true">
-            <header class="Sidebar-header">
-                <div class="header-wrapper d-flex">
-                    <div class="Sidebar-logo">
-                        <a href="/home">
-                            <img :src="'http://192.168.99.100:8000' + me.relations.avatar_file.data.full_path"
-                                 blank blank-color="#fff" class="avatar_sidebar"/></a>
-                    </div>
-                    <div class="name-title">
-                        <h4>{{me.first_name }} {{ me.last_name }}</h4>
-                    </div>
-                </div>
-            </header>
-            <nav role="navigation">
-                <ul>
-                    <div class="balances flex-row d-flex justify-content-between">
-                        <div class="Sidebar-navItem-main balance d-flex">
-                            <div class="balanceAndActionWrapper d-flex align-items-center flex-column justify-content-center">
-                                <div class="d-flex sidebar_icons justify-content-center align-items-center">
-                                    <i class="Sidebar-menuIcon-balance fa fa-heart fa-lg pr-2"></i>
-                                </div>
-                                <div class="d-flex">{{ me.donation_balance }}
-                                </div>
-                                <!--<button class="btn-outline-light btn float-right btn-sm nav-btn mr-2">подарить</button>-->
-                                <!--<addTransaction button-text="спасибо" sb-view="true"></addTransaction>-->
-                            </div>
+                 @mouseleave="boolie = true">
+                <header class="Sidebar-header">
+                    <div class="header-wrapper d-flex">
+                        <div class="Sidebar-logo">
+                            <a href="/home">
+                                <img :src="'http://192.168.99.100:8000' + me.relations.avatar_file.data.full_path"
+                                     blank blank-color="#fff" class="avatar_sidebar"/></a>
                         </div>
-                        <div class="Sidebar-navItem-main balance d-flex">
-                            <div class="balanceAndActionWrapper d-flex align-items-center align-self-center flex-column justify-content-center">
-                                <div class="d-flex sidebar_icons justify-content-center align-items-center"><i class="Sidebar-menuIcon-balance fa fa-wallet fa-lg pr-2"></i></div>
-                                <div class="d-flex">{{ me.purchase_balance }}</div>
-                                <!--<button @click="shop" class="sidebar_newTrans_view">магазин</button>-->
+                        <div class="name-title">
+                            <h4>{{me.first_name }}</h4>
+                        </div>
+                        <div class="position-title">
+                            <p>{{me.relations.position.data.name | toLowerCase }} </p>
+                        </div>
+                    </div>
+                </header>
+                <nav role="navigation">
+                    <ul>
+                        <div class="balances flex-row d-flex justify-content-between">
+                            <div class="Sidebar-navItem-main balance d-flex">
+                                <div class="balanceAndActionWrapper d-flex align-items-center flex-column justify-content-center">
+                                    <div class="d-flex sidebar_icons justify-content-center align-items-center">
+                                        <i class="Sidebar-menuIcon-balance fa fa-heart fa-lg pr-2"></i>
+                                    </div>
+                                    <div class="d-flex">{{ me.donation_balance }}
+                                    </div>
+                                    <!--<button class="btn-outline-light btn float-right btn-sm nav-btn mr-2">подарить</button>-->
+                                    <!--<addTransaction button-text="спасибо" sb-view="true"></addTransaction>-->
+                                </div>
                             </div>
+                            <div class="Sidebar-navItem-main balance d-flex">
+                                <div class="balanceAndActionWrapper d-flex align-items-center align-self-center flex-column justify-content-center">
+                                    <div class="d-flex sidebar_icons justify-content-center align-items-center"><i
+                                            class="Sidebar-menuIcon-balance fa fa-wallet fa-lg pr-2"></i></div>
+                                    <div class="d-flex">{{ me.purchase_balance }}</div>
+                                    <!--<button @click="shop" class="sidebar_newTrans_view">магазин</button>-->
+                                </div>
+                            </div>
+
                         </div>
 
-                    </div>
+                        <div class="Sidebar-navItem-main balance d-flex">
+                            <vSelect></vSelect>
+                        </div>
 
-                    <div class="Sidebar-navItem-main balance d-flex">
-                        <vSelect></vSelect>
-                    </div>
-
-                    <li @click="all" class="Sidebar-navItem first">
-                        <i class="Sidebar-menuIcon fa fa-home"></i>
-                        Лента ASD
-                    </li>
-                    <li @click="shop" class="Sidebar-navItem">
-                        <i class="Sidebar-menuIcon fa fa-shopping-cart"></i>
-                        Магазин
-                    </li>
-                    <li @click="my_purchases" class="Sidebar-navItem">
-                        <i class="Sidebar-menuIcon fas fa-shopping-basket"></i>
-                        Мои покупки
-                    </li>
-                    <li @click="HAF" class="Sidebar-navItem">
-                        <i class="Sidebar-menuIcon fa fa-medal"></i>
-                        Зал славы
-                    </li>
-                    <li @click="admin" class="Sidebar-navItem">
-                        <i class="Sidebar-menuIcon fa fa-user-astronaut"></i>
-                        Админ
-                    </li>
-                    <li @click="logout" class="Sidebar-navItem">
-                        <i class="Sidebar-menuIcon fa fa-sign-out-alt"></i>
-                        Log out
-                    </li>
-                </ul>
-            </nav>
+                        <li @click="all" class="Sidebar-navItem first">
+                            <i class="Sidebar-menuIcon fa fa-home"></i>
+                            Лента ASD
+                        </li>
+                        <li @click="shop" class="Sidebar-navItem">
+                            <i class="Sidebar-menuIcon fa fa-shopping-cart"></i>
+                            Магазин
+                        </li>
+                        <li @click="my_purchases" class="Sidebar-navItem">
+                            <i class="Sidebar-menuIcon fas fa-shopping-basket"></i>
+                            Мои покупки
+                        </li>
+                        <li @click="HAF" class="Sidebar-navItem">
+                            <i class="Sidebar-menuIcon fa fa-medal"></i>
+                            Зал славы
+                        </li>
+                        <li @click="admin" class="Sidebar-navItem">
+                            <i class="Sidebar-menuIcon fa fa-user-astronaut"></i>
+                            Админ
+                        </li>
+                        <li @click="logout" class="Sidebar-navItem">
+                            <i class="Sidebar-menuIcon fa fa-sign-out-alt"></i>
+                            Log out
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
-    </div>
     </div>
 </template>
 <script>
-    // import addTransaction from './components/tabs/wallposts/initiateNewTransaction'
-    import vSelect from './components/Sidebar/UserSearchInput'
-    export default {
-        name: 'sideBar',
-        data() {
-            return {
-                boolie: true,
-                loggedOut: false,
-            }
-        },
-        components: {
-            // addTransaction,
-            vSelect
-        },
-        methods: {
-            logout: function () {
-                this.loggedOut = true;
-                this.$store.dispatch('AUTH_LOGOUT')
-                    .then(() => {
-                        localStorage.removeItem("user-token");
-                        localStorage.removeItem("user");
-                        this.$router.push('/login')
-                    })
-            },
-            bool() {
-              this.boolie = false
-            },
-            all() {
-                this.$router.push({name: 'all'})
-            },
-            admin() {
-                this.$router.push({name: 'admin'})
-            },
-            home() {
-                this.$router.push({name: 'home'})
-            },
-            shop() {
-                this.$router.push({name: 'shop'})
-            },
-            HAF() {
-                this.$router.push({name: 'haf'})
-            },
-            my_purchases() {
-                this.$router.push({name: 'my_purchases'})
-            }
-        },
-        // beforeUpdate() {
-        //     this.loggedOut = false;
-        // },
-        updated() {
-            this.loggedOut = false;
-        },
-        computed: {
-            me() {
-                if (this.$store.state.me === null && this.loggedOut !== true) {
-                    window.console.log('в store отсутствует me, запрашиваю GET_ME');
-                    this.$store.dispatch('GET_ME');
-                }
-                return this.$store.getters.ME
-            }
+  // import addTransaction from './components/tabs/wallposts/initiateNewTransaction'
+  import vSelect from './components/Sidebar/UserSearchInput'
+
+  export default {
+    name: 'sideBar',
+    data() {
+      return {
+        boolie: true,
+        loggedOut: false,
+      }
+    },
+    components: {
+      // addTransaction,
+      vSelect
+    },
+    methods: {
+      logout: function () {
+        this.loggedOut = true;
+        this.$store.dispatch('AUTH_LOGOUT')
+          .then(() => {
+            localStorage.removeItem("user-token");
+            localStorage.removeItem("user");
+            this.$router.push('/login')
+          })
+      },
+      bool() {
+        this.boolie = false
+      },
+      all() {
+        this.$router.push({name: 'all'})
+      },
+      admin() {
+        this.$router.push({name: 'admin'})
+      },
+      home() {
+        this.$router.push({name: 'home'})
+      },
+      shop() {
+        this.$router.push({name: 'shop'})
+      },
+      HAF() {
+        this.$router.push({name: 'haf'})
+      },
+      my_purchases() {
+        this.$router.push({name: 'my_purchases'})
+      }
+    },
+    updated() {
+      this.loggedOut = false;
+    },
+    created() {
+      if (this.$store.state.me === null) {
+        window.console.log('в store отсутствует me, запрашиваю GET_ME');
+        this.$store.dispatch('GET_ME');
+      }
+    },
+    filters: {
+      toLowerCase: function (value) {
+        if (!value) return '';
+        return value.toLowerCase();
+      }
+    },
+    watch: {
+      me(value) {
+        if (value === null && window.localStorage.getItem('user') !== null) {
+          window.console.log('в store отсутствует me, запрашиваю GET_ME');
+          this.$store.dispatch('GET_ME');
         }
+        if (value !== null) {
+          window.console.log('ME есть');
+        }
+      }
+    },
+    computed: {
+      me() {
+        return this.$store.getters.ME
+      }
     }
+  }
 
 </script>
 <style lang="stylus">
@@ -153,22 +174,27 @@
         width: 25px
         height: 25px
     }
-        .first {
-            margin-top: 20px;
-        }
+
+    .first {
+        margin-top: 20px;
+    }
+
     .avatar_sidebar {
         width: 100%;
         background: #2db3ff;
     }
+
     .v-select .vs__selected-options {
         border-bottom: none;
     }
-        .v-select {
-            border-radius: 25px
-            -webkit-box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2)
-            -moz-box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2)
-            box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2)
-        }
+
+    .v-select {
+        border-radius: 25px
+        -webkit-box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2)
+        -moz-box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2)
+        box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2)
+    }
+
     .name-title {
         background: #2db3ff;
         color: white;
@@ -183,8 +209,22 @@
         transition: all 0.4s ease;
     }
 
+    .position-title {
+        background: transparent;
+        color: white;
+        position: absolute;
+        top: 170px;
+        left: 50%;
+        -webkit-transform: translateX(-40px);
+        transform: translateX(-120px);
+        display: inline-block;
+        width: 100%;
+        opacity: 1;
+        transition: all 0.4s ease;
+    }
+
     .balances {
-        background: #2db3ff;
+        background: transparent;
         padding: 15px 50px 0 50px;
         position: relative;
         top: -10px;
@@ -198,9 +238,11 @@
             font-weight: bold
         }
     }
-    .balanceAndActionWrapper{
+
+    .balanceAndActionWrapper {
         color: white
     }
+
     .Sidebar-menuIcon-balance {
         color: white
     }
@@ -255,13 +297,19 @@
                     margin-right: 0
                 }
             }
+
             .Sidebar-header {
                 /*margin-bottom: 0;*/
 
                 .name-title {
                     opacity: 0;
                 }
+
+                .position-title {
+                    opacity: 0;
+                }
             }
+
             .Sidebar-logo {
                 width: 70px;
                 height: 70px;

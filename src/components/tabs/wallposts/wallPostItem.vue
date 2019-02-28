@@ -98,11 +98,11 @@
                 this.newMessage += emoji
             },
             goToUser() {
-                this.$router.push('/' + this.transaction.relations.to_user.data.id);
+                this.$router.push('/user/' + this.transaction.relations.to_user.data.id);
                 window.console.log('полетели id: ', this.transaction.relations.to_user.data.id)
             },
             goToUserFrom() {
-                this.$router.push('/' + this.transaction.relations.from_user.data.id);
+                this.$router.push('/user/' + this.transaction.relations.from_user.data.id);
                 window.console.log('полетели id: ', this.transaction.relations.from_user.data.id)
             },
             postMessage() {

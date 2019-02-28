@@ -2,33 +2,44 @@
     <div class="row m-0">
         <div class="reply px-4 py-3 flex-grow-1">
             <div class="row px-3">
-                <div class="d-flex"  style="cursor: pointer" @click="goToUserFrom">
+                <div class="d-flex" style="cursor: pointer" @click="goToUserFrom">
                     <b>{{ message.relations.user.data.first_name }}: </b>
                 </div>
                 <div class="d-flex flex-grow-1">
                     {{ message.message }}
                 </div>
             </div>
-            <Del v-if="message.user_id === this.$store.state.me.id" @click.native="deleteComment()"
+            <Del v-if="message.user_id === userItemExists"
+                 @click.native="deleteComment()"
                  fillColor="rgba(209, 209, 208, 0.5)" class="delMessage"/>
         </div>
     </div>
 </template>
 <script>
-    import {HTTP} from "../../../data/common.js";
+  import {HTTP} from "../../../data/common.js";
 
-    export default {
-        props: ["message", "transaction", "index"],
-        methods: {
-            deleteComment() {
-                HTTP.delete(`transactions/` + this.transaction.id + `/messages/` + this.message.id);
-                this.$emit('deletedMessageId', this.message.id)
-            },
-            goToUserFrom() {
-                this.$router.push({name: 'user', params: {userId: this.message.relations.user.data.id}})
-            },
-        }
-    };
+  export default {
+    data() {
+      return {
+        userItemExists: false
+      }
+    },
+    props: ["message", "transaction", "index"],
+    methods: {
+      deleteComment() {
+        HTTP.delete(`transactions/` + this.transaction.id + `/messages/` + this.message.id);
+        this.$emit('deletedMessageId', this.message.id)
+      },
+      goToUserFrom() {
+        this.$router.push({name: 'user', params: {userId: this.message.relations.user.data.id}})
+      },
+    },
+    created() {
+      if(window.localStorage.getItem('user') !== null){
+        this.userItemExists = true
+      }
+    }
+  };
 </script>
 <style>
     .reply {

@@ -25,7 +25,7 @@
 </template>
 <script>
     import transactionItem from '../wallposts/wallPostItem';
-    import CTA from '../../../Top_cta_home'
+    import CTA from '../wallposts/Top_cta_all'
     // import TransactionFilters from "./TransactionFilters";
     // import addTransaction from '../wallposts/initiateNewTransaction'
 

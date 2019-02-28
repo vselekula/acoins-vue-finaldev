@@ -3,8 +3,8 @@
     <div class="container me_top_cta d-flex align-items-center" v-if="$store.state.me !== null">
         <div class="row align-items-center flex-fill">
             <div class="col py-4">
-                <h1 class="mt-2">Твоя личная лента радости<br></h1>
-                   <h5>Счастье начинается с благодарности</h5>
+                <h1 class="mt-2">Лента радости ASD<br></h1>
+                   <h5>За все благодарите: ибо такова о вас воля Божия во Христе Иисусе</h5>
                 </div>
 
             <div class="col-3 d-flex flex-column flex-shrink-1 flex-grow-0 px-0">
@@ -19,7 +19,7 @@
     </div>
 </template>
 <script>
-    import addTransaction from './components/transactionForm/initiateNewTransactionv2'
+    import addTransaction from '../../../components/transactionForm/initiateNewTransactionv2'
     import HeartBoxIcon from "vue-material-design-icons/HeartBox";
     import HeartIcon from "vue-material-design-icons/Heart";
     export default {
