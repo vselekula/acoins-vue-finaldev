@@ -2,13 +2,18 @@
     <div class=" profile-wrapper mb-2">
         <div class=" d-flex align-items-center profile">
             <div class="d-flex flex-column">
-                <a @click="modalAvaShow = !modalAvaShow" style="cursor: pointer"><b-img-lazy  v-if="'avatar_file' in user.relations" :src="'http://192.168.99.100:8000' + user.relations.avatar_file.data.full_path" rounded="circle" blank blank-color="#fff" alt="left img"
-                     class="rounded-circle avatar"/></a>
+                <a @click="modalAvaShow = !modalAvaShow" style="cursor: pointer">
+                    <b-img-lazy v-if="'avatar_file' in user.relations"
+                                :src="'http://192.168.99.100:8000' + user.relations.avatar_file.data.full_path"
+                                rounded="circle" blank blank-color="#fff" alt="left img"
+                                class="rounded-circle avatar"/>
+                </a>
                 <button class="btn btn-link" @click="userInfo = !userInfo">info</button>
             </div>
             <div class="col">
                 <div class="mb-4">
-                    <div class="user_firstName">id: {{ user.id }} <b>{{ user.first_name }} {{ user.last_name }}</b>
+                    <div class="user_firstName" @click="goToUser">id: {{ user.id }} <b>{{ user.first_name }} {{
+                        user.last_name }}</b>
                     </div>
                     <div class="user_position">{{ user.relations.position.data.name }}</div>
                 </div>
@@ -35,16 +40,18 @@
                     </div>
                 </div>
             </div>
-                    <div class="col-3 user_moneyAmount">
-                        <font-awesome-icon icon="heart" size="sm"/>
-                        {{ user.donation_balance }}	&nbsp;
-                        <font-awesome-icon icon="wallet" size="sm"/>
-                        {{ user.purchase_balance }}
-                    </div>
-                <div class="adminUserActions">
-                    <button @click="DEL_USER(user.id)" class="btn btn-light"><i class="fas fa-user-minus minusUser"></i></button>
-                    <button @click="modalShow = !modalShow" class="btn btn-light"><i class="fas fa-user-edit editUser"></i></button>
-                </div>
+            <div class="col-3 user_moneyAmount">
+                <font-awesome-icon icon="heart" size="sm"/>
+                {{ user.donation_balance }} &nbsp;
+                <font-awesome-icon icon="wallet" size="sm"/>
+                {{ user.purchase_balance }}
+            </div>
+            <div class="adminUserActions">
+                <button @click="DEL_USER(user.id)" class="btn btn-light"><i class="fas fa-user-minus minusUser"></i>
+                </button>
+                <button @click="modalShow = !modalShow" class="btn btn-light"><i class="fas fa-user-edit editUser"></i>
+                </button>
+            </div>
 
         </div>
         <b-modal @ok="sendEditedUser" v-model="modalShow" size="lg">
@@ -111,92 +118,111 @@
     </div>
 </template>
 <script>
-    import Datepicker from 'vue2-datepicker';
-    import {mapState, mapActions} from 'vuex'
+  import Datepicker from 'vue2-datepicker';
+  import {mapState, mapActions} from 'vuex'
 
-    export default {
-        components: {
-            Datepicker
-        },
-        props: {
-            user: {
-                required: true
-            }
-        },
-        data() {
-            return {
-                userInfo: false,
-                modalAvaShow: false,
-                avatar: null,
-                modalShow: false,
-                file: null,
-                editedUser: null,
-                dateFormat: 'yyyy MM dd',
-                selectedGroup: '',
-                selectedGroupItem: '',
-                selectedPosition: '',
-                selectedPositionItem: null,
-                errors: [],
-            }
-        },
-        methods: {
-            ...mapActions([
-                'DEL_USER',
-                'EDIT_USER'
-            ]),
-            changeGroup() {
-                this.selectedGroupItem = this.groupOptions.find(obj => obj.name === this.selectedGroup);
-            },
-            changePosition() {
-                this.selectedPositionItem = this.positionOptions.find(obj => obj.name === this.selectedPosition);
-            },
-            editUserAvatar() {
-                let formData = new FormData();
-                formData.append('file', this.file);
-                this.$store.dispatch('UPLOAD_AVATAR', {file: formData, userId: this.user.id});
-            },
-            sendEditedUser() {
-                let userPatchData = this.user;
-                window.console.log('вся инфа которая отправляется на изменение юзера', userPatchData);
-                this.$store.dispatch('PATCH_USER', userPatchData);
-            },
-            mounted: function () {
-                this.user.employment_date.substring(5, 10).replace("-", ".");
-                this.user.birth_date.substring(5, 10).replace("-", ".");
-                this.selectedGroup = this.user.relations.group.data.name;
-                this.selectedPosition = this.user.relations.position.data.name;
-            }
-        },
-        computed: {
-            ...
-                mapState({
-                    users: (state) => state.users
-                }),
-            dateEmployment() {
-                return this.selectedEmploymentDate ? Datepicker.methods.stringify(this.user.employment_date, 'YYYY-MM-DD') : '';
-            },
-            dateBirth() {
-                return this.selectedBirthDate ? Datepicker.methods.stringify(this.user.birth_date, 'YYYY-MM-DD') : ''
-            },
-            positionList() {
-                return this.$store.getters.POSITIONS
-            },
-            groupsList() {
-                return this.$store.getters.GROUPS
-            },
-        }
+  export default {
+    components: {
+      Datepicker
+    },
+    props: {
+      user: {
+        required: true
+      }
+    },
+    data() {
+      return {
+        userInfo: false,
+        modalAvaShow: false,
+        avatar: null,
+        modalShow: false,
+        file: null,
+        editedUser: null,
+        dateFormat: 'yyyy MM dd',
+        selectedGroup: '',
+        selectedGroupItem: '',
+        selectedPosition: '',
+        selectedPositionItem: null,
+        errors: [],
+      }
+    },
+    methods: {
+      ...mapActions([
+        'DEL_USER',
+        'EDIT_USER'
+      ]),
+      goToUser() {
+        this.$router.push('/user/' + this.user.id);
+      },
+      changeGroup() {
+        this.selectedGroupItem = this.groupOptions.find(obj => obj.name === this.selectedGroup);
+      },
+      changePosition() {
+        this.selectedPositionItem = this.positionOptions.find(obj => obj.name === this.selectedPosition);
+      },
+      editUserAvatar() {
+        let formData = new FormData();
+        formData.append('file', this.file);
+        this.$store.dispatch('UPLOAD_AVATAR', {file: formData, userId: this.user.id});
+      },
+      sendEditedUser() {
+        let userPatchData = this.user;
+        window.console.log('вся инфа которая отправляется на изменение юзера', userPatchData);
+        this.$store.dispatch('PATCH_USER', userPatchData);
+      },
+      mounted: function () {
+        this.user.employment_date.substring(5, 10).replace("-", ".");
+        this.user.birth_date.substring(5, 10).replace("-", ".");
+        this.selectedGroup = this.user.relations.group.data.name;
+        this.selectedPosition = this.user.relations.position.data.name;
+      }
+    },
+    computed: {
+      ...
+        mapState({
+          users: (state) => state.users
+        }),
+      dateEmployment() {
+        return this.selectedEmploymentDate ? Datepicker.methods.stringify(this.user.employment_date, 'YYYY-MM-DD') : '';
+      },
+      dateBirth() {
+        return this.selectedBirthDate ? Datepicker.methods.stringify(this.user.birth_date, 'YYYY-MM-DD') : ''
+      },
+      positionList() {
+        return this.$store.getters.POSITIONS
+      },
+      groupsList() {
+        return this.$store.getters.GROUPS
+      },
     }
+  }
 </script>
 
 <style scoped>
-    .adminUserActions{max-width: 20%}
-    .editUser{ color: darkorange}
-    .editAva {color: lightseagreen}
-    .minusUser{color: crimson}
+    .user_firstName {
+        cursor: pointer;
+    }
+    .adminUserActions {
+        max-width: 20%
+    }
+
+    .editUser {
+        color: darkorange
+    }
+
+    .editAva {
+        color: lightseagreen
+    }
+
+    .minusUser {
+        color: crimson
+    }
+
     .avatar {
         width: 50px;
         height: 50px;
     }
+
     .profile-wrapper {
         height: fit-content;
         position: relative;
@@ -208,15 +234,18 @@
         width: 100%;
         color: black
     }
-    .user_info{
-     color: black
+
+    .user_info {
+        color: black
     }
+
     .user_moneyAmount, .user_likesAmount {
         display: flex;
         flex-direction: row;
         align-items: center;
         color: black
     }
+
     .user_mail, .user_inAvito, .user_phone, .user_HB {
         color: #000;
     }

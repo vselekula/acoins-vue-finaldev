@@ -25,8 +25,7 @@ export const routes = [
     beforeEnter: (to, from, next) => {
       window.console.log('{beforeEnter} in rotes.js, сейчас будет GET_ME');
       store.dispatch('GET_ME')
-        .then(() => {
-          window.console.log('{beforeEnter} in rotes.js, а сейчас будет GET_ME_TRANSACTIONS');
+        .then(()=>{
           store.dispatch('GET_ME_TRANSACTIONS');
         });
       next();

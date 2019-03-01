@@ -131,12 +131,12 @@
     updated() {
       this.loggedOut = false;
     },
-    created() {
-      if (this.$store.state.me === null) {
-        window.console.log('в store отсутствует me, запрашиваю GET_ME');
-        this.$store.dispatch('GET_ME');
-      }
-    },
+    // created() {
+    //   if (this.$store.state.me === null) {
+    //     window.console.log('в store отсутствует me, запрашиваю GET_ME');
+    //     this.$store.dispatch('GET_ME');
+    //   }
+    // },
     filters: {
       toLowerCase: function (value) {
         if (!value) return '';
@@ -147,17 +147,21 @@
       me(value) {
         if (value === null && window.localStorage.getItem('user') !== null) {
           window.console.log('в store отсутствует me, запрашиваю GET_ME');
-          this.$store.dispatch('GET_ME');
+          this.$store.dispatch('GET_ME')
+            .then(() => {
+              this.$store.dispatch('GET_ME_TRANSACTIONS')
+            })
+          // this.$store.dispatch('GET_ME_TRANSACTIONS')
         }
         if (value !== null) {
           window.console.log('ME есть');
         }
-      }
+      },
     },
     computed: {
       me() {
         return this.$store.getters.ME
-      }
+      },
     }
   }
 
