@@ -8,24 +8,30 @@
 </template>
 
 <script>
-    import shopItem from './shopItem'
-    import AddProduct from "./AddProduct";
+  import shopItem from './shopItem'
+  import AddProduct from "./AddProduct";
 
-    export default {
-        name: "shoplist",
-        components: {
-            AddProduct,
-            shopItem
-        },
-        computed: {
-            goodsList() {
-                return this.$store.getters.GOODS
-            }
-        },
-        mounted: function () {
-            this.$store.dispatch('GET_GOODS');
-        },
+  export default {
+    name: "shoplist",
+    components: {
+      AddProduct,
+      shopItem
+    },
+    props: ['current'],
+    computed: {
+      goodsList() {
+        return this.$store.getters.GOODS
+      }
+    },
+    watch: {
+      current(nV) {
+        if (nV === 1) {
+          window.console.log(`СТРАНИЦА МАГАЗИН`);
+          this.$store.dispatch('GET_GOODS');
+        }
+      },
     }
+  }
 
 </script>
 

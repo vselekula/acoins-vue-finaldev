@@ -55,15 +55,18 @@
           })
       }
     },
-    created() {
-      this.loading = true;
-      this.howManyUsersGet = this.limit;
-      this.$store.dispatch('GET_USERS', {limit: this.howManyUsersGet, offset: this.offset})
-        .then(()=> {
-          this.loading = false;
-        })
-    },
     watch: {
+      current(nV){
+        if(nV === 0){
+          window.console.log(`СТРАНИЦА ЮЗЕРОВ`);
+          this.loading = true;
+          this.howManyUsersGet = this.limit;
+          this.$store.dispatch('GET_USERS', {limit: this.howManyUsersGet, offset: this.offset})
+            .then(()=> {
+              this.loading = false;
+            })
+        }
+      },
       searchUsers(nV, oV) {
         window.console.log('Prop changed: ', nV, ' | was: ', oV);
         if (oV !== '' && nV === ''){
@@ -80,9 +83,6 @@
         if(nV !== '') {
           this.$store.commit("SET_USERS", []);
         }
-      },
-      current(newValue, oldValue) {
-        window.console.log('Prop changed: ', newValue, ' | was: ', oldValue)
       },
       currentPage(newValue) {
         window.console.log('Prop changed: ', newValue);

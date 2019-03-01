@@ -6,7 +6,7 @@
                     <userList :current="tabIndex" :limit="10" :offset="0" class="px-0"/>
                 </b-tab>
                 <b-tab title="Магазин" class="px-0">
-                    <shoplist class="px-0"></shoplist>
+                    <shoplist :current="tabIndex" class="px-0"></shoplist>
                 </b-tab>
                 <b-tab ref="trans"  title="Транзакции" active class="px-0">
                     <transactionList :current="tabIndex" :transactionsInOneRequest="10"></transactionList>

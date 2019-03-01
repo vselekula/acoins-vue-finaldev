@@ -1,5 +1,5 @@
 <template>
-    <div class="transactionsWrapper px-0">
+    <div class="transactionsWrapper container px-0">
         <transactionItem
                 v-if="transaction.title !== 'Автоматическое начисление' && transaction.title !== 'Покупка товара'"
                 v-for="transaction in transactions_infinite" :key="transaction.id"
@@ -55,19 +55,22 @@
           window.console.log('начал из вочера');
           this.$store.dispatch('GET_ALL_TRANSACTIONS_INFINITE', 10)
         }
+      },
+      current(nV){
+        if(nV === 2){
+          window.console.log(`СТРАНИЦА ТРАНЗАКЦИЙ`);
+          window.addEventListener('scroll', () => {
+            this.bottom = this.bottomVisible()
+          });
+          this.$store.dispatch('GET_ALL_TRANSACTIONS_INFINITE', 10)
+        }
       }
-    },
-    created() {
-      window.addEventListener('scroll', () => {
-        this.bottom = this.bottomVisible()
-      });
-      this.$store.dispatch('GET_ALL_TRANSACTIONS_INFINITE', 10)
     },
     computed: {
       transactions_infinite() {
         return this.$store.getters.ALL_TRANSACTIONS_INFINITE
       }
-    }
+    },
   }
 </script>
 <style>

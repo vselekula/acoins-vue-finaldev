@@ -94,7 +94,6 @@
       }
     },
     components: {
-      // addTransaction,
       vSelect
     },
     methods: {
