@@ -1,13 +1,13 @@
 <template>
 
-    <div class="container me_top_cta d-flex align-items-center" v-if="$store.state.me !== null">
+    <div class="container me_top_cta d-flex align-items-center px-0" v-if="$store.state.me !== null">
         <div class="row align-items-center flex-fill">
             <div class="col py-4">
-                <h1 class="mt-2">Твоя личная лента радости<br></h1>
-                   <h5>Счастье начинается с благодарности</h5>
+                <h3 class="mt-2">Благодарность – долг, который надо оплатить, но который никто не имеет права ожидать.<br></h3>
+                   <p style="text-align: right; padding-right: 20px"> Руссо Ж.</p>
                 </div>
 
-            <div class="col-3 d-flex flex-column flex-shrink-1 flex-grow-0 px-0">
+            <div class="col-3 d-flex flex-column">
                 <div class="d-flex justify-content-center">
                     у тебя {{ $store.state.me.donation_balance }} <HeartIcon width="15px" height="15px" class="pl-1 pb-2" fillColor="white" />
                 </div>
@@ -31,7 +31,7 @@
         }
     }
 </script>
-<style>
+<style scoped>
     body {
         background-color: #eee;
     }

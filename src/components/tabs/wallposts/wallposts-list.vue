@@ -1,30 +1,29 @@
 <template>
     <div class="transactionsWrapper">
-        <b-form-group v-if="show" v-click-outside="hideFilters" label="" class="transaction_filters">
-            <b-form-radio-group
-                    v-model="selected"
-                    :options="options"
-                    stacked
-                    name="plainStacked"/>
-        </b-form-group>
-        <b-button @click="showFilters" v-if="!show" class="transaction_filters_button btn btn-link"><i
-                class="fas fa-filter"></i></b-button>
-        <!--<add-transaction></add-transaction>-->
-        <!--<transition-group name="list" mode="out-in">-->
-        <!--<transition-group name="list">-->
-        <transactionItem v-if="transactionsList !== []" v-for="transaction in transactionsList.slice().reverse()"
-                         :key="transaction.id"
-                         :transaction="transaction"></transactionItem>
-        <!--</transition-group>-->
-
-        <!--</transition-group>-->
+        <div>
+            <b-form-group v-if="show" v-click-outside="hideFilters" label="" class="transaction_filters">
+                <b-form-radio-group
+                        v-model="selected"
+                        :options="options"
+                        stacked
+                        name="plainStacked"/>
+            </b-form-group>
+            <b-button @click="showFilters" v-if="!show" class="transaction_filters_button btn btn-link"><i
+                    class="fas fa-filter"></i></b-button>
+            <transactionItem v-if="transactionsList !== []" v-for="transaction in transactionsList"
+                             :key="transaction.id"
+                             :transaction="transaction"></transactionItem>
+        </div>
+        <div v-if="loading" class="mt-5 d-flex justify-content-center mb-5">
+            <Spinner></Spinner>
+        </div>
+        <button v-else @click="scrollToTop" class="btn-block btn-lg btn-light toTop">Наверх ↑</button>
     </div>
 </template>
 <script>
   import transactionItem from '../wallposts/wallPostItem';
   import ClickOutside from "vue-click-outside";
-  // import TransactionFilters from "./TransactionFilters";
-  // import addTransaction from '../wallposts/initiateNewTransaction'
+  import Spinner from "vue-simple-spinner"
 
   export default {
     data() {
@@ -36,7 +35,7 @@
           {text: 'Все', value: 'third'}
         ],
         selected: 'third',
-        loaded: false
+        loaded: false,
       }
     },
     methods:
@@ -47,16 +46,19 @@
         outbox(transactions) {
           return transactions.filter(x => x.from_user_id === this.$store.state.me.id);
         },
+        scrollToTop() {
+          window.scrollTo(0,0);
+        },
         showFilters() {
           this.show = true;
         },
         hideFilters() {
           this.show = false
-        }
+        },
       },
     components: {
       transactionItem,
-      // addTransaction,
+      Spinner
     },
     directives: {
       focus: {
@@ -66,34 +68,25 @@
       },
       ClickOutside
     },
-    // mounted() {
-    //     this.$store.dispatch('GET_ME_TRANSACTIONS', this.$store.state.me.id);
-    // },
-    //
-    // created() {
-    //   if(transactionsList === []){
-    //     this.$store.dispatch('GET_ME_TRANSACTIONS')
-    //   }
-    // },
     computed: {
       transactionsList() {
         if (this.selected === 'third') {
-          return this.$store.getters.ME_TRANSACTIONS;
+          return this.$store.getters.ME_TRANSACTIONS_INFINITE;
         }
         if (this.selected === 'second') {
-          return this.outbox(this.$store.getters.ME_TRANSACTIONS);
+          return this.outbox(this.$store.getters.ME_TRANSACTIONS_INFINITE);
         }
         if (this.selected === 'first') {
-          return this.inbox(this.$store.getters.ME_TRANSACTIONS);
+          return this.inbox(this.$store.getters.ME_TRANSACTIONS_INFINITE);
         }
       },
-      me(){
+      loading(){
+        return this.$store.getters.loadTransactions
+      },
+      me() {
         return this.$store.getters.me
       }
     },
-    // created() {
-    //   this.$store.dispatch('GET_ME_TRANSACTIONS')
-    // },
     mounted() {
       this.loaded = true;
     }
@@ -104,7 +97,15 @@
         transition: 500ms cubic-bezier(0.59, 0.12, 0.34, 0.95);
         transition-property: opacity, transform;
     }
-
+    .toTop{
+        border: none;
+        margin-bottom: 10px;
+        box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2);
+        cursor: pointer;
+        -webkit-border-radius: 50px;
+        -moz-border-radius: 50px;
+        border-radius: 50px;
+    }
     .list-enter {
         opacity: 0;
         transform: translateY(50px);

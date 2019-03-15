@@ -33,6 +33,7 @@
     "vue-router": "^3.0.1",
     "vue-scrollto": "^2.13.0",
     "vue-select": "https://github.com/eriknygren/vue-select.git#3aec695",
+    "vue-simple-spinner": "^1.2.8",
     "vue-simple-suggest": "^1.8.3",
     "vue-textarea-autosize": "^1.0.4",
     "vue-tribute": "^1.0.1",

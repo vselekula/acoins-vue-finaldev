@@ -9,7 +9,7 @@
                     {{ message.message }}
                 </div>
             </div>
-            <Del v-if="message.user_id === this.$store.state.me.id" @click.native="deleteComment()"
+            <Del v-if="message.user_id === $store.state.me.id" @click.native="deleteComment()"
                  fillColor="rgba(209, 209, 208, 0.5)" class="delMessage"/>
         </div>
     </div>

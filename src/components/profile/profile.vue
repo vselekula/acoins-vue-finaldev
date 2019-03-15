@@ -1,6 +1,6 @@
 <template>
-    <div class="container mx-auto profile-wrapper my-1 px-3">
-        <div class="d-flex align-items-center flex-fill"  v-if="show">
+    <div class="container mx-auto profile-wrapper px-0">
+        <div class="d-flex align-items-center flex-fill">
             <div class="mr-3">
                 <img v-if="currentUser !== null"
                      :src="'http://192.168.99.100:8000' + currentUser.relations.avatar_file.data.full_path"
@@ -43,38 +43,43 @@
                     <div class="flex-column mx-3 ml-auto">
                         <div class="user_inAvito">
                             <i class="fa fa-heart fa-lg "></i>
-                            {{ currentUser.total_donated }}
+                            {{ currentUser.total_donated }}<div>
+                        </div>
                         </div>
                         <div class="user_HB pt-1">
                             <i class="fa fa-wallet fa-lg"></i>
                             {{ currentUser.total_received }}
+
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div v-else>
-            <h1>ОЛО!</h1>
+
+            <div class="container p-0" v-if="currentUser === null">
+                <Spinner ></Spinner>
+            </div>
         </div>
     </div>
 </template>
 <script>
     import addTransaction from '../transactionForm/initiateNewTransactionv2';
     import AvitoLogo from "./AvitoLogo";
+    import Spinner from 'vue-simple-spinner'
 
     export default {
         name: 'profile',
         components: {
             AvitoLogo,
+            Spinner,
             'addTransaction': addTransaction
         },
-        data() {
-            return {
-                route_params_userId: Number(this.$route.params.userId),
-                me: JSON.parse(window.localStorage.getItem('user')),
-                show: false
-            }
-        },
+        // data() {
+        //     return {
+        //         route_params_userId: Number(this.$route.params.userId),
+        //         me: JSON.parse(window.localStorage.getItem('user')),
+        //         show: false
+        //     }
+        // },
         computed: {
             currentUser() {
                 return this.$store.getters.CURRUSER
@@ -82,7 +87,6 @@
         },
         filters: {
             toDDMMMyear: function (value) {
-                window.console.log(value)
                 let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
                 let d = value.split(/\D/);
                 return 'c ' + d[2] + ' ' + months[d[1] - 1] + ' ' + d[0];
@@ -91,10 +95,7 @@
                 let months = 'Янв Фев Мар Апр Мая Июн Июл Авг Сен Окт Ноя Дек'.split(' ');
                 let d = value.split(/\D/);
                 return d[2] + ' ' + months[d[1] - 1];
-            },
-        },
-        mounted() {
-            this.show = true;
+            }
         }
     }
 

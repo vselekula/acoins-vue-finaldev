@@ -1,5 +1,6 @@
 <template>
-    <div v-if="transaction.title !== 'Автоматическое начисление' && transaction.title !== 'Покупка товара'" class="transaction-item pt-4 mb-4">
+    <div v-if="transaction.title !== 'Автоматическое начисление' && transaction.title !== 'Покупка товара'"
+         class="transaction-item pt-4 mb-4">
         <div class="transaction-item_info mx-4">
             <div class="transactionHeadline row m-0 my-2">
                 <div style="cursor: pointer" @click="goToUser">
@@ -67,95 +68,93 @@
     </div>
 </template>
 <script>
-    import WallPostReply from "../wallposts/wallPostReply";
-    import ClickOutside from "vue-click-outside";
+  import WallPostReply from "../wallposts/wallPostReply";
+  import ClickOutside from "vue-click-outside";
 
-    export default {
-        data() {
-            return {
-                transaction_date: '',
-                newMessage: "",
-                seen: false,
-                placeholder: "Добавить комментарий",
-                authUser: null,
-                route_params_userId: this.$route.params.userId,
-                search: ''
-            };
-        },
-        components: {
-            WallPostReply
-        },
-        props: {
-            transaction: {
-                required: true
-            }
-        },
-        created: function () {
-            this.transaction_date = this.transaction.created_at;
-        },
-        methods: {
-            append(emoji) {
-                this.newMessage += emoji
-            },
-            goToUser() {
-                this.$router.push('/user/' + this.transaction.relations.to_user.data.id);
-                window.console.log('полетели id: ', this.transaction.relations.to_user.data.id)
-            },
-            goToUserFrom() {
-                this.$router.push('/user/' + this.transaction.relations.from_user.data.id);
-                window.console.log('полетели id: ', this.transaction.relations.from_user.data.id)
-            },
-            postMessage() {
-                let transactionData = {
-                    message: this.newMessage,
-                    user_id: this.$store.state.me.id,
-                    transaction_id: this.transaction.id
-                };
-                if (this.$route.name === 'all'){
-                    window.console.log('Роут', this.$route.name, 'значит делаю ADD_ALL_MESSAGES');
-                    this.$store.dispatch('ADD_ALL_MESSAGE', transactionData);
-                }
-                if (this.$route.name === 'home'){
-                    window.console.log('Роут', this.$route.name, 'значит делаю ADD_ME_MESSAGES');
-                    this.$store.dispatch('ADD_ME_MESSAGE', transactionData);
-                }
-
-                this.newMessage = '';
-                this.seen = false;
-            },
-            hideActions() {
-                this.seen = false;
-            },
-            showActions() {
-                this.seen = true;
-            },
-            deleteMessageItem(msgId) {
-                let messageIndex = this.transaction.relations.messages.data.findIndex(obj => obj.id === msgId);
-                this.transaction.relations.messages.data.splice(messageIndex, 1);
-            }
-        },
-        directives: {
-            focus: {
-                inserted(el) {
-                    el.focus()
-                },
-            },
-            ClickOutside
-        },
-        computed: {
-            messages: function () {
-                if (this.transaction.relations.messages !== undefined) {
-                    return this.transaction.relations.messages.data;
-                }
-            },
-            // me: function () {
-            //     return this.$store.getters.CURRUSER
-            // },
-            changedDateFormat: function () {
-                return this.transaction_date.substring(5, 10).replace("-", ".");
-            },
+  export default {
+    data() {
+      return {
+        transaction_date: '',
+        newMessage: "",
+        seen: false,
+        placeholder: "Добавить комментарий",
+        authUser: null,
+        route_params_userId: this.$route.params.userId,
+        search: ''
+      };
+    },
+    components: {
+      WallPostReply
+    },
+    props: {
+      transaction: {
+        required: true
+      }
+    },
+    created: function () {
+      this.transaction_date = this.transaction.created_at;
+    },
+    methods: {
+      append(emoji) {
+        this.newMessage += emoji
+      },
+      goToUser() {
+        this.$router.push({name: 'user', params: {userId: this.transaction.relations.to_user.data.id}});
+      },
+      goToUserFrom() {
+        this.$router.push({name: 'user', params: {userId: this.transaction.relations.from_user.data.id}});
+      },
+      postMessage() {
+        let transactionData = {
+          message: this.newMessage,
+          user_id: this.$store.state.me.id,
+          transaction_id: this.transaction.id
+        };
+        // if (this.$route.name === 'all') {
+        //   window.console.log('Роут', this.$route.name, 'значит делаю ADD_ALL_MESSAGES');
+        //   this.$store.dispatch('ADD_ALL_MESSAGE', transactionData);
+        // }
+        if (this.$route.name === 'home') {
+          window.console.log('Роут', this.$route.name, 'значит делаю ADD_ME_MESSAGES');
+          this.$store.dispatch('ADD_ME_MESSAGE', transactionData);
         }
-    };
+        if (this.$route.name === 'user') {
+          window.console.log('Роут', this.$route.name, 'значит делаю ADD_CURRUSER_MESSAGES');
+          this.$store.dispatch('ADD_CURRUSER_MESSAGE', transactionData);
+        }
+        this.newMessage = '';
+        this.seen = false;
+      },
+      hideActions() {
+        this.seen = false;
+      },
+      showActions() {
+        this.seen = true;
+      },
+      deleteMessageItem(msgId) {
+        let messageIndex = this.transaction.relations.messages.data.findIndex(obj => obj.id === msgId);
+        this.transaction.relations.messages.data.splice(messageIndex, 1);
+      }
+    },
+    directives: {
+      focus: {
+        inserted(el) {
+          el.focus()
+        },
+      },
+      ClickOutside
+    },
+    computed: {
+      messages: function () {
+        if (this.transaction.relations.messages !== undefined) {
+          return this.transaction.relations.messages.data;
+        }
+      },
+      changedDateFormat: function () {
+        return this.transaction_date.substring(5, 10).replace("-", ".");
+      },
+    }
+  };
 </script>
 <style>
     textarea {
@@ -165,9 +164,11 @@
     textarea:focus {
         outline: none;
     }
+
     .value-pill {
         background-color: #2db3ff;
     }
+
     /*.fade-enter-active, .fade-leave-active {*/
     /*transition: opacity .5s;*/
     /*}*/
@@ -306,7 +307,7 @@
     }
 </style>
 <style lang="stylus">
-#add-answer {
-    transition: all 0.4s ease
-}
+    #add-answer {
+        transition: all 0.4s ease
+    }
 </style>

@@ -25,7 +25,7 @@
                 <nav role="navigation">
                     <ul>
                         <div class="balances flex-row d-flex justify-content-between">
-                            <div class="Sidebar-navItem-main balance d-flex">
+                            <div class="Sidebar-navItem-main donation_balance d-flex">
                                 <div class="balanceAndActionWrapper d-flex align-items-center flex-column justify-content-center">
                                     <div class="d-flex sidebar_icons justify-content-center align-items-center">
                                         <i class="Sidebar-menuIcon-balance fa fa-heart fa-lg pr-2"></i>
@@ -36,7 +36,8 @@
                                     <!--<addTransaction button-text="спасибо" sb-view="true"></addTransaction>-->
                                 </div>
                             </div>
-                            <div class="Sidebar-navItem-main balance d-flex">
+
+                            <div class="Sidebar-navItem-main purchase_balance d-flex">
                                 <div class="balanceAndActionWrapper d-flex align-items-center align-self-center flex-column justify-content-center">
                                     <div class="d-flex sidebar_icons justify-content-center align-items-center"><i
                                             class="Sidebar-menuIcon-balance fa fa-wallet fa-lg pr-2"></i></div>
@@ -78,6 +79,21 @@
                     </ul>
                 </nav>
             </div>
+            <div class="Sidebar_footer  flex-row d-flex justify-content-between px-3">
+                <div class="d-flex Footer-title">Итого:</div>
+                <div class="Sidebar-navItem-main donation_balance d-flex flex-column align-items-center">
+                    <div class="d-flex sidebar_icons justify-content-center align-items-center">
+                        <i class="Sidebar-header-balance fa fa-heart fa-md pr-2 align-self-center"></i>
+                    </div>
+                    <div class="d-flex footer-num">{{ me.total_donated }}
+                    </div>
+                </div>
+                <div class="Sidebar-navItem-main purchase_balance d-flex flex-column align-items-center">
+                    <div class="d-flex sidebar_icons justify-content-center align-items-center"><i
+                            class="Sidebar-header-balance fa fa-wallet fa-md pr-2"></i></div>
+                    <div class="d-flex footer-num">{{ me.total_received }}</div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -91,12 +107,16 @@
       return {
         boolie: true,
         loggedOut: false,
+        showTotal: false
       }
     },
     components: {
       vSelect
     },
     methods: {
+      totalTrigger: function () {
+        this.showTotal = !this.showTotal;
+      },
       logout: function () {
         this.loggedOut = true;
         this.$store.dispatch('AUTH_LOGOUT')
@@ -105,9 +125,6 @@
             localStorage.removeItem("user");
             this.$router.push('/login')
           })
-      },
-      bool() {
-        this.boolie = false
       },
       all() {
         this.$router.push({name: 'all'})
@@ -131,37 +148,33 @@
     updated() {
       this.loggedOut = false;
     },
-    // created() {
-    //   if (this.$store.state.me === null) {
-    //     window.console.log('в store отсутствует me, запрашиваю GET_ME');
-    //     this.$store.dispatch('GET_ME');
-    //   }
-    // },
+    created() {
+      if (this.$store.state.me === null) {
+        window.console.log('в store отсутствует me, запрашиваю GET_ME');
+        this.$store.dispatch('GET_ME');
+      }
+    },
     filters: {
       toLowerCase: function (value) {
         if (!value) return '';
         return value.toLowerCase();
       }
     },
-    watch: {
-      me(value) {
-        if (value === null && window.localStorage.getItem('user') !== null) {
-          window.console.log('в store отсутствует me, запрашиваю GET_ME');
-          this.$store.dispatch('GET_ME')
-            .then(() => {
-              this.$store.dispatch('GET_ME_TRANSACTIONS')
-            })
-          // this.$store.dispatch('GET_ME_TRANSACTIONS')
-        }
-        if (value !== null) {
-          window.console.log('ME есть');
-        }
-      },
-    },
+    // watch: {
+    //   me(value) {
+    //     if (value === null) {
+    //       window.console.log('в store отсутствует me, запрашиваю GET_ME');
+    //       this.$store.dispatch('GET_ME')
+    //     }
+    //     if (value !== null) {
+    //       window.console.log('ME есть');
+    //     }
+    //   },
+    // },
     computed: {
       me() {
         return this.$store.getters.ME
-      },
+      }
     }
   }
 
@@ -178,6 +191,18 @@
         height: 25px
     }
 
+    .Sidebar_footer {
+        position: absolute;
+        bottom: 0;
+        background: #eee;
+        width: 100%
+        z-index: 1000000;
+    }
+
+    .balance {
+        margin-top: 60px
+    }
+
     .first {
         margin-top: 20px;
     }
@@ -185,6 +210,18 @@
     .avatar_sidebar {
         width: 100%;
         background: #2db3ff;
+    }
+
+    .Footer-title {
+        position: absolute
+        bottom: 55px
+        opacity: 1
+        color: #b7b6b6
+        -webkit-transition: all 0.4s ease
+        -moz-transition: all 0.4s ease
+        -ms-transition: all 0.4s ease
+        -o-transition: all 0.4s ease
+        transition: all 0.4s ease
     }
 
     .v-select .vs__selected-options {
@@ -196,6 +233,10 @@
         -webkit-box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2)
         -moz-box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2)
         box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2)
+    }
+
+    .balanceSearch {
+        margin-top: 60px;
     }
 
     .name-title {
@@ -210,6 +251,10 @@
         width: 100%;
         opacity: 1;
         transition: all 0.4s ease;
+    }
+
+    .Sidebar-header-balance {
+        COLOR: #b7b6b6;
     }
 
     .position-title {
@@ -228,12 +273,38 @@
 
     .balances {
         background: transparent;
-        padding: 15px 50px 0 50px;
+        padding: 15px 0 0 0;
         position: relative;
         top: -10px;
         margin-bottom: 10px;
         transition: all 0.4 ease
         /*padding-bottom: 20px;*/
+
+        .total {
+            opacity: 100;
+            position: relative;
+            transform translateX(110px)
+            transition: all 0.4s ease
+            color: #7ecefc
+            top: 30px
+
+            &:hover {
+                color: white
+                cursor: pointer
+            }
+        }
+
+        .donation_balance {
+            position: absolute
+            left: 45px
+            transition: all 0.4s ease
+        }
+
+        .purchase_balance {
+            position: absolute
+            right: 45px
+            transition: all 0.4s ease
+        }
 
         a {
             color: white
@@ -294,10 +365,20 @@
             min-width: 100px;
             transition: SIDEBAR.collapseTransition;
 
+
             nav {
                 .balances {
-                    padding: 15px 15px 0 15px
-                    margin-right: 0
+                    .total {
+                        opacity: 0;
+                    }
+
+                    .donation_balance {
+                        left: 13px
+                    }
+
+                    .purchase_balance {
+                        right: 13px
+                    }
                 }
             }
 
@@ -311,6 +392,13 @@
                 .position-title {
                     opacity: 0;
                 }
+            }
+
+            .Sidebar_footer {
+                .Footer-title {
+                    opacity: 0
+                }
+
             }
 
             .Sidebar-logo {
@@ -351,15 +439,6 @@
                 transform: rotate(179deg);
             }
 
-            .Sidebar-footer {
-                &:hover {
-                    .Sidebar-toggleArrow {
-                        left: 17.5px;
-                        transition: left 0.4s ease,
-                                transform 0.4s ease;
-                    }
-                }
-            }
         }
 
         @media (max-width: SIDEBAR.mediaQuery) {
@@ -367,6 +446,18 @@
         }
     }
 
+    .footer-num {
+        color: #b7b6b6;
+        font-size: 14px
+    }
+
+    .Sidebar-footer {
+        color: black
+
+        .balanceAndActionWrapper {
+            color: #b7b6b6
+        }
+    }
 
     .Sidebar-header {
         position: relative;
@@ -404,13 +495,14 @@
         white-space: nowrap;
         transition: padding-left 0.4s ease;
         height: 50px;
-        position: relative
+        position: relative;
 
         @media (max-width: SIDEBAR.mediaQUery) {
             padding-left: 17px;
         }
 
     }
+
 
     .Sidebar-navItem {
         padding: 10px 0 10px 40px;

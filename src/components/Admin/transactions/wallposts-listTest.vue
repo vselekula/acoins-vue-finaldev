@@ -23,31 +23,11 @@
     methods: {
       bottomVisible() {
         const scrollY = window.scrollY;
-        // window.console.log('scrollY', scrollY);
         const visible = document.documentElement.clientHeight;
-        // window.console.log('visible', visible);
         const pageHeight = document.documentElement.scrollHeight;
-        // window.console.log('pageHeight', pageHeight);
         const bottomOfPage = visible + (scrollY + 800) >= pageHeight;
-        // window.console.log('bottomOfPage', bottomOfPage);
         return bottomOfPage
       },
-      // addTransactions() {
-      //     if (this.offset < this.limit || this.limit === null) {
-      //         HTTP.get(`/transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&limit=10&offset=${this.offset}`)
-      //             .then(response => {
-      //                 this.limit = response.data.meta.count;
-      //                 window.console.log(response);
-      //                 this.transactions = _.concat(this.transactions, response.data.data);
-      //                 this.offset = this.transactions.length;
-      //                 if (this.bottomVisible()) {
-      //                     this.addTransactions()
-      //                 }
-      //             });
-      //     }else{
-      //         window.console.log('конец')
-      //     }
-      // }
     },
     watch: {
       bottom(bottom) {
@@ -56,8 +36,8 @@
           this.$store.dispatch('GET_ALL_TRANSACTIONS_INFINITE', 10)
         }
       },
-      current(nV){
-        if(nV === 2){
+      current(nV) {
+        if (nV === 2) {
           window.console.log(`СТРАНИЦА ТРАНЗАКЦИЙ`);
           window.addEventListener('scroll', () => {
             this.bottom = this.bottomVisible()

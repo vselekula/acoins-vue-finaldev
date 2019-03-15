@@ -27,20 +27,20 @@
             </div>
 
         </div>
-        <wall-post-reply v-if="transaction.relations.messages !== undefined" v-for="message in messages"
-                         :key="message.id" :message="message"
-                         :transaction="transaction" @deletedMessageId="deleteMessageItem"></wall-post-reply>
-        <div class="add-answer_wrapper" @click="showActions" v-click-outside="hideActions">
-            <textarea-autosize v-model="newMessage" id="add-answer" cols="1" rows="1" :placeholder="placeholder"
-                               class="mx-4 my-4 p-0 message"></textarea-autosize>
-            <button v-if="seen" type="button" @click="postMessage()" class="btn btn-primary ml-4 mb-4">
-                Отправить
-            </button>
-        </div>
+        <!--<wall-post-reply v-if="transaction.relations.messages !== undefined" v-for="message in messages"-->
+                         <!--:key="message.id" :message="message"-->
+                         <!--:transaction="transaction" @deletedMessageId="deleteMessageItem"></wall-post-reply>-->
+        <!--<div class="add-answer_wrapper" @click="showActions" v-click-outside="hideActions">-->
+            <!--<textarea-autosize v-model="newMessage" id="add-answer" cols="1" rows="1" :placeholder="placeholder"-->
+                               <!--class="mx-4 my-4 p-0 message"></textarea-autosize>-->
+            <!--<button v-if="seen" type="button" @click="postMessage()" class="btn btn-primary ml-4 mb-4">-->
+                <!--Отправить-->
+            <!--</button>-->
+        <!--</div>-->
     </div>
 </template>
 <script>
-    import WallPostReply from "../../tabs/wallposts/wallPostReply";
+    // import WallPostReply from "../../tabs/wallposts/wallPostReply";
     import ClickOutside from "vue-click-outside";
 
     export default {
@@ -55,7 +55,6 @@
             };
         },
         components: {
-            WallPostReply
         },
         props: {
             transaction: {

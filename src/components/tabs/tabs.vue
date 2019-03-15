@@ -1,7 +1,7 @@
 <template>
     <div class="container mx-auto tabs px-0">
         <b-card no-body>
-            <tabwallposts/>
+            <tabwallposts :loading="loading"/>
         </b-card>
     </div>
 </template>
@@ -11,7 +11,8 @@
     export default {
         components: {
             tabwallposts,
-        }
+        },
+      props: ['loading']
     }
 </script>
 <style>

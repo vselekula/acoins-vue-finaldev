@@ -6,7 +6,7 @@ import loginPage from "./components/login/login"
 import shop from "./components/tabs/Shop/tab-shop-list"
 import HAF from "./components/tabs/Best/TabBest"
 import myPurchases from "./components/tabs/Shop/my_purchases"
-import {store} from './store/index'
+
 
 export const routes = [
 
@@ -21,14 +21,6 @@ export const routes = [
     name: 'home',
     meta: {
       requiresAuth: true
-    },
-    beforeEnter: (to, from, next) => {
-      window.console.log('{beforeEnter} in rotes.js, сейчас будет GET_ME');
-      store.dispatch('GET_ME')
-        .then(()=>{
-          store.dispatch('GET_ME_TRANSACTIONS');
-        });
-      next();
     }
   },
   {
@@ -70,22 +62,13 @@ export const routes = [
     meta: {
       requiresAuth: true
     },
-    beforeEnter: (to, from, next) => {
-      window.console.log('внимание', store.state.me);
-      window.console.log(JSON.parse(window.localStorage.getItem('user')).id);
-      window.console.log('to :', to, 'from :', from);
-      window.console.log(to.params.userId == JSON.parse(window.localStorage.getItem('user')).id);
-      if (to.params.userId == JSON.parse(window.localStorage.getItem('user')).id) {
-        window.console.log('ой йой, идем ка домой', 'мой id: ', JSON.parse(window.localStorage.getItem('user')).id);
-        next({name: 'home'});
-      }
-        store.dispatch('SET_CURRUSER', to.params.userId)
-          .then(() => {
-            store.dispatch('GET_CURRUSER_TRANSACTIONS', to.params.userId)
-          });
-        next();
-
-    }
+    // beforeEnter: (to, from, next) => {
+    //     store.dispatch('SET_CURRUSER', to.params.userId)
+    //       .then(() => {
+    //         store.dispatch('GET_CURRUSER_TRANSACTIONS_INFINITE', {limit: 10, userId: to.params.userId})
+    //       });
+    //     next();
+    // }
   },
   {
     path: '*',

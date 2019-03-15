@@ -1,6 +1,6 @@
 <template>
-    <div class="d-flex align-self-center mx-auto col">
-        <b-button :class="{ 'sidebar_newTrans_view': sbView, 'uc-view': usercardView, 'head-view': headerView }" class="btn-outline-light" @click="modalShow = !modalShow">
+    <div class="d-flex mx-0 col px-0 justify-content-end">
+        <b-button :class="{ 'sidebar_newTrans_view': sbView, 'uc-view': usercardView, 'head-view': headerView }" class="btn-block btn-outline-light" @click="modalShow = !modalShow">
             {{buttonText }}  <send-heart v-if="heartIcon" class=""/>
         </b-button>
 
