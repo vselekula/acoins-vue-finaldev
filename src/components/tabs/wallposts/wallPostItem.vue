@@ -2,7 +2,7 @@
     <div v-if="transaction.title !== 'Автоматическое начисление' && transaction.title !== 'Покупка товара'"
          class="transaction-item pt-4 mb-4">
         <div class="transaction-item_info mx-4">
-            <div class="transactionHeadline row m-0 my-2">
+            <div class="transactionHeadline row m-0">
                 <div style="cursor: pointer" @click="goToUser">
                     <img v-b-popover.hover.top="transaction.relations.to_user.data.first_name + ' ' + transaction.relations.to_user.data.last_name"
                          :src="'http://192.168.99.100:8000' + transaction.relations.to_user.data.relations.avatar_file.data.full_path"
@@ -110,10 +110,6 @@
           user_id: this.$store.state.me.id,
           transaction_id: this.transaction.id
         };
-        // if (this.$route.name === 'all') {
-        //   window.console.log('Роут', this.$route.name, 'значит делаю ADD_ALL_MESSAGES');
-        //   this.$store.dispatch('ADD_ALL_MESSAGE', transactionData);
-        // }
         if (this.$route.name === 'home') {
           window.console.log('Роут', this.$route.name, 'значит делаю ADD_ME_MESSAGES');
           this.$store.dispatch('ADD_ME_MESSAGE', transactionData);

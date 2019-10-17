@@ -1,9 +1,5 @@
 <template>
     <b-table :fields="fields" :items="items">
-        <!-- A virtual column -->
-        <!--<template slot="№" slot-scope="data">-->
-        <!--{{data.index + 1}}-->
-        <!--</template>-->
         <template slot="avatar" slot-scope="data">
             <a :href="'/' + data.item.relations.user.data.id">
             <img :src="'http://192.168.99.100:8000' + data.item.relations.user.data.relations.avatar_file.data.full_path" alt="" rounded="circle" blank blank-color="#fff"
@@ -21,8 +17,6 @@
         data() {
             return {
                 fields: [
-                    // '№',
-                    // 'avatar',
                     {label: '', key: 'avatar'},
                     {key: 'relations.user.data.first_name', label: 'Имя'},
                     {key: 'relations.user.data.relations.position.data.name', label: 'Должность'},

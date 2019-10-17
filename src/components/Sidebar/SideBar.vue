@@ -1,6 +1,5 @@
 <template>
     <div v-if="me !== null" class="Wrapper">
-        <!--<button style="position: absolute; right: 0" @click="bool">ddd</button>-->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
               integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
               crossorigin="anonymous">
@@ -32,8 +31,6 @@
                                     </div>
                                     <div class="d-flex">{{ me.donation_balance }}
                                     </div>
-                                    <!--<button class="btn-outline-light btn float-right btn-sm nav-btn mr-2">подарить</button>-->
-                                    <!--<addTransaction button-text="спасибо" sb-view="true"></addTransaction>-->
                                 </div>
                             </div>
 
@@ -42,7 +39,6 @@
                                     <div class="d-flex sidebar_icons justify-content-center align-items-center"><i
                                             class="Sidebar-menuIcon-balance fa fa-wallet fa-lg pr-2"></i></div>
                                     <div class="d-flex">{{ me.purchase_balance }}</div>
-                                    <!--<button @click="shop" class="sidebar_newTrans_view">магазин</button>-->
                                 </div>
                             </div>
 
@@ -51,11 +47,10 @@
                         <div class="Sidebar-navItem-main balance d-flex">
                             <vSelect></vSelect>
                         </div>
-
-                        <li @click="all" class="Sidebar-navItem first">
-                            <i class="Sidebar-menuIcon fa fa-home"></i>
-                            Лента ASD
-                        </li>
+                        <!--<li @click="all" class="Sidebar-navItem first">-->
+                        <!--<i class="Sidebar-menuIcon fa fa-home"></i>-->
+                        <!--Лента ASD-->
+                        <!--</li>-->
                         <li @click="shop" class="Sidebar-navItem">
                             <i class="Sidebar-menuIcon fa fa-shopping-cart"></i>
                             Магазин
@@ -68,7 +63,7 @@
                             <i class="Sidebar-menuIcon fa fa-medal"></i>
                             Зал славы
                         </li>
-                        <li @click="admin" class="Sidebar-navItem">
+                        <li @click="admin" v-if="isAdmin" class="Sidebar-navItem">
                             <i class="Sidebar-menuIcon fa fa-user-astronaut"></i>
                             Админ
                         </li>
@@ -98,8 +93,7 @@
     </div>
 </template>
 <script>
-  // import addTransaction from './components/tabs/wallposts/initiateNewTransaction'
-  import vSelect from './components/Sidebar/UserSearchInput'
+  import vSelect from './UserSearchInput'
 
   export default {
     name: 'sideBar',
@@ -150,7 +144,6 @@
     },
     created() {
       if (this.$store.state.me === null) {
-        window.console.log('в store отсутствует me, запрашиваю GET_ME');
         this.$store.dispatch('GET_ME');
       }
     },
@@ -160,20 +153,16 @@
         return value.toLowerCase();
       }
     },
-    // watch: {
-    //   me(value) {
-    //     if (value === null) {
-    //       window.console.log('в store отсутствует me, запрашиваю GET_ME');
-    //       this.$store.dispatch('GET_ME')
-    //     }
-    //     if (value !== null) {
-    //       window.console.log('ME есть');
-    //     }
-    //   },
-    // },
     computed: {
       me() {
         return this.$store.getters.ME
+      },
+      isAdmin() {
+        if (this.me.role === 'admin') {
+          return true
+        } else {
+          return false
+        }
       }
     }
   }
@@ -352,7 +341,6 @@
         display: table-cell;
         min-width: SIDEBAR.width;
         z-index 10000;
-        // needs a max-width in order to overflow menu items
         max-width: SIDEBAR.width;
         min-height: 100%;
         background-color: #f1ffff;
@@ -383,7 +371,6 @@
             }
 
             .Sidebar-header {
-                /*margin-bottom: 0;*/
 
                 .name-title {
                     opacity: 0;
@@ -500,9 +487,7 @@
         @media (max-width: SIDEBAR.mediaQUery) {
             padding-left: 17px;
         }
-
     }
-
 
     .Sidebar-navItem {
         padding: 10px 0 10px 40px;
@@ -518,11 +503,6 @@
             cursor: pointer;
             background-color: rgba(60, 174, 255, 0.28);
         }
-
-        /*.nav-btn {*/
-        /*opacity: 1;*/
-        /*transition: opacity 0.4s ease;*/
-
         @media (max-width: SIDEBAR.mediaQUery) {
             display: none;
         }

@@ -1,30 +1,4 @@
 <template>
-    <!--<div class="col-4 mx-auto my-auto">-->
-    <!--<b-form @submit.prevent="login()" v-if="show" class="loginForm p-4">-->
-    <!--<b-form-group id="exampleInputGroup1"-->
-    <!--label-for="exampleInput1">-->
-    <!--<b-form-input id="exampleInput1"-->
-    <!--type="email"-->
-    <!--v-model="email"-->
-    <!--required-->
-    <!--placeholder="email">test@test.com-->
-    <!--</b-form-input>-->
-    <!--</b-form-group>-->
-    <!--<b-form-group label-for="passwordInput">-->
-    <!--<b-form-input type="password"-->
-    <!--required-->
-    <!--v-model="password"-->
-    <!--class="form-control"-->
-    <!--id="passwordInput"-->
-    <!--placeholder="password">password-->
-    <!--</b-form-input>-->
-    <!--</b-form-group>-->
-    <!--<b-button type="submit"-->
-    <!--variant="primary"-->
-    <!--class="submitButton">Войти!-->
-    <!--</b-button>-->
-    <!--</b-form>-->
-    <!--</div>-->
     <div>
         <b-form @submit.prevent="login()" v-if="show" class="form-signin mt-4">
 
@@ -39,12 +13,6 @@
                               placeholder="Password" required=""></b-form-input>
                 <label for="inputPassword">Password</label>
             </div>
-
-            <!--<div class="checkbox mb-3">-->
-            <!--<label>-->
-            <!--<input type="checkbox" value="remember-me"> Remember me-->
-            <!--</label>-->
-            <!--</div>-->
             <b-button class="btn btn-lg btn-primary loginButton" type="submit">Войти!</b-button>
             <p class="mt-5 mb-3 text-muted text-center">© Avito 2019</p>
         </b-form>
@@ -119,14 +87,3 @@
         }
     }
 </style>
-<!--<style scoped>-->
-<!--.loginForm {-->
-<!--border: none;-->
-<!--box-shadow: 0 0px 40px -5px rgba(0, 64, 128, .2);-->
-<!--border-radius: 10px;-->
-<!--}-->
-
-<!--.submitButton {-->
-<!--width: 100%;-->
-<!--}-->
-<!--</style>-->

@@ -11,6 +11,9 @@
                 <b-tab ref="trans"  title="Транзакции" active class="px-0">
                     <transactionList :current="tabIndex" :transactionsInOneRequest="10"></transactionList>
                 </b-tab>
+                <b-tab ref="prchss"  title="Покупки" active class="px-0">
+                    <purchases-list :current="tabIndex" :transactionsInOneRequest="10"></purchases-list>
+                </b-tab>
             </b-tabs>
         </b-card>
     </div>
@@ -18,14 +21,14 @@
 
 <script>
   import UserList from "./users/UserList";
-  import Shoplist from "./shoplist";
+  import Shoplist from "./shop/shoplist";
   import transactionList from "./transactions/wallposts-listTest";
+  import purchasesList from "./purchases/purchasesList"
 
   export default {
     name: "mainAdmin",
     data() {
       return {
-        // temp: this.$refs.trans.localActive,
         tabIndex: 1,
         temp1: '',
         isMounted: false
@@ -34,15 +37,9 @@
     components: {
       Shoplist,
       UserList,
-      transactionList
+      transactionList,
+      purchasesList
     },
-    // computed: {
-    //   tabIs() {
-    //     if(!this.isMounted) {
-    //       window.console.log ('!!!!', this.$refs.tabs.currentTab)
-    //     }
-    //   },
-    // },
     mounted(){
       this.isMounted = true;
       window.console.log('ref', this.$refs.tab)

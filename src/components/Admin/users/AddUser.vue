@@ -62,7 +62,6 @@
 </template>
 
 <script>
-    // import {HTTP} from '../../data/common'
     import Datepicker from 'vue2-datepicker';
 
     export default {

@@ -2,8 +2,7 @@
     <div class="admin_users_wrapper">
         <add-user class="mb-3"/>
         <div class="input-group mb-2 searchWrapper">
-            <b-form-input
-                    ref="searchQueryInput"
+            <b-form-input ref="searchQueryInput"
                     id="searchUsers"
                     v-model="searchUsers"
                     placeholder="поиск коллег"
@@ -88,7 +87,7 @@
         window.console.log('Prop changed: ', newValue);
         this.$store.commit("SET_USERS", []);
         this.loading = true;
-        window.console.log('LocalOffset: ', this.localOffset, 'usersCount: ', this.usersCount, 'searchInputValue: ', this.searchUsers);
+        window.console.log('LocalOffset: ', this.localOffset, 'usersCount: ', this.usersCount, 'searchInputValue: ', this.searchUsers, 'howManyUsersGet', this.howManyUsersGet, newValue);
         if (this.localOffset < this.usersCount && this.searchUsers === '') {
           this.localOffset = newValue * this.howManyUsersGet - this.howManyUsersGet;
           window.console.log('пошел GET!');

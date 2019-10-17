@@ -14,30 +14,12 @@
                     </button>
                 </form>
             </div>
-            <!--<div v-if="seen" class="transactionPreviewHeadline row m-0 py-4 px-4">-->
-                <!--<img v-if="showRecieverPhoto" :src="reciever.photo" width="50" height="50" rounded="circle" blank-->
-                     <!--blank-color="#fff" alt="фото получателя" class="rounded-circle"/>-->
-                <!--<div class="amountValue d-flex flex-grow-1 flex-row ml-3">-->
-                    <!--<div class="d-flex flex-column">-->
-                        <!--<div v-if="showAmount">-->
-                            <!--<span class="badge badge-pill badge-primary"><font-awesome-icon icon="heart" size="lg"/> {{ amount.value }}</span>-->
-                        <!--</div>-->
-                        <!--<div class="mt-1" v-if="showCennost">-->
-                            <!--<b>{{ cennost.text }}</b>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div v-if="showDate" class="d-flex ml-auto">11.04</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div v-if="seen" class="transactionPreviewText row m-0 pb-4 px-4">-->
-                <!--<b v-if="this.newMessage !== ''">Вячеслав: &nbsp; </b> {{ newMessage }}-->
-            <!--</div>-->
+
         </div>
     </div>
 </template>
 <script>
     import WallPostReply from "../wallposts/wallPostReply";
-    // import {HTTP} from "../../../data/common.js";
     import ClickOutside from "vue-click-outside";
     import UserSearchInput from "../../transactionForm/user-search-input/UserSearchInput";
     import AmountDropdown from '../../transactionForm/AmountDropdown';

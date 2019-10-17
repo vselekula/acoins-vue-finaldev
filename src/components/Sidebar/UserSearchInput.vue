@@ -15,18 +15,6 @@
             {{ option.first_name }}
         </div>
     </v-autocomplete>
-    <!--<div>-->
-        <!--<vue-simple-suggest-->
-                <!--v-model="chosen"-->
-                <!--:list="options"-->
-                <!--:filter-by-query="true">-->
-            <!--&lt;!&ndash; Filter by input text to only show the matching results &ndash;&gt;-->
-        <!--</vue-simple-suggest>-->
-        <!--<div slot="suggestion-item" slot-scope="{ suggestion, autocomplete }">-->
-            <!--<span>{{ suggestion.first_name }} by {{ suggestion.last_name }}</span>-->
-            <!--<button @click.stop="autocomplete()">-&#45;&#45;</button>-->
-        <!--</div>-->
-    <!--</div>-->
 
 </template>
 
@@ -55,6 +43,7 @@
         methods: {
             onChange(val){
                 this.$emit('input', val);
+                window.console.log(`сюда зырь ${val.id}`);
                 this.$router.push({name: 'user', params: {userId: val.id}});
                 this.$refs.val.mutableValue = null;
             },

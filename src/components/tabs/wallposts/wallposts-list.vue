@@ -47,7 +47,10 @@
           return transactions.filter(x => x.from_user_id === this.$store.state.me.id);
         },
         scrollToTop() {
-          window.scrollTo(0,0);
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
         },
         showFilters() {
           this.show = true;

@@ -16,25 +16,6 @@
     export default {
         components: {userSearch},
         methods: {
-            // logout: function () {
-            //     this.$store.dispatch('AUTH_LOGOUT')
-            //         .then(() => {
-            //             this.$router.push('/login')
-            //         })
-            // },
-            // home() {
-            //     this.$store.dispatch('SET_CURRUSER', JSON.parse(window.localStorage.getItem('user')));
-            //     this.$router.push({ name: 'home'})
-            // },
-            // shop() {
-            //     this.$router.push({ name: 'shop'})
-            // },
-            // HAF() {
-            //     this.$router.push({ name: 'haf'})
-            // },
-            // adm() {
-            //     this.$router.push({ name: 'admin'})
-            // },
         },
         computed: {
             me: function () {

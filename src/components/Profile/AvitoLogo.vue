@@ -30,9 +30,4 @@
     .st22{fill:white}
     .st33{fill:white}
 
-
-    /*.st0{fill:#47A2DA;}*/
-    /*.st1{fill:#98CA3C;}*/
-    /*.st2{fill:#F16164;}*/
-    /*.st3{fill:#AA75B2;}*/
 </style>

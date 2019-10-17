@@ -7,7 +7,7 @@
     </div>
 </template>
 <script>
-  import Profile from "./components/profile/profile.vue"
+  import Profile from "./components/Profile/profile.vue"
   import Tabs from "./components/tabs/tabs-someotheruser"
   import {store} from "./store";
   import {router} from "./router";

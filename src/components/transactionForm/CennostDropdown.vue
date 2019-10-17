@@ -3,7 +3,6 @@
     </vueSelect>
 </template>
 <script>
-    // import { HTTP } from './../../data/common'
     import vueSelect from 'vue-select'
 
     export default {

@@ -27,9 +27,6 @@
                 this.$emit('pickedAmount', this.selectedSum)
             }
         },
-        // mounted: function () {
-        //     this.authUser = JSON.parse(window.localStorage.getItem('user'));
-        // }
     }
 </script>
 <style scoped>

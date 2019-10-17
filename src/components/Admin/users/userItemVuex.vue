@@ -1,5 +1,5 @@
 <template>
-    <div class=" profile-wrapper mb-2">
+    <div class=" purchase-wrapper mb-2">
         <div class=" d-flex align-items-center profile">
             <div class="d-flex flex-column">
                 <a @click="modalAvaShow = !modalAvaShow" style="cursor: pointer">
@@ -223,7 +223,7 @@
         height: 50px;
     }
 
-    .profile-wrapper {
+    .purchase-wrapper {
         height: fit-content;
         position: relative;
         display: flex;

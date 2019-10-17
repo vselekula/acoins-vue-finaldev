@@ -2,20 +2,20 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import {HTTP} from '../data/common'
 import _ from 'lodash'
-// import {router} from '../router'
 import Notifications from 'vue-notification'
-
+import {sendPostRequest} from "../api/request";
+import notifications from './notifications/notifications'
 Vue.use(Notifications);
 Vue.use(Vuex);
 
 const watchErrors = store => {
   store.subscribe((mutation) => {
-    if (mutation.type === "SET_ERROR") {
+    if (mutation.variant === "SET_ERROR") {
       window.console.log(store.state.errors);
       Vue.prototype.$notify({
         title: 'Ошибка',
         text: store.state.errors,
-        type: 'error'
+        variant: 'error'
       });
       store.commit('DEL_ERRORS')
     }
@@ -54,6 +54,9 @@ export const store = new Vuex.Store({
     getters: {
       CURRUSER: state => {
         return state.currUser
+      },
+      PURCHASES: state => {
+        return state.all_purchases
       },
       ME: state => {
         return state.me
@@ -572,28 +575,65 @@ export const store = new Vuex.Store({
         })
       },
       ADD_ME_TRANSACTION: async (context, transactionData) => {
-        let {data} = await HTTP.post('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,value,messages.user', {
+        return sendPostRequest('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,value,messages.user', {
           sum: transactionData.sum,
           from_user_id: transactionData.from_user_id,
           to_user_id: transactionData.to_user_id,
           title: transactionData.title,
           value_id: transactionData.value_id
-        });
-        context.commit('REFRESH_DONATION_BALANCE', data.user_data.donation_balance);
-        // Vue.set(data.data.relations, messages, )
-        context.commit('ADD_ME_TRANSACTION', data.data)
+        }).then(response => {
+          context.commit('REFRESH_DONATION_BALANCE', response.data.user_data.donation_balance);
+          // Vue.set(response.data.data.relations, messages)
+          context.commit('ADD_ME_TRANSACTION', response.data.data)
+
+          return response.data.data
+        })
+
+        // let {data} = await HTTP.post('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,value,messages.user', {
+        //   sum: transactionData.sum,
+        //   from_user_id: transactionData.from_user_id,
+        //   to_user_id: transactionData.to_user_id,
+        //   title: transactionData.title,
+        //   value_id: transactionData.value_id
+        // })
+        //   .catch(error => {
+        //     alert('НУ !' + error);
+        //
+        //     throw error;
+        //   });
+        // context.commit('REFRESH_DONATION_BALANCE', data.user_data.donation_balance);
+        // // Vue.set(data.data.relations, messages, )
+        // context.commit('ADD_ME_TRANSACTION', data.data)
       },
       ADD_ALL_TRANSACTION: async (context, transactionData) => {
-        let {data} = await HTTP.post('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,value,messages.user', {
+        return sendPostRequest('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,value,messages.user', {
           sum: transactionData.sum,
           from_user_id: transactionData.from_user_id,
           to_user_id: transactionData.to_user_id,
           title: transactionData.title,
           value_id: transactionData.value_id
-        });
-        context.commit('REFRESH_DONATION_BALANCE', data.user_data.donation_balance);
-        // Vue.set(data.data.relations, messages, )
-        context.commit('ADD_ALL_TRANSACTION', data.data)
+        }).then(response => {
+          context.commit('REFRESH_DONATION_BALANCE', response.data.user_data.donation_balance);
+          // Vue.set(response.data.data.relations, messages)
+          context.commit('ADD_ALL_TRANSACTION', response.data.data)
+
+          return response.data.data
+        })
+
+        //
+        // let {data} = await HTTP.post('transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,value,messages.user', {
+        //   sum: transactionData.sum,
+        //   from_user_id: transactionData.from_user_id,
+        //   to_user_id: transactionData.to_user_id,
+        //   title: transactionData.title,
+        //   value_id: transactionData.value_id
+        // })
+        //   .catch(error => {
+        //     alert('НУ !', error.response);
+        //   });
+        // context.commit('REFRESH_DONATION_BALANCE', data.user_data.donation_balance);
+        // // Vue.set(data.data.relations, messages, )
+        // context.commit('ADD_ALL_TRANSACTION', data.data)
       },
       ADD_CURRUSER_TRANSACTION: async (context, transactionData) => {
         let {data} = await HTTP.post('transactions?include=from_user.avatar_file,to_user.avatar_file,value', {
@@ -603,7 +643,6 @@ export const store = new Vuex.Store({
           title: transactionData.title,
           value_id: transactionData.value_id
         });
-        // Vue.set(data.data.relations, messages, )
         context.commit('ADD_CURRUSER_TRANSACTION', data.data)
       },
       BUY_GOOD: async (context, goodId) => {
@@ -611,16 +650,12 @@ export const store = new Vuex.Store({
         let {data} = await HTTP.post('purchases', {
           good_id: goodId
         });
-        // context.commit('BUY_GOOD', data.data);
-
-        window.console.log('ответ', data);
-        window.console.log('обновляю твой баланс, было:', store.state.me.purchase_balance);
-        window.console.log('обновляю твой баланс, будет:', data.user_data.purchase_balance);
         context.commit('REFRESH_PURCHASES_BALANCE', data.user_data.purchase_balance)
       }
     },
     plugins:
-      [watchErrors]
+      [watchErrors],
+    modules: {notifications}
   })
 ;
 

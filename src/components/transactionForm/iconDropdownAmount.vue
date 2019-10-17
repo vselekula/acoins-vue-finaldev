@@ -31,7 +31,6 @@
 
 
     export default {
-        // components: {DropdownList},
         data() {
             return {
                 sums: sums,

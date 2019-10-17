@@ -9,10 +9,10 @@
 
             <div class="col-3 d-flex flex-column">
                 <div class="d-flex justify-content-center">
-                    у тебя {{ $store.state.me.donation_balance }} <HeartIcon width="15px" height="15px" class="pl-1 pb-2" fillColor="white" />
-                </div>
-                <div class="d-flex justify-content-center">
                     <add-transaction button-text="отправить спасибо" headerView="true"></add-transaction>
+                </div>
+                <div class="d-flex justify-content-end pr-2">
+                    у тебя {{ $store.state.me.donation_balance }} <HeartIcon width="15px" height="15px" class="pl-1 pb-2" fillColor="white" />
                 </div>
             </div>
         </div>

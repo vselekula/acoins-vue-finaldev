@@ -2,23 +2,9 @@
     <b-card no-body>
         <div class="transactionsWrapper container">
             <CTA></CTA>
-            <!--<b-form-group label="" class="all_transaction_filters">-->
-            <!--<b-form-radio-group v-model="selected"-->
-            <!--:options="options"-->
-            <!--stacked-->
-            <!--name="plainStacked"/>-->
-            <!--</b-form-group>-->
-
-
-            <!--<add-transaction></add-transaction>-->
-            <!--<transition-group name="list" mode="out-in">-->
-            <!--<transition-group name="list">-->
             <transactionItem v-if="transactionsList !== []" v-for="transaction in transactionsList"
                              :key="transaction.id"
                              :transaction="transaction"></transactionItem>
-            <!--</transition-group>-->
-
-            <!--</transition-group>-->
         </div>
     </b-card>
 </template>

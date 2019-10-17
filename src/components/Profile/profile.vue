@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto profile-wrapper px-0">
+    <div class="container mx-auto purchase-wrapper px-0">
         <div class="d-flex align-items-center flex-fill">
             <div class="mr-3">
                 <img v-if="currentUser !== null"
@@ -73,13 +73,6 @@
             Spinner,
             'addTransaction': addTransaction
         },
-        // data() {
-        //     return {
-        //         route_params_userId: Number(this.$route.params.userId),
-        //         me: JSON.parse(window.localStorage.getItem('user')),
-        //         show: false
-        //     }
-        // },
         computed: {
             currentUser() {
                 return this.$store.getters.CURRUSER
@@ -102,7 +95,7 @@
 </script>
 
 <style lang="stylus">
-    .profile-wrapper
+    .purchase-wrapper
         height: 215px
         position: relative
         border-radius: 0 0 10px 10px

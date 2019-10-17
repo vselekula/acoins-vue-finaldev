@@ -7,19 +7,14 @@
         </b-form-group>
         <b-button @click="showFilters" v-if="!show" class="transaction_filters_button btn btn-link"><i
                 class="fas fa-filter"></i></b-button>
-        <!--<add-transaction></add-transaction>-->
-        <!--<transition-group name="list">-->
         <transactionItem v-if="transactionsList.length !== 0"
                          v-for="(transaction, index) in transactionsList"
                          :key="index"
                          :transaction="transaction"></transactionItem>
-        <!--</transition-group>-->
         <div v-if="loading" class="mt-5 d-flex justify-content-center mb-5">
             <Spinner></Spinner>
         </div>
         <button v-else @click="scrollToTop" class="btn-block btn-lg btn-light toTop">Наверх ↑</button>
-        <!--<div v-if="isCurrUserTransactionsEmpty">Этому пользователю еще никто не говорил "Спасибо". Будь первым!</div>-->
-
     </div>
 </template>
 <script>
@@ -64,7 +59,10 @@
         this.show = true;
       },
       scrollToTop() {
-        window.scrollTo(0,0);
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
       },
       hideFilters() {
         this.show = false

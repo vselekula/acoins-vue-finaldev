@@ -6,12 +6,7 @@
             <send-heart v-if="heartIcon" class=""/>
         </b-button>
         <b-modal ok-title="отправить" ok-only class="trans_modal" @ok="addTransaction" v-model="modalShow" size="lg">
-            <!--<div class="mx-auto">-->
-            <!--<img :src="'http://192.168.99.100:8000' + reciever.relations.avatar_file.data.full_path" center rounded="circle"-->
-            <!--v-if="this.reciever !== ''" blank width="100" height="100"-->
-            <!--blank-color="#eee" alt="img"-->
-            <!--class="mx-auto mb-4">-->
-            <!--</div>-->
+
             <b-form inline>
                 <user-search-input class="mr-2" :value="reciever" :user="reciever"
                                    @input="userIsSelected"></user-search-input>
@@ -30,16 +25,8 @@
     import userSearchInput from '../../transactionForm/user-search-input/UserSearchInput'
     import SendHeart from "./SendHeart";
     import {router} from '../../../router'
-    // import {HTTP} from '../../../data/common'
-
     export default {
         name: "add-transaction",
-        // mounted: function () {
-        //     HTTP.get('me_transactions?include=from_user.position,from_user.avatar_file,to_user.position,to_user.avatar_file,messages.user,value&user_id=' + this.user.id)
-        //         .then(response => {
-        //             this.me_transactions = response.data.data
-        //         });
-        // },
         methods: {
             userIsSelected(userItem) {
                 window.console.log('выбран получатель', userItem);
@@ -62,19 +49,6 @@
                     this.$store.dispatch('ADD_ME_TRANSACTION', this.transactionData);
                 }
                 this.clearData()
-                // this.$store.dispatch('ADD_CURRUSER_TRANSACTION', this.transactionData)
-                // HTTP.post('me_transactions?include=from_user.avatar_file,to_user.avatar_file,value', {
-                //     sum: this.transactionData.sum,
-                //     from_user_id: this.transactionData.from_user_id,
-                //     to_user_id: this.transactionData.to_user_id,
-                //     title: this.transactionData.title,
-                //     value_id: this.transactionData.value_id
-                // })
-                //     .then(response => {
-                //         window.console.log(response);
-                //         this.me_transactions.push(response.data.data);
-                // this.$emit('addTransaction', response.data.data)
-                // })
             },
             clearData() {
                 this.reciever = '';
