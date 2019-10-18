@@ -47,30 +47,31 @@
                         <div class="Sidebar-navItem-main balance d-flex">
                             <vSelect></vSelect>
                         </div>
-                        <!--<li @click="all" class="Sidebar-navItem first">-->
-                        <!--<i class="Sidebar-menuIcon fa fa-home"></i>-->
-                        <!--Лента ASD-->
-                        <!--</li>-->
-                        <li @click="shop" class="Sidebar-navItem">
-                            <i class="Sidebar-menuIcon fa fa-shopping-cart"></i>
-                            Магазин
-                        </li>
-                        <li @click="my_purchases" class="Sidebar-navItem">
-                            <i class="Sidebar-menuIcon fas fa-shopping-basket"></i>
-                            Мои покупки
-                        </li>
-                        <li @click="HAF" class="Sidebar-navItem">
-                            <i class="Sidebar-menuIcon fa fa-medal"></i>
-                            Зал славы
-                        </li>
-                        <li @click="admin" v-if="isAdmin" class="Sidebar-navItem">
-                            <i class="Sidebar-menuIcon fa fa-user-astronaut"></i>
-                            Админ
-                        </li>
-                        <li @click="logout" class="Sidebar-navItem">
-                            <i class="Sidebar-menuIcon fa fa-sign-out-alt"></i>
-                            Log out
-                        </li>
+                        <div class="mt-4">
+                            <li @click="home" class="Sidebar-navItem">
+                                <i class="Sidebar-menuIcon fa fa-home"></i>
+Моя лента
+                            </li>
+                            <!--<li @click="all" class="Sidebar-navItem first">-->
+                            <!--<i class="Sidebar-menuIcon fa fa-home"></i>-->
+                            <!--Лента ASD-->
+                            <!--</li>-->
+                            <li @click="shop" class="Sidebar-navItem">
+                                <i class="Sidebar-menuIcon fa fa-shopping-cart"></i>Магазин
+                            </li>
+                            <li @click="my_purchases" class="Sidebar-navItem">
+                                <i class="Sidebar-menuIcon fas fa-shopping-basket"></i>Мои покупки
+                            </li>
+                            <li @click="HAF" class="Sidebar-navItem">
+                                <i class="Sidebar-menuIcon fa fa-medal"></i>Зал славы
+                            </li>
+                            <li @click="admin" v-if="isAdmin" class="Sidebar-navItem">
+                                <i class="Sidebar-menuIcon fa fa-user-astronaut"></i>Админ
+                            </li>
+                            <li @click="logout" class="Sidebar-navItem">
+                                <i class="Sidebar-menuIcon fa fa-sign-out-alt"></i>Выйти
+                            </li>
+                        </div>
                     </ul>
                 </nav>
             </div>

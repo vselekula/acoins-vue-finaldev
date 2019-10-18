@@ -1,12 +1,12 @@
 <template>
     <b-card :title="product.name" :img-src="'http://192.168.99.100:8000' + product.relations.image_file.data.full_path"
-            :img-alt="product.name" img-top tag="article" style="width: 31%"
+            :img-alt="product.name" img-top tag="article"
             class="mb-3 shop-card ">
         <p class="card-text">
             {{ product.description }} <br> <br>
             <b>ЦЕНА: {{ product.price }} </b>
         </p>
-        <b-button v-b-modal="'modalfor' + product.id" href="#" variant="primary" ref="btnShow">Купить</b-button>
+        <b-button block v-b-modal="'modalfor' + product.id" href="#" variant="outline-primary" ref="btnShow">Купить</b-button>
         <b-modal size="md" cancel-title="Не, передумал(а)" ok-title="Купить" title="Small Modal"
                  :id="'modalfor' + product.id" @ok="buy_good">
             <b>Хочешь купить? <br> <br>

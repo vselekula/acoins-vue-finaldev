@@ -12,8 +12,7 @@
                 <div class="sum d-flex flex-grow-1 flex-row ml-3">
                     <div class="d-flex flex-column">
                         <div>
-                            <span class="badge value-pill badge-pill badge-primary">
-                                <font-awesome-icon icon="heart" size="lg"/> + {{ transaction.sum }}</span>
+                            <span class="badge value-pill badge-pill badge-primary"> {{ transaction.sum }} ₶</span>
                         </div>
                         <div class="mt-1">
                             <b>{{ transaction.relations.value.data.name }}</b>
@@ -61,9 +60,9 @@
                     </div>
                 </div>
             </emoji-picker>
-            <button v-if="seen" type="button" @click="postMessage()" class="btn btn-success ml-4 mb-4">
+            <b-button v-if="seen" type="button" @click="postMessage()" class="ml-4 mb-4" variant="outline-success">
                 Отправить
-            </button>
+            </b-button>
         </div>
     </div>
 </template>
@@ -199,10 +198,15 @@
     }
 
     .transaction-item {
-        box-shadow: 0 5px 15px -4px rgba(0, 64, 128, 0.2);
         border-radius: 10px;
         background-color: white;
         overflow: hidden;
+    }
+    .transaction-item-inbox {
+
+    }
+    .transaction-item-outbox {
+
     }
 
     .sum {

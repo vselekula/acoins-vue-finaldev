@@ -117,7 +117,8 @@
     .transaction_filters {
         position: absolute;
         right: -130px;
-        color: white
+        color: white;
+        background-color: transparent !important;
     }
 
     .transactionsWrapper {
@@ -139,6 +140,7 @@
         position: absolute;
         right: -50px;
         color: white;
+        background-color: transparent;
         border: none;
     }
 </style>

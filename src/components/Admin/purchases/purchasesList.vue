@@ -1,6 +1,6 @@
 <template>
     <div class="admin_users_wrapper">
-        <div class="p-2">
+        <div class="p-2 purchaseFilters">
             Фильтры:
             <b-button pill
                       size="sm"
@@ -9,10 +9,8 @@
                       :variant="filter.variant"
                       @click="filterOn(filter.value)">{{filter.text}}
             </b-button>
-            <b-button pill
-                      v-if="filterTrigger"
-                      size="sm"
-                      variant="outline-secondary"
+            <b-button pill size="sm"
+                      v-if="filterTrigger" type="button" class="close" aria-label="Close"
                       @click="filterOn">X
             </b-button>
         </div>
@@ -78,6 +76,7 @@
             if (typeof status === 'object') {
               window.console.log(resp);
               this.all_purchases = resp.data.data;
+              this.filterTrigger = false;
               this.loading = false;
             } else {
               this.all_purchases = resp.data.data.filter(obj => obj.status === status);
@@ -117,11 +116,15 @@
 </script>
 <style lang="stylus">
     .admin_users_wrapper {
-        background: transparent
+        background: white;
+        padding: 20px
     }
 
     .searchWrapper {
         background: white
     }
 
+    .purchaseFilters {
+
+    }
 </style>

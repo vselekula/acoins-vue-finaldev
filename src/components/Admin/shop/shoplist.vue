@@ -1,7 +1,7 @@
 <template>
     <div>
         <addProduct class="mb-3"/>
-        <div class="d-flex flex-wrap">
+        <div class="shopItemsWrapper">
             <shop-item v-for="product in goodsList" :key="product.id" :product="product"></shop-item>
         </div>
     </div>
@@ -34,4 +34,11 @@
   }
 
 </script>
-
+<style>
+    .shopItemsWrapper {
+        display: grid;
+        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 1.5rem;
+    }
+</style>

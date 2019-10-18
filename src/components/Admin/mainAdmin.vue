@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <b-card no-body class="container ml-auto mr-auto wrapper_admin">
-            <b-tabs ref="tabs" pills card v-model="tabIndex">
+    <div >
+        <b-card no-body class="container wrapper_admin">
+            <b-tabs ref="tabs" pills card v-model="tabIndex" class="adminTabs">
                 <b-tab ref="tab" title="Пользователи" style="background: white" active>
                     <userList :current="tabIndex" :limit="10" :offset="0" class="px-0"/>
                 </b-tab>
@@ -30,7 +30,6 @@
     data() {
       return {
         tabIndex: 1,
-        temp1: '',
         isMounted: false
       }
     },
@@ -51,7 +50,7 @@
         background: transparent;
     }
     .card-header{
-        padding: 10px 0;
+        padding: 10px 10px;
     }
 </style>
 

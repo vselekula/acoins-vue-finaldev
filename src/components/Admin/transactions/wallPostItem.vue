@@ -1,5 +1,6 @@
 <template>
-    <div v-if="transaction.title !== 'Автоматическое начисление' && transaction.title !== 'Покупка товара'" class="transaction-item pt-4 mb-4">
+    <div v-if="transaction.title !== 'Автоматическое начисление' && transaction.title !== 'Покупка товара'"
+         class="transaction-item pt-4 mb-4">
         <div class="transaction-item_info mx-4">
             <div class="transactionHeadline row m-0 my-2">
                 <div style="cursor: pointer" @click="goToUser">
@@ -34,91 +35,92 @@
     </div>
 </template>
 <script>
-    import WallPostReply from "./wallPostReply";
-    import ClickOutside from "vue-click-outside";
+  import WallPostReply from "./wallPostReply";
+  import ClickOutside from "vue-click-outside";
 
-    export default {
-        data() {
-            return {
-                transaction_date: '',
-                newMessage: "",
-                seen: false,
-                placeholder: "Добавить комментарий",
-                authUser: null,
-                route_params_userId: this.$route.params.userId,
-                search: ''
-            };
-        },
-        components: {
-            WallPostReply
-        },
-        props: {
-            transaction: {
-                required: true
-            }
-        },
-        created: function () {
-            this.transaction_date = this.transaction.created_at;
-        },
-        methods: {
-            append(emoji) {
-                this.newMessage += emoji
-            },
-            goToUser() {
-                 this.$router.push('/' + this.transaction.relations.to_user.data.id);
-                window.console.log('полетели id: ', this.transaction.relations.to_user.data.id)
-            },
-            goToUserFrom() {
-                this.$router.push('/' + this.transaction.relations.from_user.data.id);
-                window.console.log('полетели id: ', this.transaction.relations.from_user.data.id)
-            },
-            postMessage() {
-                let transactionData = {
-                    message: this.newMessage,
-                    user_id: this.$store.state.me.id,
-                    transaction_id: this.transaction.id
-                };
-                if (this.$route.name === 'all'){
-                    this.$store.dispatch('ADD_ALL_MESSAGE', transactionData);
-                } else {
-                    this.$store.dispatch('ADD_CURRUSER_MESSAGE', transactionData);
-                }
-
-                this.newMessage = '';
-                this.seen = false;
-            },
-            hideActions() {
-                this.seen = false;
-            },
-            showActions() {
-                this.seen = true;
-            },
-            deleteMessageItem(msgId) {
-                let messageIndex = this.transaction.relations.messages.data.findIndex(obj => obj.id === msgId);
-                this.transaction.relations.messages.data.splice(messageIndex, 1);
-            }
-        },
-        directives: {
-            focus: {
-                inserted(el) {
-                    el.focus()
-                },
-            },
-            ClickOutside
-        },
-        computed: {
-            messages: function () {
-                if (this.transaction.relations.messages !== undefined) {
-                    return this.transaction.relations.messages.data;
-                }
-            },
-            changedDateFormat: function () {
-                return this.transaction_date.substring(5, 10).replace("-", ".");
-            },
+  export default {
+    data() {
+      return {
+        transaction_date: '',
+        newMessage: "",
+        seen: false,
+        placeholder: "Добавить комментарий",
+        authUser: null,
+        route_params_userId: this.$route.params.userId,
+        search: '',
+        isInbo
+      };
+    },
+    components: {
+      WallPostReply
+    },
+    props: {
+      transaction: {
+        required: true
+      }
+    },
+    created: function () {
+      this.transaction_date = this.transaction.created_at;
+    },
+    methods: {
+      append(emoji) {
+        this.newMessage += emoji
+      },
+      goToUser() {
+        this.$router.push('/' + this.transaction.relations.to_user.data.id);
+        window.console.log('полетели id: ', this.transaction.relations.to_user.data.id)
+      },
+      goToUserFrom() {
+        this.$router.push('/' + this.transaction.relations.from_user.data.id);
+        window.console.log('полетели id: ', this.transaction.relations.from_user.data.id)
+      },
+      postMessage() {
+        let transactionData = {
+          message: this.newMessage,
+          user_id: this.$store.state.me.id,
+          transaction_id: this.transaction.id
+        };
+        if (this.$route.name === 'all') {
+          this.$store.dispatch('ADD_ALL_MESSAGE', transactionData);
+        } else {
+          this.$store.dispatch('ADD_CURRUSER_MESSAGE', transactionData);
         }
-    };
+
+        this.newMessage = '';
+        this.seen = false;
+      },
+      hideActions() {
+        this.seen = false;
+      },
+      showActions() {
+        this.seen = true;
+      },
+      deleteMessageItem(msgId) {
+        let messageIndex = this.transaction.relations.messages.data.findIndex(obj => obj.id === msgId);
+        this.transaction.relations.messages.data.splice(messageIndex, 1);
+      }
+    },
+    directives: {
+      focus: {
+        inserted(el) {
+          el.focus()
+        },
+      },
+      ClickOutside
+    },
+    computed: {
+      messages: function () {
+        if (this.transaction.relations.messages !== undefined) {
+          return this.transaction.relations.messages.data;
+        }
+      },
+      changedDateFormat: function () {
+        return this.transaction_date.substring(5, 10).replace("-", ".");
+      },
+    }
+  };
 </script>
-<style>
+<style scoped>
     textarea {
         resize: none;
     }
@@ -126,34 +128,10 @@
     textarea:focus {
         outline: none;
     }
+
     .value-pill {
         background-color: #2db3ff;
-    }
-    .list-enter-active,
-    .list-leave-active,
-    .list-move {
-        transition: 500ms cubic-bezier(0.59, 0.12, 0.34, 0.95);
-        transition-property: opacity, transform;
-    }
-
-    .list-enter {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-
-    .list-enter-to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-
-    .list-leave-active {
-        position: absolute;
-    }
-
-    .list-leave-to {
-        opacity: 0;
-        transform: scaleY(0);
-        transform-origin: center top;
+        font-size: medium;
     }
 
     .transaction-item {
@@ -162,6 +140,7 @@
         background-color: white;
         overflow: hidden;
     }
+
 
     .sum {
         background-color: white;
@@ -261,7 +240,7 @@
     }
 </style>
 <style lang="stylus">
-#add-answer {
-    transition: all 0.4s ease
-}
+    #add-answer {
+        transition: all 0.4s ease
+    }
 </style>

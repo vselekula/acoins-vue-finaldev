@@ -2,16 +2,21 @@
     <b-card :title="product.name"
             :img-alt="product.name" img-top tag="article"
             :img-src="'http://192.168.99.100:8000' + product.relations.image_file.data.full_path"
-            style="width: 31%"
-            class="mb-3 mr-3 shop-card flex-grow-1">
+            class="shop-card">
         <p class="card-text">
             {{ product.description }} <br>
             <br>
             <b> {{ product.price }} </b>
         </p>
-        <b-button v-b-modal="'modalfor' + product.id + 'editImage'" href="#" variant="light" ref="btnShow"><i class="far fa-image"></i></b-button>
-        <b-button v-b-modal="'modalfor' + product.id + 'edit'" href="#" variant="warning" ref="btnShow"><i class="fas fa-edit"></i></b-button>
-        <b-button v-b-modal="'modalfor' + product.id + 'delete'" href="#" variant="danger" ref="btnShow"><i class="far fa-trash-alt"></i></b-button>
+        <div class="buttonWrapper">
+            <b-button v-b-modal="'modalfor' + product.id + 'editImage'" href="#" variant="light" ref="btnShow"><i
+                    class="far fa-image"></i></b-button>
+            <b-button v-b-modal="'modalfor' + product.id + 'edit'" href="#" variant="warning" ref="btnShow"><i
+                    class="fas fa-edit"></i></b-button>
+            <b-button v-b-modal="'modalfor' + product.id + 'delete'" href="#" variant="danger" ref="btnShow"><i
+                    class="far fa-trash-alt"></i></b-button>
+
+        </div>
         <b-modal @ok="sendEditedGoodImg" size="lg" title="Редактировать изображение"
                  :id="'modalfor' + product.id + 'editImage'">
             <b-form-group label="изображение"
@@ -51,37 +56,41 @@
     </b-card>
 </template>
 <script>
-    export default {
-        props: {
-            product: {
-                variant: Object,
-                required: true
-            }
-        },
-        data() {
-            return {
-                file: null
-            }
-        },
-        methods: {
-            sendEditedGood() {
-                let goodsPatchData = this.product;
-                this.$store.dispatch('PATCH_GOODS', goodsPatchData);
-            },
-            sendEditedGoodImg() {
-                let formData = new FormData();
-                formData.append('file', this.file);
-                this.$store.dispatch('UPLOAD_GOODS_IMG', {file: formData, productId: this.product.id})
-            },
-            deleteProduct() {
-                this.$store.dispatch('DEL_GOODS', this.product.id)
-            }
-        }
+  export default {
+    props: {
+      product: {
+        variant: Object,
+        required: true
+      }
+    },
+    data() {
+      return {
+        file: null
+      }
+    },
+    methods: {
+      sendEditedGood() {
+        let goodsPatchData = this.product;
+        this.$store.dispatch('PATCH_GOODS', goodsPatchData);
+      },
+      sendEditedGoodImg() {
+        let formData = new FormData();
+        formData.append('file', this.file);
+        this.$store.dispatch('UPLOAD_GOODS_IMG', {file: formData, productId: this.product.id})
+      },
+      deleteProduct() {
+        this.$store.dispatch('DEL_GOODS', this.product.id)
+      }
     }
+  }
 </script>
 <style>
     .shop-card {
         box-shadow: 0 5px 40px -5px rgba(0, 64, 128, .2);
         border-radius: 10px
+    }
+    .buttonWrapper {
+        position: absolute;
+        bottom: 20px;
     }
 </style>

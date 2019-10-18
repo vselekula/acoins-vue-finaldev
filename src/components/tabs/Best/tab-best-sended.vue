@@ -1,11 +1,21 @@
 <template>
-  <b-table :fields="fields" :items="items">
-    <template slot="avatar" slot-scope="data">
-      <a :href="'/' + data.item.relations.user.data.id">
-      <img :src="'http://192.168.99.100:8000' + data.item.relations.user.data.relations.avatar_file.data.full_path" alt="" rounded="circle" blank blank-color="#fff"
-           class="rounded-circle avatar avatar_inTop"></a>
-    </template>
-  </b-table>
+    <div>
+        <div v-if='loading'
+             class="text-center">
+            <b-spinner variant="primary"
+                       label="Text Centered"></b-spinner>
+        </div>
+        <b-table v-if="!loading"
+                 :fields="fields"
+                 :items="items">
+            <template slot="avatar" slot-scope="data">
+                <a :href="'/' + data.item.relations.user.data.id">
+                    <img :src="'http://192.168.99.100:8000' + data.item.relations.user.data.relations.avatar_file.data.full_path"
+                         alt="" rounded="circle" blank blank-color="#fff"
+                         class="rounded-circle avatar avatar_inTop"></a>
+            </template>
+        </b-table>
+    </div>
 </template>
 
 <script>
@@ -15,8 +25,8 @@
   export default {
     data() {
       return {
+        loading: true,
         fields: [
-          // '№',
           {label: '', key: 'avatar'},
           {key: 'relations.user.data.first_name', label: 'Имя'},
           {key: 'relations.user.data.relations.position.data.name', label: 'Должность'},
@@ -27,9 +37,10 @@
     },
     mounted: function () {
       HTTP.get('tops/donators?include=user.avatar_file, user.position')
-              .then(response => {
-                this.items = response.data.data
-              })
+        .then(response => {
+          this.items = response.data.data;
+          this.loading = false
+        })
     },
   }
 </script>
