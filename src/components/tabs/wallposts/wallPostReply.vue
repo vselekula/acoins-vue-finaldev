@@ -9,14 +9,14 @@
                     {{ message.message }}
                 </div>
             </div>
-            <Del v-if="message.user_id === $store.state.me.id" @click.native="deleteComment()"
+            <Del v-if="message.user_id === user.id" @click.native="deleteComment()"
                  fillColor="rgba(209, 209, 208, 0.5)" class="delMessage"/>
         </div>
     </div>
 </template>
 <script>
     import {HTTP} from "../../../data/common.js";
-
+    import {mapState} from 'vuex'
     export default {
         props: ["message", "transaction", "index"],
         methods: {
@@ -27,7 +27,10 @@
             goToUserFrom() {
                 this.$router.push({name: 'user', params: {userId: this.message.relations.user.data.id}})
             },
-        }
+        },
+      computed: {
+          ...mapState('user', ['user'])
+      }
     };
 </script>
 <style>

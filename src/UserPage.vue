@@ -35,14 +35,6 @@
       store.commit('START_LOADING_TRANSACTIONS');
       store.dispatch('GET_ME_TRANSACTIONS_INFINITE', 10);
     },
-    beforeRouteEnter(to, from, next) {
-      if (store.state.me === null) {
-        window.console.log('userPage me');
-        store.dispatch('GET_ME');
-        next();
-      }
-      next();
-    },
     watch: {
       bottom(bottom) {
         window.console.log('воч!');

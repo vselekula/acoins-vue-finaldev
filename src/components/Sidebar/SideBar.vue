@@ -1,5 +1,5 @@
 <template>
-    <div v-if="me !== null" class="Wrapper">
+    <div class="Wrapper" v-if="user">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
               integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
               crossorigin="anonymous">
@@ -10,35 +10,39 @@
                     <div class="header-wrapper d-flex">
                         <div class="Sidebar-logo">
                             <a href="/home">
-                                <img :src="'http://192.168.99.100:8000' + me.relations.avatar_file.data.full_path"
+                                <img :src="'http://192.168.99.100:8000' + user.relations.avatar_file.data.full_path"
                                      blank blank-color="#fff" class="avatar_sidebar"/></a>
                         </div>
                         <div class="name-title">
-                            <h4>{{me.first_name }}</h4>
+                            <h4>{{user.first_name }}</h4>
                         </div>
                         <div class="position-title">
-                            <p>{{me.relations.position.data.name | toLowerCase }} </p>
+                            <p>{{user.relations.position.data.name | toLowerCase }} </p>
                         </div>
                     </div>
                 </header>
-                <nav role="navigation">
+                <nav class="subHeaderBalances" role="navigation">
                     <ul>
                         <div class="balances flex-row d-flex justify-content-between">
                             <div class="Sidebar-navItem-main donation_balance d-flex">
                                 <div class="balanceAndActionWrapper d-flex align-items-center flex-column justify-content-center">
                                     <div class="d-flex sidebar_icons justify-content-center align-items-center">
-                                        <i class="Sidebar-menuIcon-balance fa fa-heart fa-lg pr-2"></i>
+                                        &#8679
                                     </div>
-                                    <div class="d-flex">{{ me.donation_balance }}
+                                    <div class="d-flex">{{ user.donation_balance }}
+                                        <div class="currency">&nbsp;t!</div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="Sidebar-navItem-main purchase_balance d-flex">
                                 <div class="balanceAndActionWrapper d-flex align-items-center align-self-center flex-column justify-content-center">
-                                    <div class="d-flex sidebar_icons justify-content-center align-items-center"><i
-                                            class="Sidebar-menuIcon-balance fa fa-wallet fa-lg pr-2"></i></div>
-                                    <div class="d-flex">{{ me.purchase_balance }}</div>
+                                    <div class="d-flex sidebar_icons justify-content-center align-items-center">
+                                        &#8681
+                                    </div>
+                                    <div v-b-popover.hover.top="'I am popover directive content!'" title="Popover Title" class="d-flex">{{ user.purchase_balance }}
+                                        <div class="currency">&nbsp;t!</div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -50,7 +54,7 @@
                         <div class="mt-4">
                             <li @click="home" class="Sidebar-navItem">
                                 <i class="Sidebar-menuIcon fa fa-home"></i>
-Моя лента
+                                Моя лента
                             </li>
                             <!--<li @click="all" class="Sidebar-navItem first">-->
                             <!--<i class="Sidebar-menuIcon fa fa-home"></i>-->
@@ -76,25 +80,25 @@
                 </nav>
             </div>
             <div class="Sidebar_footer  flex-row d-flex justify-content-between px-3">
-                <div class="d-flex Footer-title">Итого:</div>
-                <div class="Sidebar-navItem-main donation_balance d-flex flex-column align-items-center">
-                    <div class="d-flex sidebar_icons justify-content-center align-items-center">
-                        <i class="Sidebar-header-balance fa fa-heart fa-md pr-2 align-self-center"></i>
-                    </div>
-                    <div class="d-flex footer-num">{{ me.total_donated }}
-                    </div>
-                </div>
-                <div class="Sidebar-navItem-main purchase_balance d-flex flex-column align-items-center">
-                    <div class="d-flex sidebar_icons justify-content-center align-items-center"><i
-                            class="Sidebar-header-balance fa fa-wallet fa-md pr-2"></i></div>
-                    <div class="d-flex footer-num">{{ me.total_received }}</div>
-                </div>
+<!--                <div class="Sidebar-navItem-main donation_balance d-flex flex-column align-items-center">-->
+<!--                    <div class="d-flex sidebar_icons justify-content-center align-items-center">-->
+<!--                        <i class="Sidebar-header-balance fa fa-heart fa-md pr-2 align-self-center"></i>-->
+<!--                    </div>-->
+<!--                    <div class="d-flex footer-num">{{ me.total_donated }}-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="Sidebar-navItem-main purchase_balance d-flex flex-column align-items-center">-->
+<!--                    <div class="d-flex sidebar_icons justify-content-center align-items-center"><i-->
+<!--                            class="Sidebar-header-balance fa fa-wallet fa-md pr-2"></i></div>-->
+<!--                    <div class="d-flex footer-num">{{ me.total_received }}</div>-->
+<!--                </div>-->
             </div>
         </div>
     </div>
 </template>
 <script>
   import vSelect from './UserSearchInput'
+  import {mapActions, mapState} from 'vuex'
 
   export default {
     name: 'sideBar',
@@ -109,17 +113,11 @@
       vSelect
     },
     methods: {
-      totalTrigger: function () {
+      ...mapActions('user', [
+        'logout'
+      ]),
+      totalTrigger() {
         this.showTotal = !this.showTotal;
-      },
-      logout: function () {
-        this.loggedOut = true;
-        this.$store.dispatch('AUTH_LOGOUT')
-          .then(() => {
-            localStorage.removeItem("user-token");
-            localStorage.removeItem("user");
-            this.$router.push('/login')
-          })
       },
       all() {
         this.$router.push({name: 'all'})
@@ -140,14 +138,6 @@
         this.$router.push({name: 'my_purchases'})
       }
     },
-    updated() {
-      this.loggedOut = false;
-    },
-    created() {
-      if (this.$store.state.me === null) {
-        this.$store.dispatch('GET_ME');
-      }
-    },
     filters: {
       toLowerCase: function (value) {
         if (!value) return '';
@@ -155,15 +145,11 @@
       }
     },
     computed: {
-      me() {
-        return this.$store.getters.ME
-      },
+      ...mapState('user', [
+        'user'
+      ]),
       isAdmin() {
-        if (this.me.role === 'admin') {
-          return true
-        } else {
-          return false
-        }
+        return this.user.role === 'admin';
       }
     }
   }
@@ -259,6 +245,10 @@
         width: 100%;
         opacity: 1;
         transition: all 0.4s ease;
+    }
+
+    .currency {
+        display: unset
     }
 
     .balances {
@@ -361,6 +351,9 @@
                         opacity: 0;
                     }
 
+                    .currency {
+                        display: none
+                    }
                     .donation_balance {
                         left: 13px
                     }
@@ -372,6 +365,7 @@
             }
 
             .Sidebar-header {
+
 
                 .name-title {
                     opacity: 0;
@@ -412,7 +406,6 @@
                 a {
                     opacity: 0;
                 }
-
                 .nav-btn {
                     opacity: 0;
                 }

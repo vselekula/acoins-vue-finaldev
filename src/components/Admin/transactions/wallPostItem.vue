@@ -13,7 +13,7 @@
                     <div class="d-flex flex-column">
                         <div>
                             <span class="badge value-pill badge-pill badge-primary">
-                                <font-awesome-icon icon="heart" size="lg"/> + {{ transaction.sum }}</span>
+                                {{ transaction.sum }} t!</span>
                         </div>
                         <div class="mt-1">
                             <b>{{ transaction.relations.value.data.name }}</b>
@@ -131,7 +131,7 @@
 
     .value-pill {
         background-color: #2db3ff;
-        font-size: medium;
+        font-size: large;
     }
 
     .transaction-item {

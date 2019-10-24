@@ -12,7 +12,7 @@
                 <div class="sum d-flex flex-grow-1 flex-row ml-3">
                     <div class="d-flex flex-column">
                         <div>
-                            <span class="badge value-pill badge-pill badge-primary"> {{ transaction.sum }} ₶</span>
+                            <span class="badge value-pill badge-pill badge-primary"> {{ transaction.sum }} t!</span>
                         </div>
                         <div class="mt-1">
                             <b>{{ transaction.relations.value.data.name }}</b>
@@ -162,6 +162,7 @@
 
     .value-pill {
         background-color: #2db3ff;
+        font-size: medium;
     }
 
     /*.fade-enter-active, .fade-leave-active {*/
@@ -201,14 +202,8 @@
         border-radius: 10px;
         background-color: white;
         overflow: hidden;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.0679065);
     }
-    .transaction-item-inbox {
-
-    }
-    .transaction-item-outbox {
-
-    }
-
     .sum {
         background-color: white;
     }

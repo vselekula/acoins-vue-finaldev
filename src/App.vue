@@ -19,25 +19,15 @@
   import {library} from '@fortawesome/fontawesome-svg-core'
   import {faBirthdayCake, faEnvelope, faHeart, faPhone, faUsers, faWallet} from '@fortawesome/free-solid-svg-icons'
   import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
-  import {HTTP} from './data/common'
   import VueSimpleSuggest from 'vue-simple-suggest'
   import ErrorNotification from '../src/components/common elements/error'
-  import { mapActions } from 'vuex'
+  import {mapActions} from 'vuex'
   import PortalVue from 'portal-vue'
 
   Vue.use(PortalVue)
   Vue.component('vue-simple-suggest', VueSimpleSuggest);
-  // import { BToast } from 'bootstrap-vue'
-  // Vue.component('b-toast', BToast)
-  // import vueCustomScrollbar from 'vue-custom-scrollbar'
-
   import sideBar from './components/Sidebar/SideBar'
-
-  let item = window.localStorage.getItem('user');
-  if (item) {
-    let json = JSON.parse(item);
-    HTTP.defaults.headers.common['Authorization'] = 'Bearer ' + json.api_token;
-  }
+  import {afterLogout, setAuthHeaderInAxios} from "./Service/user-service";
 
   library.add(faUsers, faBirthdayCake, faEnvelope, faPhone, faHeart, faWallet);
   Vue.component('add-transaction', require('./components/tabs/wallposts/initiateNewTransaction'));
@@ -49,29 +39,17 @@
   Vue.component("Del", Del);
   Vue.use(VueTextareaAutosize);
 
+  //После каждого перехода по роутеру проверяем залогинен ли юзер и если нет — шлем на логин
+
   Vue.config.productionTip = false;
   export default {
     name: "app",
     components: {sideBar, ErrorNotification},
-    created() {
-      this.$router.beforeEach((to, from, next) => {
-        this.$insProgress.start();
-        next()
-      });
-      this.$router.afterEach(() => {
-        this.$insProgress.finish()
-      });
-    },
-    computed: {
-      auth() {
-        return this.$store.getters.authStatus
-      }
-    },
     methods: {
-        ...mapActions('notifications', [
-          'showSuccessMessage',
-          'showErrorMessage'
-        ]),
+      ...mapActions('notifications', [
+        'showSuccessMessage',
+        'showErrorMessage'
+      ]),
     }
   };
 </script>

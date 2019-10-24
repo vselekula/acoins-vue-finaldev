@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container me_top_cta d-flex align-items-center px-0" v-if="$store.state.me !== null">
+    <div class="container me_top_cta d-flex align-items-center px-0">
         <div class="row align-items-center flex-fill">
             <div class="col py-4">
                 <h3 class="mt-2">Благодарность – долг, который надо оплатить, но который никто не имеет права ожидать.<br></h3>
@@ -12,7 +12,7 @@
                     <add-transaction button-text="отправить спасибо" headerView="true"></add-transaction>
                 </div>
                 <div class="d-flex justify-content-end pr-2">
-                    у тебя {{ $store.state.me.donation_balance }} <HeartIcon width="15px" height="15px" class="pl-1 pb-2" fillColor="white" />
+                    у тебя {{ user.donation_balance }} t!
                 </div>
             </div>
         </div>
@@ -22,13 +22,18 @@
     import addTransaction from './components/transactionForm/initiateNewTransactionv2'
     import HeartBoxIcon from "vue-material-design-icons/HeartBox";
     import HeartIcon from "vue-material-design-icons/Heart";
+    import {mapState} from 'vuex'
+
     export default {
         name: 'top_cta',
         components: {
             HeartIcon,
             HeartBoxIcon,
             'addTransaction': addTransaction
-        }
+        },
+      computed: {
+          ...mapState('user', ['user'])
+      }
     }
 </script>
 <style scoped>

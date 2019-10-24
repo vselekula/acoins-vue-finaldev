@@ -24,6 +24,7 @@
   import transactionItem from '../wallposts/wallPostItem';
   import ClickOutside from "vue-click-outside";
   import Spinner from "vue-simple-spinner"
+  import {mapState, mapActions} from 'vuex'
 
   export default {
     data() {
@@ -41,10 +42,10 @@
     methods:
       {
         inbox(transactions) {
-          return transactions.filter(x => x.to_user_id === this.$store.state.me.id);
+          return transactions.filter(x => x.to_user_id === this.user.id);
         },
         outbox(transactions) {
-          return transactions.filter(x => x.from_user_id === this.$store.state.me.id);
+          return transactions.filter(x => x.from_user_id === this.user.id);
         },
         scrollToTop() {
           window.scrollTo({
@@ -72,6 +73,9 @@
       ClickOutside
     },
     computed: {
+      ...mapState('user', [
+        'user'
+      ]),
       transactionsList() {
         if (this.selected === 'third') {
           return this.$store.getters.ME_TRANSACTIONS_INFINITE;
@@ -86,9 +90,6 @@
       loading(){
         return this.$store.getters.loadTransactions
       },
-      me() {
-        return this.$store.getters.me
-      }
     },
     mounted() {
       this.loaded = true;
