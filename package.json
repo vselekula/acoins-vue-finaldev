@@ -16,9 +16,11 @@
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "bootstrap-vue": "^2.0.3",
     "less-loader": "^4.1.0",
+    "lodash": "latest",
     "portal-vue": "^2.1.6",
     "textarea-caret": "^3.1.0",
     "tributejs": "^3.4.0",
+    "v-click-outside": "^2.1.4",
     "vue": "^2.5.17",
     "vue-at": "^2.4.0-beta",
     "vue-autosuggest": "^1.7.3",
@@ -40,8 +42,7 @@
     "vue-tribute": "^1.0.1",
     "vue2-autocomplete-js": "^0.2.2",
     "vue2-datepicker": "^2.6.2",
-    "vuex": "^3.0.1",
-    "lodash": "latest"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.0.0-beta.53",

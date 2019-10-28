@@ -6,7 +6,7 @@
             {{ product.description }} <br> <br>
             <b>ЦЕНА: {{ product.price }} </b>
         </p>
-        <b-button block v-b-modal="'modalfor' + product.id" href="#" variant="outline-primary" ref="btnShow">Купить</b-button>
+        <b-button block v-b-modal="'modalfor' + product.id" href="#" variant="outline-success" ref="btnShow">Купить</b-button>
         <b-modal size="md" cancel-title="Не, передумал(а)" ok-title="Купить" title="Small Modal"
                  :id="'modalfor' + product.id" @ok="buy_good">
             <b>Хочешь купить? <br> <br>
@@ -55,5 +55,8 @@
 
     .card-body {
         padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 </style>

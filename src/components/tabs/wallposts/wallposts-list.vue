@@ -24,7 +24,7 @@
   import transactionItem from '../wallposts/wallPostItem';
   import ClickOutside from "vue-click-outside";
   import Spinner from "vue-simple-spinner"
-  import {mapState, mapActions} from 'vuex'
+  import {mapState} from 'vuex'
 
   export default {
     data() {

@@ -31,7 +31,7 @@
                              :key="message.id" :message="message"
                              :transaction="transaction" @deletedMessageId="deleteMessageItem"></wall-post-reply>
         </transition-group>
-        <div class="add-answer_wrapper" @click="showActions" v-click-outside="hideActions">
+        <div class="add-answer_wrapper" @click="onAction" v-click-outside="hideActions">
             <textarea-autosize v-model="newMessage" id="add-answer" cols="1" rows="1" :placeholder="placeholder"
                                class="mx-4 my-4 p-0 message"></textarea-autosize>
             <emoji-picker @emoji="append" :search="search">
@@ -60,7 +60,7 @@
                     </div>
                 </div>
             </emoji-picker>
-            <b-button v-if="seen" type="button" @click="postMessage()" class="ml-4 mb-4" variant="outline-success">
+            <b-button v-if="showActions" type="button" @click="postMessage()" class="ml-4 mb-4" variant="outline-success">
                 Отправить
             </b-button>
         </div>
@@ -68,16 +68,17 @@
 </template>
 <script>
   import WallPostReply from "../wallposts/wallPostReply";
-  import ClickOutside from "vue-click-outside";
+  import vClickOutside from 'v-click-outside'
+  import {mapState} from 'vuex'
 
   export default {
     data() {
       return {
         transaction_date: '',
         newMessage: "",
-        seen: false,
         placeholder: "Добавить комментарий",
         authUser: null,
+        showActions: false,
         route_params_userId: this.$route.params.userId,
         search: ''
       };
@@ -106,7 +107,7 @@
       postMessage() {
         let transactionData = {
           message: this.newMessage,
-          user_id: this.$store.state.me.id,
+          user_id: this.user.id,
           transaction_id: this.transaction.id
         };
         if (this.$route.name === 'home') {
@@ -118,13 +119,13 @@
           this.$store.dispatch('ADD_CURRUSER_MESSAGE', transactionData);
         }
         this.newMessage = '';
-        this.seen = false;
+        this.showActions = false;
       },
       hideActions() {
-        this.seen = false;
+        this.showActions = false;
       },
-      showActions() {
-        this.seen = true;
+      onAction() {
+        this.showActions = true;
       },
       deleteMessageItem(msgId) {
         let messageIndex = this.transaction.relations.messages.data.findIndex(obj => obj.id === msgId);
@@ -132,14 +133,15 @@
       }
     },
     directives: {
-      focus: {
-        inserted(el) {
-          el.focus()
-        },
-      },
-      ClickOutside
+      // focus: {
+      //   inserted(el) {
+      //     el.focus()
+      //   },
+      // },
+      clickOutside: vClickOutside.directive
     },
     computed: {
+      ...mapState('user', ['user']),
       messages: function () {
         if (this.transaction.relations.messages !== undefined) {
           return this.transaction.relations.messages.data;

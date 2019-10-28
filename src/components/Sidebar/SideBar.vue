@@ -27,7 +27,7 @@
                             <div class="Sidebar-navItem-main donation_balance d-flex">
                                 <div class="balanceAndActionWrapper d-flex align-items-center flex-column justify-content-center">
                                     <div class="d-flex sidebar_icons justify-content-center align-items-center">
-                                        &#8679
+                                        &#8679;
                                     </div>
                                     <div class="d-flex">{{ user.donation_balance }}
                                         <div class="currency">&nbsp;t!</div>
@@ -38,7 +38,7 @@
                             <div class="Sidebar-navItem-main purchase_balance d-flex">
                                 <div class="balanceAndActionWrapper d-flex align-items-center align-self-center flex-column justify-content-center">
                                     <div class="d-flex sidebar_icons justify-content-center align-items-center">
-                                        &#8681
+                                        &#8681;
                                     </div>
                                     <div v-b-popover.hover.top="'I am popover directive content!'" title="Popover Title" class="d-flex">{{ user.purchase_balance }}
                                         <div class="currency">&nbsp;t!</div>
