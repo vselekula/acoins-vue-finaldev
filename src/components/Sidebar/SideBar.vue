@@ -25,7 +25,8 @@
                     <ul>
                         <div class="balances flex-row d-flex justify-content-between">
                             <div class="Sidebar-navItem-main donation_balance d-flex">
-                                <div class="balanceAndActionWrapper d-flex align-items-center flex-column justify-content-center">
+                                <div v-b-popover.hover.bottom="'Эту сумму ты можешь только подарить коллегам. \nКак сюда попадают средства? Очень просто, каждый месяц тебе начисляются 100t! и если ты не потратишь их до следующего начисления — они сгорают. Другими словами, максимальная сумма в этом кошельке = 100t!'" title="Исходящий баланс"
+                                     class="balanceAndActionWrapper d-flex align-items-center flex-column justify-content-center">
                                     <div class="d-flex sidebar_icons justify-content-center align-items-center">
                                         &#8679;
                                     </div>
@@ -36,11 +37,12 @@
                             </div>
 
                             <div class="Sidebar-navItem-main purchase_balance d-flex">
-                                <div class="balanceAndActionWrapper d-flex align-items-center align-self-center flex-column justify-content-center">
+                                <div v-b-popover.hover.bottom="'Это та сумма, которую ты можешь потратить в магазине на покупки реальных вещей'" title="Входящий баланс"
+                                     class="balanceAndActionWrapper d-flex align-items-center align-self-center flex-column justify-content-center">
                                     <div class="d-flex sidebar_icons justify-content-center align-items-center">
                                         &#8681;
                                     </div>
-                                    <div v-b-popover.hover.top="'I am popover directive content!'" title="Popover Title" class="d-flex">{{ user.purchase_balance }}
+                                    <div class="d-flex">{{ user.purchase_balance }}
                                         <div class="currency">&nbsp;t!</div>
                                     </div>
                                 </div>
@@ -172,7 +174,6 @@
         bottom: 0;
         background: #eee;
         width: 100%
-        z-index: 1000000;
     }
 
     .balance {
@@ -331,7 +332,6 @@
         position: fixed;
         display: table-cell;
         min-width: SIDEBAR.width;
-        z-index 10000;
         max-width: SIDEBAR.width;
         min-height: 100%;
         background-color: #f1ffff;

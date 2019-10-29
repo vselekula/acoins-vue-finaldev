@@ -22,7 +22,7 @@
 </template>
 <script>
   import transactionItem from '../wallposts/wallPostItem';
-  import ClickOutside from "vue-click-outside";
+  import vClickOutside from 'v-click-outside'
   import Spinner from "vue-simple-spinner"
   import {mapState} from 'vuex'
 
@@ -65,12 +65,7 @@
       Spinner
     },
     directives: {
-      focus: {
-        inserted(el) {
-          el.focus()
-        },
-      },
-      ClickOutside
+      clickOutside: vClickOutside.directive
     },
     computed: {
       ...mapState('user', [

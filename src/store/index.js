@@ -45,9 +45,6 @@ export const store = new Vuex.Store({
       PURCHASES: state => {
         return state.all_purchases
       },
-      ME: state => {
-        return state.me
-      },
       CURRUSER_TRANSACTIONS: state => {
         return state.currUserTransactions
       },
@@ -243,19 +240,11 @@ export const store = new Vuex.Store({
         window.console.log('добавляется транзакция', transactionData);
         state.currUserTransactions_infinite.unshift(transactionData)
       },
-      SET_ME: (state, meObj) => {
-        window.console.log('Мутация SET_ME, ME object is: ', meObj);
-        state.me = meObj;
-      },
-      DEL_ME: (state) => {
-        state.me = null;
-      },
       REFRESH_DONATION_BALANCE: (state, refreshedBalance) => {
-        state.me.donation_balance = refreshedBalance
+        state.user.donation_balance = refreshedBalance
       },
       REFRESH_PURCHASES_BALANCE: (state, refreshedBalance) => {
-        state.me.purchase_balance = refreshedBalance;
-        window.console.log('стало:', state.me.purchase_balance);
+        state.user.purchase_balance = refreshedBalance;
       },
       ADD_TO_ALL_TRANSACTIONS_INFINITE: (state, transactions) => {
         state.all_transactions_infinite = _.concat(state.all_transactions_infinite, transactions.data.data);
@@ -326,15 +315,6 @@ export const store = new Vuex.Store({
               }
             });
           });
-      },
-      GET_ME: async (context) => {
-        // let myId = JSON.parse(window.localStorage.getItem('user')).id;
-        // window.console.log('мой айди', myId);
-        await sendGetRequest('/user?include=position,avatar_file,boss,group')
-          .then(response => {
-            window.console.log('GET_ME ответ, мои данные: ', response);
-            context.commit('SET_ME', response.data.data)
-          })
       },
       GET_GOODS: async (context) => {
         let {data} = await sendGetRequest('goods?include=image_file');
@@ -570,6 +550,7 @@ export const store = new Vuex.Store({
           title: transactionData.title,
           value_id: transactionData.value_id
         }).then(response => {
+          window.console.log(response.data.user_data.donation_balance);
           context.commit('REFRESH_DONATION_BALANCE', response.data.user_data.donation_balance);
           // Vue.set(response.data.data.relations, messages)
           context.commit('ADD_ME_TRANSACTION', response.data.data)

@@ -52,9 +52,9 @@
               this.showSuccessMessage({text: 'Ура! Кажется кто-то сегодня станет чуточку счастливее', title: `🎉Отправлено  ${data.sum} tack'ов`});
             })
             .catch(error => {
-              if (error){
-                window.console.log(error.response.status);
-                if (error.response.status === 400){
+              if (error) {
+                window.console.log(error);
+                if (error.response.status === 400) {
                   this.showErrorMessage({text: 'Твоя благодарность не дошла до адресата. Ты все поля заполнил?'});
                 }
               }
