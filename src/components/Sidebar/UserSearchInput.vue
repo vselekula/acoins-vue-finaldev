@@ -1,5 +1,6 @@
 <template>
-    <v-autocomplete ref="val" label="first_name" :filterable="false" v-model="chosen" :onChange="onChange" :clearable="false" :options="options"
+    <v-autocomplete ref="val" label="first_name" :filterable="false" v-model="chosen"
+                    :onChange="onChange" :clearable="false" :options="options"
                     placeholder="🔍" @search="onSearch">
         <template slot="no-options">
             поиск коллег

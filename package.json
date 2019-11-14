@@ -11,6 +11,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
     "@fortawesome/free-solid-svg-icons": "^5.5.0",
     "@fortawesome/vue-fontawesome": "^0.1.2",
+    "@trevoreyre/autocomplete-vue": "^2.0.3",
     "@websanova/vue-auth": "^2.21.14-beta",
     "axios": "^0.18.0",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
@@ -21,7 +22,7 @@
     "textarea-caret": "^3.1.0",
     "tributejs": "^3.4.0",
     "v-click-outside": "^2.1.4",
-    "vue": "^2.5.17",
+    "vue": "^2.6.10",
     "vue-at": "^2.4.0-beta",
     "vue-autosuggest": "^1.7.3",
     "vue-axios": "^2.1.4",
@@ -31,6 +32,7 @@
     "vue-disable-autocomplete": "0.0.4",
     "vue-emoji-picker": "^1.0.1",
     "vue-ins-progress-bar": "^1.0.0",
+    "vue-loader": "^15.7.2",
     "vue-material-design-icons": "^2.4.0",
     "vue-notification": "^1.3.16",
     "vue-router": "^3.0.1",
@@ -56,7 +58,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-cli-plugin-bootstrap-vue": "^0.1.0",
-    "vue-template-compiler": "^2.5.17"
+    "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {
     "root": true,

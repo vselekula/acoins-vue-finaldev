@@ -48,7 +48,6 @@
         authUser: null,
         route_params_userId: this.$route.params.userId,
         search: '',
-        isInbo
       };
     },
     components: {

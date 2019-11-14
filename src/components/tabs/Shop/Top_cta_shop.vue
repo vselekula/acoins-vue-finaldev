@@ -1,7 +1,7 @@
 <template>
     <div class="container me_top_cta d-flex align-items-center">
         <div class="row align-items-center flex-fill" style="z-index: 1">
-            <h1>Время тратить деньги 🤑 🤑 🤑 </h1>
+            <h1>Кто сказал, что спасибо в карман не положить? 😏</h1>
         </div>
     </div>
 </template>

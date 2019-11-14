@@ -51,7 +51,8 @@
                         </div>
 
                         <div class="Sidebar-navItem-main balance d-flex">
-                            <vSelect></vSelect>
+<!--                            <vSelect></vSelect>-->
+                            <newSelect></newSelect>
                         </div>
                         <div class="mt-4">
                             <li @click="home" class="Sidebar-navItem">
@@ -100,6 +101,7 @@
 </template>
 <script>
   import vSelect from './UserSearchInput'
+  import newSelect from './UserSearchInput new autocomplete'
   import {mapActions, mapState} from 'vuex'
 
   export default {
@@ -112,7 +114,8 @@
       }
     },
     components: {
-      vSelect
+      vSelect,
+      newSelect
     },
     methods: {
       ...mapActions('user', [
