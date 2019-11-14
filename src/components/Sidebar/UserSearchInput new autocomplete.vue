@@ -12,25 +12,11 @@
                     class="autocomplete-result wiki-result"
             >
                 <div class="wiki-title">
-                    123
+                    {{result.first_name + ' ' + result.last_name}}
                 </div>
-                <div class="wiki-snippet" v-html="result.last_name" />
+                <div class="wiki-snippet" v-html="result.relations.position.data.name" />
             </li>
         </template>
-
-<!--        <template v-slot:result="{ result }">-->
-<!--            <li>-->
-<!--                    v-bind="props"-->
-<!--                    class="autocomplete-result"-->
-<!--            >-->
-<!--                <div >-->
-<!--                    {{ result.first_name }}-->
-<!--                    123-->
-<!--                </div>-->
-<!--                <div class="wiki-snippet" v-html="result.last_name" />-->
-<!--            1111-->
-<!--            </li>-->
-<!--        </template>-->
     </v-autocomplete>
 </template>
 
