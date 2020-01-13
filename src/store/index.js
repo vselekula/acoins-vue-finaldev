@@ -248,9 +248,7 @@ export const store = new Vuex.Store({
       },
       ADD_TO_ALL_TRANSACTIONS_INFINITE: (state, transactions) => {
         state.all_transactions_infinite = _.concat(state.all_transactions_infinite, transactions.data.data);
-        window.console.log('all transactions concat', state.all_transactions_infinite);
         state.all_transactions_infinite_offset = state.all_transactions_infinite.length;
-        window.console.log('offset after concat', state.all_transactions_infinite_offset);
         state.all_transactions_infinite_limit = transactions.data.meta.count;
       },
       ADD_TO_ME_TRANSACTIONS_INFINITE: (state, transactions) => {

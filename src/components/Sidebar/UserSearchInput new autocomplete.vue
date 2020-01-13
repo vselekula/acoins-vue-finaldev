@@ -38,7 +38,6 @@
       }
     },
     methods: {
-
       search(input) {
         return new Promise(resolve => {
           const url = `users?q=${(input)}&include=position,avatar_file`;

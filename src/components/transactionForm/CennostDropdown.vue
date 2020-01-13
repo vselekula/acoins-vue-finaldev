@@ -1,39 +1,40 @@
 <template>
-    <vueSelect label="name" v-model="selectedValue" :options="valuesList" placeholder="Ценность" @input="changedValue">
-    </vueSelect>
+    <b-form-select v-model="selectedValue" :options="valuesList" size="sm" class="mt-3" @input="changedValue"></b-form-select>
 </template>
 <script>
-    import vueSelect from 'vue-select'
+  import valuesList from '../../data/cennosti.js'
 
-    export default {
-        components: {
-            vueSelect
-        },
-        data() {
-            return {
-                selectedValue: null,
-            }
-        },
-        methods: {
-            changedValue() {
-                this.$emit('pickedCennost', this.selectedValue)
-            }
-        },
-        created: function() {
-            this.$store.dispatch('GET_VALUES');
-        },
-        computed: {
-            valuesList() {
-                return this.$store.getters.VALUES
-            }
-        }
-    }
+  export default {
+    data() {
+      return {
+        selectedValue: null,
+        valuesList: valuesList
+      }
+    },
+    methods: {
+      changedValue() {
+        let obj = this.valuesList.find(o => o.text === this.selectedValue);
+
+        window.console.log(obj);
+        this.$emit('pickedCennost', obj.value)
+      }
+    },
+    // created: function () {
+    //   this.$store.dispatch('GET_VALUES');
+    // },
+    // computed: {
+    //   valuesList() {
+    //     return this.$store.getters.VALUES
+    //   }
+    // }
+  }
 </script>
 <style scoped>
     .v-select {
         width: 340px !important;
 
     }
+
     .v-select /deep/ input[type=search] {
         text-align: center
     }

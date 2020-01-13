@@ -38,7 +38,7 @@
       },
       sumIsSelected(sum) {
         window.console.log('выбрана сумма', sum);
-        this.transactionData.sum = sum.value
+        this.transactionData.sum = sum
       },
       valueIsSelected(value) {
         window.console.log('выбрана ценность', value);
@@ -49,7 +49,7 @@
           this.$store.dispatch('ADD_ME_TRANSACTION', this.transactionData)
             .then(data => {
               window.console.log(data);
-              this.showSuccessMessage({text: 'Ура! Кажется кто-то сегодня станет чуточку счастливее', title: `🎉Отправлено  ${data.sum} tack'ов`});
+              this.showSuccessMessage({text: 'Ура! Кажется, кто-то сегодня станет чуточку счастливее', title: `🎉Отправлено  ${data.sum} tack'ов`});
             })
             .catch(error => {
               if (error) {

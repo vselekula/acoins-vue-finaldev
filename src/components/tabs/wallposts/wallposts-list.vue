@@ -8,7 +8,7 @@
                         stacked
                         name="plainStacked"/>
             </b-form-group>
-            <b-button @click="showFilters" v-if="!show" class="transaction_filters_button btn btn-link"><i
+            <b-button v-click-outside="hideFilters" @click="showFilters" v-if="!show" class="transaction_filters_button btn"><i
                     class="fas fa-filter"></i></b-button>
             <transactionItem v-if="transactionsList !== []" v-for="transaction in transactionsList"
                              :key="transaction.id"

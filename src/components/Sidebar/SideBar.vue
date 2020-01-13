@@ -100,7 +100,7 @@
     </div>
 </template>
 <script>
-  import vSelect from './UserSearchInput'
+  // import vSelect from './UserSearchInput'
   import newSelect from './UserSearchInput new autocomplete'
   import {mapActions, mapState} from 'vuex'
 
@@ -114,7 +114,6 @@
       }
     },
     components: {
-      vSelect,
       newSelect
     },
     methods: {

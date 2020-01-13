@@ -40,15 +40,15 @@
                             {{ currentUser.birth_date | toDDMMM}}
                         </div>
                     </div>
-                    <div class="flex-column mx-3 ml-auto">
-                        <div class="user_inAvito">
-                            <i class="fa fa-heart fa-lg "></i>
-                            {{ currentUser.total_donated }}<div>
+                    <div v-b-popover.hover.bottom="'Эту сумму сотрудник может подарить коллегам'" title="Исходящий баланс ⬆️" class="flex-column mx-3 ml-auto">
+                        <div>
+                            &#8679;
+                            {{ currentUser.donation_balance }} t!<div>
                         </div>
                         </div>
-                        <div class="user_HB pt-1">
-                            <i class="fa fa-wallet fa-lg"></i>
-                            {{ currentUser.total_received }}
+                        <div v-b-popover.hover.bottom="'Это та сумма, которая доступна коллеге для покупок в магазине реальных вещей'" title="Входящий баланс ⬇️" class="pt-1">
+                            &#8681;
+                            {{ currentUser.purchase_balance }} t!
 
                         </div>
                     </div>
