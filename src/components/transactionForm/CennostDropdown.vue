@@ -18,15 +18,7 @@
         window.console.log(obj);
         this.$emit('pickedCennost', obj.value)
       }
-    },
-    // created: function () {
-    //   this.$store.dispatch('GET_VALUES');
-    // },
-    // computed: {
-    //   valuesList() {
-    //     return this.$store.getters.VALUES
-    //   }
-    // }
+    }
   }
 </script>
 <style scoped>
