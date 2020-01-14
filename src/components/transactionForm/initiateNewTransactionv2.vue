@@ -22,7 +22,7 @@
 <script>
   import sumInput from './AmountDropdown'
   import valueInput from './CennostDropdown'
-  import userSearchInput from './user-search-input/UserSearchInput'
+  // import userSearchInput from './user-search-input/UserSearchInput'
   import SendHeart from "./SendHeart";
   import {router} from '../../router';
   import {mapActions} from 'vuex'
@@ -94,8 +94,8 @@
     components: {
       SendHeart,
       sumInput,
-      valueInput,
-      userSearchInput
+      valueInput
+      // userSearchInput
     },
   }
 

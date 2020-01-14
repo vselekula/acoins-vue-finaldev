@@ -30,7 +30,7 @@
   import {afterLogout, setAuthHeaderInAxios} from "./Service/user-service";
 
   library.add(faUsers, faBirthdayCake, faEnvelope, faPhone, faHeart, faWallet);
-  Vue.component('add-transaction', require('./components/tabs/wallposts/initiateNewTransaction'));
+  // Vue.component('add-transaction', require('./components/tabs/wallposts/initiateNewTransaction'));
   Vue.component('font-awesome-icon', FontAwesomeIcon);
   Vue.component("Account-Circle", AccountCircle);
   Vue.component("Cake", Cake);

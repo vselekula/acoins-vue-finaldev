@@ -6,13 +6,12 @@
     </div>
 </template>
 <script>
-    import addTransaction from '../wallposts/initiateNewTransaction'
     import HeartBoxIcon from "vue-material-design-icons/HeartBox";
     import HeartIcon from "vue-material-design-icons/Heart";
 
     export default {
         name: 'top_cta',
-        components: {HeartIcon, HeartBoxIcon, addTransaction}
+        components: {HeartIcon, HeartBoxIcon}
     }
 </script>
 <style>
