@@ -8,8 +8,8 @@
 
         <b-modal ok-title="отправить" ok-only class="trans_modal" @ok="addTransaction" v-model="modalShow" size="lg">
             <b-form inline>
-                <user-search-input class="mr-2" :value="reciever" :user="reciever"
-                                   @input="userIsSelected"></user-search-input>
+                <new-select class="mr-2" :value="reciever" :user="reciever"
+                                   @input="userIsSelected"></new-select>
                 <sum-input ref="sum" class="mr-2" :user="reciever" @pickedAmount="sumIsSelected"></sum-input>
                 <value-input ref="val" class="mr-2" :user="reciever" @pickedCennost="valueIsSelected"></value-input>
                 <textarea-autosize ref="tit" v-model="transactionData.title"
@@ -22,6 +22,7 @@
 <script>
   import sumInput from './AmountDropdown'
   import valueInput from './CennostDropdown'
+  import newSelect from '../Sidebar/UserSearchInput new autocomplete'
   // import userSearchInput from './user-search-input/UserSearchInput'
   import SendHeart from "./SendHeart";
   import {router} from '../../router';
@@ -92,6 +93,7 @@
     props: ['buttonText', 'sb-view', 'usercardView', 'heartIcon', 'headerView', 'recieverObj'],
 
     components: {
+      newSelect,
       SendHeart,
       sumInput,
       valueInput
